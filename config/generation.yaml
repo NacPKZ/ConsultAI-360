@@ -34,3 +34,42 @@ output:
   directory: "data/raw"
   format: "csv"
   encoding: "utf-8"
+
+orders:
+  online_share: 0.60
+  in_store_share: 0.40
+
+  loyalty_purchase_weights:
+    Standard: 1.0
+    Silver: 1.4
+    Gold: 2.0
+    Platinum: 3.0
+
+  monthly_seasonality:
+    1: 1.15
+    2: 0.90
+    3: 0.95
+    4: 1.00
+    5: 1.00
+    6: 1.10
+    7: 1.15
+    8: 0.85
+    9: 1.05
+    10: 1.10
+    11: 1.35
+    12: 1.50
+
+  order_statuses:
+    online:
+      delivered: 0.88
+      shipped: 0.06
+      processing: 0.04
+      cancelled: 0.02
+
+    in_store:
+      completed: 0.98
+      cancelled: 0.02
+
+  basket:
+    min_items: 1
+    max_items: 8
