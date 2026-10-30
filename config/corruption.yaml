@@ -1,0 +1,95 @@
+# ConsultAI 360 — Data Quality Engineering
+# Configuration des anomalies — Phase 3
+
+project:
+  name: "ConsultAI 360"
+  company: "NexaRetail"
+  random_seed: 20261030
+
+paths:
+  raw: "data/raw"
+  corrupted: "data/corrupted"
+  processed: "data/processed"
+  reports: "reports/quality"
+
+# Chaque scénario définit un taux cible d'injection.
+# Le taux s'applique aux lignes éligibles pour chaque règle.
+# Une ligne peut être concernée par plusieurs anomalies.
+
+scenarios:
+  low:
+    description: "Dégradation faible"
+    rate: 0.01
+
+  medium:
+    description: "Dégradation modérée"
+    rate: 0.05
+
+  critical:
+    description: "Dégradation critique"
+    rate: 0.10
+
+# Catalogue des anomalies autorisées.
+# Le moteur Python déterminera les colonnes exactes
+# après vérification du schéma des données.
+
+anomalies:
+  missing_values:
+    enabled: true
+    tables:
+      - customers
+      - products
+      - orders
+
+  duplicates:
+    enabled: true
+    tables:
+      - customers
+      - orders
+      - order_items
+
+  negative_amounts:
+    enabled: true
+    tables:
+      - orders
+      - payments
+      - order_items
+
+  invalid_dates:
+    enabled: true
+    tables:
+      - orders
+      - shipments
+      - complaints
+
+  broken_references:
+    enabled: true
+    tables:
+      - orders
+      - order_items
+      - payments
+
+  invalid_status:
+    enabled: true
+    tables:
+      - orders
+      - payments
+      - complaints
+
+  invalid_formats:
+    enabled: true
+    tables:
+      - customers
+      - products
+
+  inconsistent_totals:
+    enabled: true
+    tables:
+      - orders
+      - order_items
+
+safety:
+  preserve_raw: true
+  log_injections: true
+  deterministic: true
+  overwrite_corrupted: false

@@ -1,0 +1,42 @@
+{
+  "scenario": "critical",
+  "rate_per_eligible_rule": 0.1,
+  "random_seed": 20261030,
+  "total_events": 261822,
+  "modified_cells": 210527,
+  "inserted_rows": 51295,
+  "events_by_type": {
+    "broken_references": 51845,
+    "duplicates": 51295,
+    "inconsistent_totals": 24566,
+    "invalid_dates": 19936,
+    "invalid_formats": 12800,
+    "invalid_status": 25439,
+    "missing_values": 24800,
+    "negative_amounts": 51141
+  },
+  "events_by_table": {
+    "complaints": 1778,
+    "customers": 36000,
+    "order_items": 106451,
+    "orders": 72000,
+    "payments": 36946,
+    "products": 1600,
+    "shipments": 7047
+  },
+  "row_counts": {
+    "complaints": 8888,
+    "customers": 132000,
+    "employees": 450,
+    "inventory": 280000,
+    "order_items": 300248,
+    "orders": 132000,
+    "payments": 125501,
+    "products": 8000,
+    "shipments": 70567,
+    "stores": 35
+  },
+  "journal_coherent": true,
+  "enabled_families_present": true,
+  "note": "Les taux s'appliquent aux lignes éligibles de chaque règle, pas au dataset global."
+}

@@ -14,3 +14,15 @@ data/processed/
 /reports/enrichment/manual_review_sample.csv
 /reports/enrichment/suspect_texts.csv
 /reports/enrichment/complaints_v21_exclusions.csv
+
+# ConsultAI 360 — Données générées
+/data/corrupted/
+/data/processed/
+
+# Journaux détaillés et rapports CSV
+/reports/data_quality/injections/**/*.csv
+/reports/data_quality/audits/**/*.csv
+
+# Fichiers temporaires Python
+__pycache__/
+*.pyc

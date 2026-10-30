@@ -1,0 +1,43 @@
+{
+  "scenario": "low",
+  "audit_independent_of_injection_logs": true,
+  "audited_at_utc": "2026-10-30T17:13:15.871426+00:00",
+  "total_detected_events": 27473,
+  "events_by_type": {
+    "negative_amounts": 6016,
+    "broken_references": 5231,
+    "duplicates": 5130,
+    "inconsistent_totals": 2737,
+    "invalid_status": 2556,
+    "missing_values": 2503,
+    "invalid_dates": 2004,
+    "invalid_formats": 1296
+  },
+  "events_by_table": {
+    "order_items": 10982,
+    "orders": 7269,
+    "payments": 4553,
+    "customers": 3626,
+    "shipments": 705,
+    "complaints": 178,
+    "products": 160
+  },
+  "rows_by_table": {
+    "complaints": 8888,
+    "customers": 121200,
+    "employees": 450,
+    "inventory": 280000,
+    "order_items": 275683,
+    "orders": 121200,
+    "payments": 125501,
+    "products": 8000,
+    "shipments": 70567,
+    "stores": 35
+  },
+  "caveats": [
+    "Les doublons sont des lignes exactement identiques, pas des doublons de clé.",
+    "Les formats invalides détectés utilisent une règle de délimiteurs ###.",
+    "Les anomalies multiples sur une cellule peuvent générer plusieurs alertes de types différents.",
+    "Les résultats n'ont pas encore été comparés au journal de référence."
+  ]
+}
