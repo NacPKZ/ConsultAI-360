@@ -1,0 +1,9 @@
+CONSULTAI 360 - DATA QUALITY AUDIT
+=======================================================
+Controles executes : 68
+Controles reussis : 68
+Controles echoues : 0
+Anomalies detectees : 0
+
+RESULTAT GLOBAL
+PASS
