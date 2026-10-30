@@ -1,0 +1,36 @@
+project:
+  name: "ConsultAI 360"
+  company: "NexaRetail"
+  country: "France"
+
+generation:
+  seed: 20261030
+  locale: "fr_FR"
+
+  start_date: "2024-11-01"
+  end_date: "2026-10-31"
+
+volumes:
+  stores: 35
+  customers: 120000
+  employees: 450
+  products: 8000
+  orders: 120000
+
+business:
+  sales_channels:
+    - online
+    - in_store
+
+  loyalty_tiers:
+    - Standard
+    - Silver
+    - Gold
+    - Platinum
+
+  currency: "EUR"
+
+output:
+  directory: "data/raw"
+  format: "csv"
+  encoding: "utf-8"
