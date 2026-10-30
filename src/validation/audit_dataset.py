@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import yaml
 
-
 # ============================================================
 # CONFIGURATION
 # ============================================================
@@ -58,17 +57,20 @@ results = []
 # OUTILS
 # ============================================================
 
+
 def add_check(category, check_name, errors, details=""):
 
     count = int(errors)
 
-    results.append({
-        "category": category,
-        "check": check_name,
-        "errors": count,
-        "status": "PASS" if count == 0 else "FAIL",
-        "details": details,
-    })
+    results.append(
+        {
+            "category": category,
+            "check": check_name,
+            "errors": count,
+            "status": "PASS" if count == 0 else "FAIL",
+            "details": details,
+        }
+    )
 
     symbol = "PASS" if count == 0 else "FAIL"
 
@@ -80,9 +82,7 @@ def require_columns(df, columns, table_name):
     missing = sorted(set(columns) - set(df.columns))
 
     if missing:
-        raise ValueError(
-            f"{table_name}: colonnes manquantes : {missing}"
-        )
+        raise ValueError(f"{table_name}: colonnes manquantes : {missing}")
 
 
 def numeric(series):
@@ -97,47 +97,36 @@ def dates(series):
 
 def compare_money(left, right, tolerance=0.02):
 
-    return (
-        (left - right).abs() > tolerance
-    )
+    return (left - right).abs() > tolerance
 
 
 # ============================================================
 # CHARGEMENT
 # ============================================================
 
+
 def load_data():
 
     with CONFIG_PATH.open("r", encoding="utf-8") as file:
         config = yaml.safe_load(file)
 
-    raw_directory = (
-        ROOT / str(config["output"]["directory"])
-    )
+    raw_directory = ROOT / str(config["output"]["directory"])
 
     data = {}
 
     for table in TABLES:
-
         path = raw_directory / f"{table}.csv"
 
         if not path.exists():
-            raise FileNotFoundError(
-                f"Fichier manquant : {path}"
-            )
+            raise FileNotFoundError(f"Fichier manquant : {path}")
 
         data[table] = pd.read_csv(
             path,
             low_memory=False,
-            dtype={
-                PRIMARY_KEYS[table]: "string"
-            },
+            dtype={PRIMARY_KEYS[table]: "string"},
         )
 
-        print(
-            f"Charge : {table:<15} "
-            f"{len(data[table]):>10,} lignes"
-        )
+        print(f"Charge : {table:<15} {len(data[table]):>10,} lignes")
 
     return config, data
 
@@ -146,12 +135,12 @@ def load_data():
 # 1. STRUCTURE ET IDENTIFIANTS
 # ============================================================
 
+
 def audit_structure(data):
 
     print("\n=== STRUCTURE ET IDENTIFIANTS ===")
 
     for table in TABLES:
-
         df = data[table]
         primary_key = PRIMARY_KEYS[table]
 
@@ -180,12 +169,12 @@ def audit_structure(data):
 # 2. INTEGRITE REFERENTIELLE
 # ============================================================
 
+
 def audit_foreign_keys(data):
 
     print("\n=== INTEGRITE REFERENTIELLE ===")
 
     for child, child_col, parent, parent_col in FOREIGN_KEYS:
-
         child_df = data[child]
         parent_df = data[parent]
 
@@ -204,10 +193,7 @@ def audit_foreign_keys(data):
         child_values = child_df[child_col].astype("string")
         parent_values = parent_df[parent_col].astype("string")
 
-        invalid = (
-            child_values.notna()
-            & ~child_values.isin(parent_values)
-        )
+        invalid = child_values.notna() & ~child_values.isin(parent_values)
 
         add_check(
             "foreign_keys",
@@ -219,6 +205,7 @@ def audit_foreign_keys(data):
 # ============================================================
 # 3. COMMANDES ET LIGNES DE COMMANDES
 # ============================================================
+
 
 def audit_orders(data):
 
@@ -270,11 +257,9 @@ def audit_orders(data):
     )
 
     # Total theorique des lignes
-    expected_line_total = (
-        numeric(items["quantity"])
-        * numeric(items["unit_price"])
-        - numeric(items["discount_amount"])
-    )
+    expected_line_total = numeric(items["quantity"]) * numeric(
+        items["unit_price"]
+    ) - numeric(items["discount_amount"])
 
     actual_line_total = numeric(items["line_total"])
 
@@ -289,18 +274,14 @@ def audit_orders(data):
 
     # Somme des lignes par commande
     item_totals = (
-        items.assign(
-            line_total_num=actual_line_total
-        )
+        items.assign(line_total_num=actual_line_total)
         .groupby("order_id")["line_total_num"]
         .sum()
     )
 
     order_totals = numeric(orders["order_total"])
 
-    expected_order_totals = (
-        orders["order_id"].map(item_totals)
-    )
+    expected_order_totals = orders["order_id"].map(item_totals)
 
     add_check(
         "orders",
@@ -332,6 +313,7 @@ def audit_orders(data):
 # 4. PAIEMENTS
 # ============================================================
 
+
 def audit_payments(data):
 
     print("\n=== PAIEMENTS ===")
@@ -359,14 +341,10 @@ def audit_payments(data):
     add_check(
         "payments",
         "Statuts de paiement inconnus",
-        (
-            ~payments["payment_status"].isin(valid_statuses)
-        ).sum(),
+        (~payments["payment_status"].isin(valid_statuses)).sum(),
     )
 
-    payment_amount = numeric(
-        payments["payment_amount"]
-    )
+    payment_amount = numeric(payments["payment_amount"])
 
     add_check(
         "payments",
@@ -376,20 +354,14 @@ def audit_payments(data):
 
     # Paiements nets : paiements positifs moins remboursements
     payment_totals = (
-        payments.assign(
-            amount_num=payment_amount
-        )
+        payments.assign(amount_num=payment_amount)
         .groupby("order_id")["amount_num"]
         .sum()
     )
 
-    paid_orders = orders[
-        orders["order_status"] != "cancelled"
-    ].copy()
+    paid_orders = orders[orders["order_status"] != "cancelled"].copy()
 
-    paid_totals = paid_orders[
-        "order_id"
-    ].map(payment_totals)
+    paid_totals = paid_orders["order_id"].map(payment_totals)
 
     add_check(
         "payments",
@@ -404,9 +376,7 @@ def audit_payments(data):
         "Montants nets incoherents",
         compare_money(
             paid_totals.loc[valid],
-            numeric(
-                paid_orders.loc[valid, "order_total"]
-            ),
+            numeric(paid_orders.loc[valid, "order_total"]),
         ).sum(),
     )
 
@@ -414,6 +384,7 @@ def audit_payments(data):
 # ============================================================
 # 5. LIVRAISONS
 # ============================================================
+
 
 def audit_shipments(data, simulation_end):
 
@@ -443,25 +414,18 @@ def audit_shipments(data, simulation_end):
     )
 
     active_online = orders[
-        (orders["sales_channel"] == "online")
-        & (orders["order_status"] != "cancelled")
+        (orders["sales_channel"] == "online") & (orders["order_status"] != "cancelled")
     ]
 
     add_check(
         "shipments",
         "Commandes en ligne sans livraison",
-        (
-            ~active_online["order_id"].isin(
-                shipments["order_id"]
-            )
-        ).sum(),
+        (~active_online["order_id"].isin(shipments["order_id"])).sum(),
     )
 
     order_info = orders.set_index("order_id")
 
-    channels = shipments["order_id"].map(
-        order_info["sales_channel"]
-    )
+    channels = shipments["order_id"].map(order_info["sales_channel"])
 
     add_check(
         "shipments",
@@ -469,31 +433,18 @@ def audit_shipments(data, simulation_end):
         (channels != "online").sum(),
     )
 
-    shipping_dates = dates(
-        shipments["shipping_date"]
-    )
+    shipping_dates = dates(shipments["shipping_date"])
 
-    delivery_dates = dates(
-        shipments["actual_delivery_date"]
-    )
+    delivery_dates = dates(shipments["actual_delivery_date"])
 
-    estimated_dates = dates(
-        shipments["estimated_delivery_date"]
-    )
+    estimated_dates = dates(shipments["estimated_delivery_date"])
 
-    order_dates = dates(
-        shipments["order_id"].map(
-            order_info["order_date"]
-        )
-    )
+    order_dates = dates(shipments["order_id"].map(order_info["order_date"]))
 
     add_check(
         "shipments",
         "Expeditions avant commande",
-        (
-            shipping_dates.notna()
-            & (shipping_dates < order_dates)
-        ).sum(),
+        (shipping_dates.notna() & (shipping_dates < order_dates)).sum(),
     )
 
     add_check(
@@ -506,35 +457,24 @@ def audit_shipments(data, simulation_end):
         ).sum(),
     )
 
-    delivered = (
-        shipments["shipment_status"] == "delivered"
-    )
+    delivered = shipments["shipment_status"] == "delivered"
 
     add_check(
         "shipments",
         "Commandes livrees sans date",
-        (
-            delivered & delivery_dates.isna()
-        ).sum(),
+        (delivered & delivery_dates.isna()).sum(),
     )
 
     add_check(
         "shipments",
         "Livraisons futures",
-        (
-            delivery_dates.notna()
-            & (delivery_dates > simulation_end)
-        ).sum(),
+        (delivery_dates.notna() & (delivery_dates > simulation_end)).sum(),
     )
 
     # Recalcul du retard
-    calculated_delay = (
-        delivery_dates - estimated_dates
-    ).dt.days.clip(lower=0)
+    calculated_delay = (delivery_dates - estimated_dates).dt.days.clip(lower=0)
 
-    recorded_delay = numeric(
-        shipments["delivery_delay_days"]
-    )
+    recorded_delay = numeric(shipments["delivery_delay_days"])
 
     add_check(
         "shipments",
@@ -553,6 +493,7 @@ def audit_shipments(data, simulation_end):
 # ============================================================
 # 6. RECLAMATIONS
 # ============================================================
+
 
 def audit_complaints(data, simulation_end):
 
@@ -575,19 +516,11 @@ def audit_complaints(data, simulation_end):
 
     order_info = orders.set_index("order_id")
 
-    complaint_dates = dates(
-        complaints["complaint_date"]
-    )
+    complaint_dates = dates(complaints["complaint_date"])
 
-    order_dates = dates(
-        complaints["order_id"].map(
-            order_info["order_date"]
-        )
-    )
+    order_dates = dates(complaints["order_id"].map(order_info["order_date"]))
 
-    resolution_dates = dates(
-        complaints["resolution_date"]
-    )
+    resolution_dates = dates(complaints["resolution_date"])
 
     add_check(
         "complaints",
@@ -604,37 +537,28 @@ def audit_complaints(data, simulation_end):
     add_check(
         "complaints",
         "Resolutions avant reclamation",
-        (
-            resolution_dates.notna()
-            & (resolution_dates < complaint_dates)
-        ).sum(),
+        (resolution_dates.notna() & (resolution_dates < complaint_dates)).sum(),
     )
 
     add_check(
         "complaints",
         "Resolutions futures",
-        (
-            resolution_dates.notna()
-            & (resolution_dates > simulation_end)
-        ).sum(),
+        (resolution_dates.notna() & (resolution_dates > simulation_end)).sum(),
     )
 
-    resolved = (
-        complaints["complaint_status"] == "resolved"
-    )
+    resolved = complaints["complaint_status"] == "resolved"
 
     add_check(
         "complaints",
         "Reclamations resolues sans date",
-        (
-            resolved & resolution_dates.isna()
-        ).sum(),
+        (resolved & resolution_dates.isna()).sum(),
     )
 
 
 # ============================================================
 # 7. STOCKS
 # ============================================================
+
 
 def audit_inventory(data):
 
@@ -658,22 +582,14 @@ def audit_inventory(data):
     add_check(
         "inventory",
         "Couples magasin-produit dupliques",
-        inventory.duplicated(
-            ["store_id", "product_id"]
-        ).sum(),
+        inventory.duplicated(["store_id", "product_id"]).sum(),
     )
 
-    quantity = numeric(
-        inventory["stock_quantity"]
-    )
+    quantity = numeric(inventory["stock_quantity"])
 
-    threshold = numeric(
-        inventory["reorder_point"]
-    )
+    threshold = numeric(inventory["reorder_point"])
 
-    reorder_quantity = numeric(
-        inventory["reorder_quantity"]
-    )
+    reorder_quantity = numeric(inventory["reorder_quantity"])
 
     add_check(
         "inventory",
@@ -710,10 +626,7 @@ def audit_inventory(data):
     add_check(
         "inventory",
         "Statuts de stock incoherents",
-        (
-            inventory["stock_status"].to_numpy()
-            != expected_status
-        ).sum(),
+        (inventory["stock_status"].to_numpy() != expected_status).sum(),
     )
 
 
@@ -721,16 +634,12 @@ def audit_inventory(data):
 # 8. RAPPORT FINAL
 # ============================================================
 
+
 def save_report(config):
 
-    report_dir = (
-        ROOT / "reports" / "data_quality"
-    )
+    report_dir = ROOT / "reports" / "data_quality"
 
-    report_dir.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    report_dir.mkdir(parents=True, exist_ok=True)
 
     results_df = pd.DataFrame(results)
 
@@ -744,17 +653,11 @@ def save_report(config):
 
     total_checks = len(results_df)
 
-    passed_checks = int(
-        (results_df["status"] == "PASS").sum()
-    )
+    passed_checks = int((results_df["status"] == "PASS").sum())
 
-    failed_checks = int(
-        (results_df["status"] == "FAIL").sum()
-    )
+    failed_checks = int((results_df["status"] == "FAIL").sum())
 
-    total_errors = int(
-        results_df["errors"].sum()
-    )
+    total_errors = int(results_df["errors"].sum())
 
     summary = [
         "CONSULTAI 360 - DATA QUALITY AUDIT",
@@ -800,6 +703,7 @@ def save_report(config):
 # MAIN
 # ============================================================
 
+
 def main():
 
     print("CONSULTAI 360 - AUDIT GLOBAL")
@@ -807,9 +711,7 @@ def main():
 
     config, data = load_data()
 
-    simulation_end = pd.Timestamp(
-        str(config["generation"]["end_date"])
-    )
+    simulation_end = pd.Timestamp(str(config["generation"]["end_date"]))
 
     audit_structure(data)
     audit_foreign_keys(data)

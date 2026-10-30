@@ -1,0 +1,29 @@
+{
+  "version": "v2.1",
+  "source": "complaints_enriched_v2.csv",
+  "initial_enriched": 1644,
+  "removed": 742,
+  "final_enriched": 902,
+  "final_coverage_pct": 10.15,
+  "removed_by_rule": {
+    "external_reference": 34,
+    "product_subcategory_mismatch": 592,
+    "unmapped_specific_object": 115,
+    "refund_already_completed": 1
+  },
+  "by_reason": {
+    "customer_service": 193,
+    "damaged_product": 131,
+    "late_delivery": 201,
+    "product_quality": 308,
+    "refund_issue": 56,
+    "wrong_product": 13
+  },
+  "limitations": [
+    "Conservative heuristic filtering; not a semantic guarantee.",
+    "Subcategory labels may not exactly represent the item.",
+    "Some external brands or objects may remain undetected.",
+    "Text absence is structural, not injected missingness.",
+    "Real Amazon reviews reassigned to synthetic orders; redistribution rights to check."
+  ]
+}

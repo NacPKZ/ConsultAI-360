@@ -7,3 +7,10 @@ data/processed/
 
 .vscode/
 
+
+# Donnees externes et sauvegardes locales
+/data/backup/
+/data/external/
+/reports/enrichment/manual_review_sample.csv
+/reports/enrichment/suspect_texts.csv
+/reports/enrichment/complaints_v21_exclusions.csv

@@ -1,0 +1,38 @@
+{
+  "dataset": "SetFit/amazon_reviews_multi_fr",
+  "language": "fr",
+  "seed": 20261030,
+  "reviews_scanned": 150000,
+  "total_complaints": 8888,
+  "enriched_complaints": 3580,
+  "unenriched_complaints": 5308,
+  "enrichment_rate_pct": 40.28,
+  "matching_policy": "Unique negative reviews, one unambiguous reason, compatible explicit product family when detected.",
+  "limitation": "Review texts originate from a public corpus and are associated with synthetic NexaRetail complaints. They are not authentic NexaRetail complaints. Keyword matching is heuristic and may contain errors.",
+  "by_reason": {
+    "customer_service": {
+      "total": 1716,
+      "enriched": 67
+    },
+    "damaged_product": {
+      "total": 1888,
+      "enriched": 1181
+    },
+    "late_delivery": {
+      "total": 1902,
+      "enriched": 195
+    },
+    "product_quality": {
+      "total": 2082,
+      "enriched": 2043
+    },
+    "refund_issue": {
+      "total": 83,
+      "enriched": 83
+    },
+    "wrong_product": {
+      "total": 1217,
+      "enriched": 11
+    }
+  }
+}

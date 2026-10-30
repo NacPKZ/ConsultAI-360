@@ -1,0 +1,53 @@
+{
+  "version": "v2",
+  "dataset": "SetFit/amazon_reviews_multi_fr",
+  "seed": 20261030,
+  "reviews_scanned": 200000,
+  "total_complaints": 8888,
+  "enriched_complaints": 1644,
+  "unenriched_complaints": 7244,
+  "enrichment_rate_pct": 18.5,
+  "exclusions": {
+    "ambiguous_or_no_reason": 60113,
+    "object_specific_without_family": 4554,
+    "external_brand": 4843,
+    "length": 25151,
+    "ambiguous_family": 51,
+    "potential_pii": 5,
+    "duplicate": 30,
+    "rating": 102754
+  },
+  "by_reason": {
+    "customer_service": {
+      "total": 1716,
+      "enriched": 222
+    },
+    "damaged_product": {
+      "total": 1888,
+      "enriched": 384
+    },
+    "late_delivery": {
+      "total": 1902,
+      "enriched": 283
+    },
+    "product_quality": {
+      "total": 2082,
+      "enriched": 653
+    },
+    "refund_issue": {
+      "total": 83,
+      "enriched": 83
+    },
+    "wrong_product": {
+      "total": 1217,
+      "enriched": 19
+    }
+  },
+  "limitations": [
+    "Avis authentiques du corpus Amazon, mais associés à des commandes NexaRetail fictives.",
+    "Correspondance lexicale et catégorie heuristiques : contrôle humain nécessaire.",
+    "Confidence est qualitative, non calibrée.",
+    "Absence de texte structurelle ; ne pas assimiler à une anomalie injectée.",
+    "Droits de redistribution du corpus à vérifier avant toute publication."
+  ]
+}
