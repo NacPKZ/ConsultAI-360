@@ -26,3 +26,18 @@ data/processed/
 # Fichiers temporaires Python
 __pycache__/
 *.pyc
+
+# Phase 3.5 - Donnees nettoyees
+/data/processed_v2/
+
+# Phase 3.5 - Rapports de nettoyage V1 (obsoletes)
+/reports/data_quality/cleaning/
+
+# Phase 3.5 - Journaux detailles du nettoyage V2
+/reports/data_quality/cleaning_v2/**/*.csv
+
+# Phase 3.6 - Rapports d'evaluation
+# Conserver les JSON et CSV legers pour documenter les performances
+
+# Phase 3.7 - Rapports business
+# Conserver les JSON et CSV legers pour documenter les KPI

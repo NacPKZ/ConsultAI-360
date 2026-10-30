@@ -1,0 +1,130 @@
+{
+  "scenario": "low",
+  "evaluated_at_utc": "2026-10-30T19:30:20.575873+00:00",
+  "method": "Exact match (table, source row position, column, anomaly type) before cleaning",
+  "detection": {
+    "overall": {
+      "tp": 26430,
+      "fp": 1043,
+      "fn": 0,
+      "precision": 0.9620354529902085,
+      "recall": 1.0,
+      "f1": 0.980650427619984
+    },
+    "by_type": {
+      "missing_values": {
+        "injected_events": 2480,
+        "detected_alerts": 2503,
+        "tp": 2480,
+        "fp": 23,
+        "fn": 0,
+        "precision": 0.9908110267678786,
+        "recall": 1.0,
+        "f1": 0.9953843066425848
+      },
+      "negative_amounts": {
+        "injected_events": 5115,
+        "detected_alerts": 6016,
+        "tp": 5115,
+        "fp": 901,
+        "fn": 0,
+        "precision": 0.8502327127659575,
+        "recall": 1.0,
+        "f1": 0.9190548917437786
+      },
+      "invalid_status": {
+        "injected_events": 2544,
+        "detected_alerts": 2556,
+        "tp": 2544,
+        "fp": 12,
+        "fn": 0,
+        "precision": 0.9953051643192489,
+        "recall": 1.0,
+        "f1": 0.9976470588235293
+      },
+      "invalid_dates": {
+        "injected_events": 1994,
+        "detected_alerts": 2004,
+        "tp": 1994,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.9950099800399201,
+        "recall": 1.0,
+        "f1": 0.9974987493746873
+      },
+      "broken_references": {
+        "injected_events": 5185,
+        "detected_alerts": 5231,
+        "tp": 5185,
+        "fp": 46,
+        "fn": 0,
+        "precision": 0.9912062703116039,
+        "recall": 1.0,
+        "f1": 0.995583717357911
+      },
+      "invalid_formats": {
+        "injected_events": 1280,
+        "detected_alerts": 1296,
+        "tp": 1280,
+        "fp": 16,
+        "fn": 0,
+        "precision": 0.9876543209876543,
+        "recall": 1.0,
+        "f1": 0.9937888198757764
+      },
+      "inconsistent_totals": {
+        "injected_events": 2702,
+        "detected_alerts": 2737,
+        "tp": 2702,
+        "fp": 35,
+        "fn": 0,
+        "precision": 0.9872122762148338,
+        "recall": 1.0,
+        "f1": 0.9935649935649936
+      },
+      "duplicates": {
+        "injected_events": 5130,
+        "detected_alerts": 5130,
+        "tp": 5130,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    }
+  },
+  "cleaning": {
+    "rows_before": 1011524,
+    "rows_after": 1006394,
+    "quarantined_rows": 5130,
+    "retention_rate": 0.9949284446043791,
+    "quarantine_rate": 0.005071555395620865,
+    "quality_event_actions": {
+      "flagged_not_deleted": 77207,
+      "nullified": 14521,
+      "recomputed": 2702
+    },
+    "injected_events_with_logged_action": 18820,
+    "injected_events_actions": {
+      "nullified": 10933,
+      "flagged_not_deleted": 5185,
+      "recomputed": 2702
+    },
+    "remaining_alerts": 7665,
+    "remaining_alerts_by_type": {
+      "broken_references": 5185,
+      "missing_values": 2480
+    },
+    "alert_reduction_rate": 0.7209987988206603
+  },
+  "limitations": [
+    "Precision/rappel/F1 evaluent les injections connues, pas toutes les erreurs reelles preexistantes.",
+    "Une alerte non associee a une injection est un FP relatif au journal, pas necessairement une fausse anomalie metier.",
+    "Les actions 'nullified' neutralisent une valeur et ne restaurent pas la valeur originale.",
+    "Les FK 'flagged_not_deleted' sont conservees et non reparees.",
+    "Les doublons sont evalues par correspondance exacte dans l'audit; leur suppression est mesuree par quarantaine.",
+    "Les alertes residuelles sont comparees en volumes seulement : les positions de lignes ont change apres deduplication.",
+    "Le rapprochement des actions de nettoyage ne constitue pas une preuve de correction exacte."
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "scenario": "medium",
+  "generated_at_utc": "2026-10-30T19:34:04.566509+00:00",
+  "methodology": {
+    "raw": "Données de référence synthétiques non corrompues",
+    "corrupted": "Données volontairement dégradées, doublons inclus",
+    "cleaned": "Données V2 nettoyées, doublons retirés et valeurs douteuses parfois nullifiées",
+    "interpretation": "Les écarts mesurent des distorsions de reporting, jamais une perte financière avérée.",
+    "reported_order_total_sum": "Somme naïve de order_total, valeurs négatives incluses; les NULL sont ignorés.",
+    "reported_average_order_value": "Somme naïve de order_total / nombre de lignes de commandes, doublons inclus.",
+    "usable_amount_average": "Somme des montants non négatifs / nombre de lignes avec montant non négatif.",
+    "paid_payment_total_sum": "Somme des montants non négatifs de paiements dont le statut est paid.",
+    "caveats": [
+      "Les métriques naïves ne sont pas des KPI financiers comptables certifiés.",
+      "La nullification peut réduire un montant sans restaurer sa valeur d'origine.",
+      "Un customer_id cassé n'invalide pas nécessairement le montant commercial.",
+      "Une date NULL n'est pas considérée comme date syntaxiquement invalide, mais elle est comptée séparément.",
+      "Les résultats ne prouvent pas un impact monétaire réel sur l'entreprise fictive."
+    ]
+  },
+  "snapshots": {
+    "raw": {
+      "orders_rows": 120000,
+      "unique_orders": 120000,
+      "duplicate_order_ids": 0,
+      "orders_with_usable_amount": 120000,
+      "orders_missing_amount": 0,
+      "orders_negative_amount": 0,
+      "orders_invalid_customer_reference": 0,
+      "orders_invalid_date": 0,
+      "orders_missing_date": 0,
+      "reported_order_total_sum": 72056406.6,
+      "nonnegative_order_total_sum": 72056406.6,
+      "reported_average_order_value": 600.47,
+      "usable_amount_average": 600.47,
+      "payments_rows": 125501,
+      "payments_missing_amount": 0,
+      "payments_negative_amount": 858,
+      "payments_invalid_order_reference": 0,
+      "reported_payment_total_sum": 70588510.13,
+      "paid_payment_total_sum": 71128663.23,
+      "items_rows": 272953,
+      "items_invalid_order_reference": 0,
+      "reported_line_total_sum": 72056406.6,
+      "nonnegative_line_total_sum": 72056406.6
+    },
+    "corrupted": {
+      "orders_rows": 126000,
+      "unique_orders": 120000,
+      "duplicate_order_ids": 6000,
+      "orders_with_usable_amount": 119739,
+      "orders_missing_amount": 0,
+      "orders_negative_amount": 6261,
+      "orders_invalid_customer_reference": 6300,
+      "orders_invalid_date": 6318,
+      "orders_missing_date": 0,
+      "reported_order_total_sum": 68137639.12,
+      "nonnegative_order_total_sum": 71895661.4,
+      "reported_average_order_value": 540.77,
+      "usable_amount_average": 600.44,
+      "payments_rows": 125501,
+      "payments_missing_amount": 0,
+      "payments_negative_amount": 6781,
+      "payments_invalid_order_reference": 6275,
+      "reported_payment_total_sum": 63436780.09,
+      "paid_payment_total_sum": 64158998.98,
+      "items_rows": 286601,
+      "items_invalid_order_reference": 0,
+      "reported_line_total_sum": 76981910.31,
+      "nonnegative_line_total_sum": 76981910.31
+    },
+    "cleaned": {
+      "orders_rows": 120000,
+      "unique_orders": 120000,
+      "duplicate_order_ids": 0,
+      "orders_with_usable_amount": 114000,
+      "orders_missing_amount": 6000,
+      "orders_negative_amount": 0,
+      "orders_invalid_customer_reference": 6000,
+      "orders_invalid_date": 0,
+      "orders_missing_date": 6000,
+      "reported_order_total_sum": 68448127.94,
+      "nonnegative_order_total_sum": 68448127.94,
+      "reported_average_order_value": 570.4,
+      "usable_amount_average": 600.42,
+      "payments_rows": 125501,
+      "payments_missing_amount": 6781,
+      "payments_negative_amount": 0,
+      "payments_invalid_order_reference": 6275,
+      "reported_payment_total_sum": 67552798.21,
+      "paid_payment_total_sum": 64158998.98,
+      "items_rows": 272953,
+      "items_invalid_order_reference": 0,
+      "reported_line_total_sum": 68456582.88,
+      "nonnegative_line_total_sum": 68456582.88
+    }
+  },
+  "deltas": {
+    "corrupted_vs_raw": {
+      "orders_rows": {
+        "absolute": 6000,
+        "relative_pct": 5.0
+      },
+      "unique_orders": {
+        "absolute": 0,
+        "relative_pct": 0.0
+      },
+      "duplicate_order_ids": {
+        "absolute": 6000,
+        "relative_pct": null
+      },
+      "orders_with_usable_amount": {
+        "absolute": -261,
+        "relative_pct": -0.2175
+      },
+      "orders_missing_amount": {
+        "absolute": 0,
+        "relative_pct": null
+      },
+      "orders_negative_amount": {
+        "absolute": 6261,
+        "relative_pct": null
+      },
+      "orders_invalid_customer_reference": {
+        "absolute": 6300,
+        "relative_pct": null
+      },
+      "orders_invalid_date": {
+        "absolute": 6318,
+        "relative_pct": null
+      },
+      "orders_missing_date": {
+        "absolute": 0,
+        "relative_pct": null
+      },
+      "reported_order_total_sum": {
+        "absolute": -3918767.48,
+        "relative_pct": -5.4385
+      },
+      "nonnegative_order_total_sum": {
+        "absolute": -160745.2,
+        "relative_pct": -0.2231
+      },
+      "reported_average_order_value": {
+        "absolute": -59.7,
+        "relative_pct": -9.9422
+      },
+      "usable_amount_average": {
+        "absolute": -0.03,
+        "relative_pct": -0.005
+      },
+      "payments_rows": {
+        "absolute": 0,
+        "relative_pct": 0.0
+      },
+      "payments_missing_amount": {
+        "absolute": 0,
+        "relative_pct": null
+      },
+      "payments_negative_amount": {
+        "absolute": 5923,
+        "relative_pct": 690.3263
+      },
+      "payments_invalid_order_reference": {
+        "absolute": 6275,
+        "relative_pct": null
+      },
+      "reported_payment_total_sum": {
+        "absolute": -7151730.04,
+        "relative_pct": -10.1316
+      },
+      "paid_payment_total_sum": {
+        "absolute": -6969664.25,
+        "relative_pct": -9.7987
+      },
+      "items_rows": {
+        "absolute": 13648,
+        "relative_pct": 5.0001
+      },
+      "items_invalid_order_reference": {
+        "absolute": 0,
+        "relative_pct": null
+      },
+      "reported_line_total_sum": {
+        "absolute": 4925503.71,
+        "relative_pct": 6.8356
+      },
+      "nonnegative_line_total_sum": {
+        "absolute": 4925503.71,
+        "relative_pct": 6.8356
+      }
+    },
+    "cleaned_vs_raw": {
+      "orders_rows": {
+        "absolute": 0,
+        "relative_pct": 0.0
+      },
+      "unique_orders": {
+        "absolute": 0,
+        "relative_pct": 0.0
+      },
+      "duplicate_order_ids": {
+        "absolute": 0,
+        "relative_pct": null
+      },
+      "orders_with_usable_amount": {
+        "absolute": -6000,
+        "relative_pct": -5.0
+      },
+      "orders_missing_amount": {
+        "absolute": 6000,
+        "relative_pct": null
+      },
+      "orders_negative_amount": {
+        "absolute": 0,
+        "relative_pct": null
+      },
+      "orders_invalid_customer_reference": {
+        "absolute": 6000,
+        "relative_pct": null
+      },
+      "orders_invalid_date": {
+        "absolute": 0,
+        "relative_pct": null
+      },
+      "orders_missing_date": {
+        "absolute": 6000,
+        "relative_pct": null
+      },
+      "reported_order_total_sum": {
+        "absolute": -3608278.66,
+        "relative_pct": -5.0076
+      },
+      "nonnegative_order_total_sum": {
+        "absolute": -3608278.66,
+        "relative_pct": -5.0076
+      },
+      "reported_average_order_value": {
+        "absolute": -30.07,
+        "relative_pct": -5.0077
+      },
+      "usable_amount_average": {
+        "absolute": -0.05,
+        "relative_pct": -0.0083
+      },
+      "payments_rows": {
+        "absolute": 0,
+        "relative_pct": 0.0
+      },
+      "payments_missing_amount": {
+        "absolute": 6781,
+        "relative_pct": null
+      },
+      "payments_negative_amount": {
+        "absolute": -858,
+        "relative_pct": -100.0
+      },
+      "payments_invalid_order_reference": {
+        "absolute": 6275,
+        "relative_pct": null
+      },
+      "reported_payment_total_sum": {
+        "absolute": -3035711.92,
+        "relative_pct": -4.3006
+      },
+      "paid_payment_total_sum": {
+        "absolute": -6969664.25,
+        "relative_pct": -9.7987
+      },
+      "items_rows": {
+        "absolute": 0,
+        "relative_pct": 0.0
+      },
+      "items_invalid_order_reference": {
+        "absolute": 0,
+        "relative_pct": null
+      },
+      "reported_line_total_sum": {
+        "absolute": -3599823.72,
+        "relative_pct": -4.9958
+      },
+      "nonnegative_line_total_sum": {
+        "absolute": -3599823.72,
+        "relative_pct": -4.9958
+      }
+    }
+  }
+}
