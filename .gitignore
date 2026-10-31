@@ -41,3 +41,7 @@ __pycache__/
 
 # Phase 3.7 - Rapports business
 # Conserver les JSON et CSV legers pour documenter les KPI
+logs/
+dbt_nexaretail/logs/
+dbt_nexaretail/target/
+dbt_nexaretail/dbt_packages/

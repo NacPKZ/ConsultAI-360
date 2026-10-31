@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: nexaretail_clean
+    description: "Tables CLEAN de NexaRetail"
+    schema: clean
+    tables:
+      - name: complaints
+      - name: customers
+      - name: employees
+      - name: inventory
+      - name: order_items
+      - name: orders
+      - name: payments
+      - name: products
+      - name: shipments
+      - name: stores
