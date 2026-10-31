@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: mart_data_quality_summary
+    description: >
+      Synthèse des anomalies référentielles
+      par scénario et par type d'anomalie.
+
+    columns:
+      - name: scenario
+        description: Scénario de qualité des données.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['low', 'medium', 'critical']
+
+      - name: anomaly_type
+        description: Type d'anomalie référentielle.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - missing_customer
+                  - missing_product
+                  - missing_order_payment
+
+      - name: total_records
+        data_tests:
+          - not_null
+
+      - name: anomaly_count
+        data_tests:
+          - not_null
+
+      - name: anomaly_rate_pct
+        data_tests:
+          - not_null
