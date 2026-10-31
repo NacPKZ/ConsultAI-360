@@ -1,0 +1,92 @@
+version: 2
+
+models:
+  - name: stg_customers
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_orders
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_order_items
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_complaints
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_employees
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_inventory
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_payments
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_products
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_shipments
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
+
+  - name: stg_stores
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+      - name: clean_id
+        data_tests:
+          - not_null
