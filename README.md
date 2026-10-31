@@ -6,6 +6,20 @@
 **Technologies mises en œuvre :** Python 3.12, PostgreSQL, SQL, DBeaver, VS Code, Git/GitHub.  
 **Périmètre :** NexaRetail, entreprise fictive ; aucune conclusion ne porte sur une entreprise réelle.
 
+## Livrables et rapports
+
+> **Rapport disponible :** [**01 — Data Engineering, Data Quality & Business Analytics (PDF)**](rapports/01_Rapport_Data_Engineering_Analytics.pdf)  
+> Architecture PostgreSQL RAW → CLEAN → DW, audit de qualité, analyse de l'impact des anomalies sur les indicateurs métier, validation SQL et recommandations.
+
+| Livrable | Statut | Accès |
+|---|---|---|
+| **01 — Data Engineering, Data Quality & Business Analytics** | Disponible | [Consulter le rapport PDF](rapports/01_Rapport_Data_Engineering_Analytics.pdf) |
+| 02 — Business Intelligence & Data Visualisation | À venir | — |
+| 03 — Machine Learning & évaluation | À venir | — |
+| 04 — Synthèse finale de conseil Data & IA | À venir | — |
+
+Les livrables sont centralisés dans le dossier [`rapports/`](rapports/). Les analyses et les scripts restent accessibles dans les dossiers techniques du dépôt.
+
 ## Résumé exécutif
 
 Le chiffre d'affaires de référence sur les **120 000 commandes originales** est de **72 056 406,60 €**. Les variantes dégradées, à volume de commandes constant, produisent des montants inférieurs :
