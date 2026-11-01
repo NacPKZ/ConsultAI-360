@@ -3,12 +3,12 @@ version: 2
 models:
   - name: mart_data_quality_summary
     description: >
-      Synthèse des anomalies référentielles
-      par scénario et par type d'anomalie.
+      Synthèse des anomalies référentielles par scénario
+      et par type d'anomalie.
 
     columns:
       - name: scenario
-        description: Scénario de qualité des données.
+        description: Scénario synthétique de qualité des données.
         data_tests:
           - not_null
           - accepted_values:
@@ -16,7 +16,7 @@ models:
                 values: ['low', 'medium', 'critical']
 
       - name: anomaly_type
-        description: Type d'anomalie référentielle.
+        description: Catégorie d'anomalie référentielle.
         data_tests:
           - not_null
           - accepted_values:
@@ -27,24 +27,30 @@ models:
                   - missing_order_payment
 
       - name: total_records
+        description: Nombre d'enregistrements contrôlés.
         data_tests:
           - not_null
 
       - name: anomaly_count
+        description: Nombre d'enregistrements présentant une anomalie.
         data_tests:
           - not_null
 
       - name: anomaly_rate_pct
+        description: Pourcentage d'enregistrements présentant une anomalie.
         data_tests:
           - not_null
 
   - name: mart_revenue_impact
     description: >
-      Comparaison du chiffre d'affaires observé par scénario
-      avec la référence ORIGINAL issue des données RAW.
+      Comparaison du chiffre d'affaires observé dans les scénarios
+      LOW, MEDIUM et CRITICAL avec le scénario ORIGINAL.
+      Les écarts représentent une sous-estimation simulée,
+      et non une perte commerciale réelle.
 
     columns:
       - name: scenario
+        description: Scénario synthétique de dégradation des données.
         data_tests:
           - not_null
           - unique
@@ -52,22 +58,36 @@ models:
               arguments:
                 values: ['low', 'medium', 'critical']
 
+      - name: total_orders
+        description: Nombre total de commandes du scénario.
+
+      - name: orders_with_amount
+        description: Nombre de commandes dont le montant est renseigné.
+
+      - name: orders_missing_amount
+        description: Nombre de commandes dont le montant est NULL.
+
       - name: original_revenue
+        description: Chiffre d'affaires de référence du scénario ORIGINAL.
         data_tests:
           - not_null
 
       - name: observed_revenue
+        description: Somme des montants de commandes disponibles.
         data_tests:
           - not_null
 
       - name: revenue_gap_eur
+        description: Écart en euros entre le CA observé et le CA ORIGINAL.
         data_tests:
           - not_null
 
       - name: revenue_gap_pct
+        description: Écart en pourcentage par rapport au CA ORIGINAL.
         data_tests:
           - not_null
 
       - name: missing_amount_rate_pct
+        description: Pourcentage de commandes sans montant.
         data_tests:
           - not_null
