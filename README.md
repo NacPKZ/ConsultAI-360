@@ -228,5 +228,77 @@ Les **8 888 réclamations** NexaRetail conservent leur structure synthétique. L
 
 Un consultant Data/IA doit relier **architecture**, **contrôles**, **impact chiffré**, **limites** et **décisions**. ConsultAI 360 illustre cette démarche sur un environnement simulé, avec conservation des erreurs observables plutôt que correction arbitraire des données.
 
----
-*Documentation mise à jour après validation de la couche dbt — novembre 2026.*
+
+# Environnement Docker — ConsultAI 360
+
+## Objectif
+
+Exécuter les transformations SQL de NexaRetail dans un environnement isolé et reproductible avec Docker Compose.
+
+## Technologies
+
+- PostgreSQL 18
+- Python 3.12
+- dbt-core 1.11.0
+- dbt-postgres 1.11.0
+- Docker Compose
+
+## Architecture
+
+PostgreSQL Docker :
+- Base : nexaretail_db
+- Port local : 5433
+- Port interne : 5432
+- Stockage persistant : volume Docker
+
+dbt :
+- Projet : dbt_nexaretail
+- Profil : dbt_nexaretail
+- Schéma de sortie : dbt_dev
+
+## Démarrage
+
+Définir la variable d'environnement DOCKER_POSTGRES_PASSWORD dans PowerShell avant d'exécuter les commandes Docker.
+
+Démarrer PostgreSQL :
+
+docker compose up -d postgres
+
+Construire l'image dbt :
+
+docker compose build dbt
+
+Vérifier la connexion :
+
+docker compose run --rm dbt debug
+
+## Chargement initial des données
+
+La base Docker est initialement vide.
+
+Les schémas raw et clean doivent être créés et alimentés avant l'exécution des modèles dbt.
+
+Pour l'environnement de développement, les données ont été transférées depuis PostgreSQL Windows à l'aide de pg_dump et pg_restore.
+
+Les sauvegardes sont locales et exclues de Git.
+
+## Exécution du pipeline
+
+docker compose run --rm dbt build
+
+## Résultats validés
+
+- 16 modèles dbt
+- 37 tests de données
+- 53 validations réussies
+- 0 erreur
+- 0 avertissement
+
+## Arrêt
+
+Arrêter les conteneurs sans supprimer les données :
+
+docker compose down
+
+Attention : docker compose down -v supprime également les volumes et donc les données PostgreSQL Docker.
+

@@ -1,0 +1,38 @@
+
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: nexaretail_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DOCKER_POSTGRES_PASSWORD:?Variable requise}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - nexaretail_postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nexaretail_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  dbt:
+    build:
+      context: .
+      dockerfile: Dockerfile.dbt
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DBT_PROFILES_DIR: /app/config
+      DBT_POSTGRES_PASSWORD: ${DOCKER_POSTGRES_PASSWORD:?Variable requise}
+    volumes:
+      - ./dbt_nexaretail:/app/dbt_nexaretail
+      - ./docker/dbt:/app/config:ro
+    working_dir: /app/dbt_nexaretail
+    entrypoint: ["dbt"]
+    command: ["--version"]
+    profiles: ["tools"]
+
+volumes:
+  nexaretail_postgres_data:

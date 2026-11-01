@@ -1,0 +1,13 @@
+
+dbt_nexaretail:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      port: 5432
+      user: postgres
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD') }}"
+      dbname: nexaretail_db
+      schema: dbt_dev
+      threads: 4

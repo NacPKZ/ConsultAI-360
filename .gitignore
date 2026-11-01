@@ -45,3 +45,9 @@ logs/
 dbt_nexaretail/logs/
 dbt_nexaretail/target/
 dbt_nexaretail/dbt_packages/
+
+# Sauvegardes PostgreSQL locales
+/backups/
+
+# Fichier temporaire d'inspection
+/dbt_nexaretail/inspect_clean.sql
