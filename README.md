@@ -2,13 +2,13 @@
 
 > **Projet de conseil Data & IA — cas d'étude sur données synthétiques.** Conception d'une chaîne analytique PostgreSQL, simulation de dégradations de données, mesure de leur impact sur les KPI et préparation de recommandations business.
 
-**État :** phases de génération/scénarios et SQL/Data Warehouse réalisées ; autres volets (BI, ML, NLP, IA, ROI) à documenter selon leur avancement effectif.  
-**Technologies mises en œuvre :** Python 3.12, PostgreSQL, SQL, DBeaver, VS Code, Git/GitHub.  
+**État :** génération des scénarios, SQL/Data Warehouse et transformations dbt réalisés ; BI, ML, NLP, IA et ROI restent à développer ou documenter selon leur avancement effectif.
+**Technologies mises en œuvre :** Python 3.12, PostgreSQL 18, SQL, dbt Core 1.11.0, dbt-postgres 1.11.0, DBeaver, VS Code, Git/GitHub.
 **Périmètre :** NexaRetail, entreprise fictive ; aucune conclusion ne porte sur une entreprise réelle.
 
 ## Livrables et rapports
 
-> **Rapport disponible :** [**01 — Data Engineering, Data Quality & Business Analytics (PDF)**](rapports/01_Rapport_Data_Engineering_Analytics.pdf)  
+> **Rapport disponible :** [**01 — Data Engineering, Data Quality & Business Analytics (PDF)**](rapports/01_Rapport_Data_Engineering_Analytics.pdf)
 > Architecture PostgreSQL RAW → CLEAN → DW, audit de qualité, analyse de l'impact des anomalies sur les indicateurs métier, validation SQL et recommandations.
 
 | Livrable | Statut | Accès |
@@ -111,6 +111,80 @@ Dans CRITICAL, les paiements non rattachables représentent **6 459 898,61 €**
 
 Les scripts ne constituent **pas** encore un pipeline de déploiement intégralement automatisé. Le script de copie `sql/03_clean/05_copy_clean_to_recovered.sql` a déjà été utilisé pour créer les tables expérimentales : **ne pas le relancer sans vérifier son comportement et l'état des tables**. Ne jamais publier mots de passe, fichiers sensibles ou jeux de données sans vérification des droits.
 
+## Transformations et tests avec dbt
+
+La couche analytique dbt complète les travaux PostgreSQL RAW → CLEAN → DW. Elle permet de structurer les transformations, de mesurer les anomalies par scénario, de tester les résultats et de publier un graphe de dépendances (*lineage*).
+
+**État vérifié (novembre 2026) :** 16 modèles, 37 tests automatisés et 11 sources déclarées ; dernier `dbt build` global : **53/53 PASS**. La documentation dbt a été générée et consultée localement.
+
+### Organisation
+
+| Élément | Rôle |
+|---|---|
+| `dbt_nexaretail/models/staging/` | Préparation des sources PostgreSQL, colonnes explicites et conservation du champ `scenario` |
+| `dbt_nexaretail/models/intermediate/` | Contrôles référentiels sur les clients, produits et paiements ; conservation des lignes anormales |
+| `dbt_nexaretail/models/marts/` | Synthèses exploitables pour l'analyse de la qualité et l'impact financier simulé |
+| `dbt_nexaretail/tests/` | Tests SQL de cohérence métier et des clés |
+
+Deux marts principaux sont documentés :
+
+- **`mart_data_quality_summary`** : nombre et taux de références manquantes par scénario et type d'anomalie.
+- **`mart_revenue_impact`** : comparaison du CA observé dans LOW, MEDIUM et CRITICAL au CA de référence ORIGINAL, avec taux de montants absents.
+
+Les écarts de CA sont des **sous-estimations simulées de l'indicateur observé**, pas des pertes commerciales constatées. Les jointures tiennent compte du scénario pour éviter de mélanger les variantes.
+
+### Préparer l'environnement local (Windows / PowerShell)
+
+Prérequis : Python 3.12 et PostgreSQL accessible sur `localhost:5432`, avec une base `nexaretail_db` contenant les données `raw` et `clean` préalablement préparées. Le dépôt ne fournit pas automatiquement une base de données prête à l'emploi.
+
+Depuis la racine du dépôt :
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
+
+Les versions dbt utilisées et testées sont `dbt-core==1.11.0` et `dbt-postgres==1.11.0`. Les mettre à jour nécessite de relancer les validations.
+
+Configurer le fichier local `C:\Users\<utilisateur>\.dbt\profiles.yml` en faisant correspondre le **nom du profil** à celui défini dans `dbt_nexaretail/dbt_project.yml`. Exemple de connexion à adapter :
+
+```yaml
+<nom_du_profil>:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 5432
+      user: postgres
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD') }}"
+      dbname: nexaretail_db
+      schema: dbt_dev
+      threads: 4
+```
+
+Ne jamais committer le fichier local `profiles.yml` avec des identifiants sensibles, ni le mot de passe PostgreSQL. Dans chaque nouvelle session PowerShell :
+
+```powershell
+$securePassword = Read-Host "Mot de passe PostgreSQL" -AsSecureString
+$env:DBT_POSTGRES_PASSWORD = [System.Net.NetworkCredential]::new("", $securePassword).Password
+Remove-Variable securePassword
+```
+
+### Exécuter et contrôler
+
+```powershell
+dbt debug --project-dir .\dbt_nexaretail
+dbt build --project-dir .\dbt_nexaretail
+dbt docs generate --project-dir .\dbt_nexaretail
+dbt docs serve --project-dir .\dbt_nexaretail --port 8080
+```
+
+`dbt build` construit les modèles et exécute les tests. `dbt docs serve` démarre un serveur local de documentation sur le port 8080 ; arrêter ce serveur avec `Ctrl+C` dans son terminal.
+
+**Reproductibilité :** ces commandes ont été validées sur l'environnement local du projet. Elles supposent que les données sources, les schémas PostgreSQL et les droits d'accès existent déjà. La reconstruction complète depuis un ordinateur vierge n'est pas encore automatisée ni vérifiée ; Docker Compose reste une piste de travail, non un livrable réalisé.
+
 ## Validation et performance
 
 - **9/9** contrôles de volumes CLEAN → DW : PASS.
@@ -128,7 +202,7 @@ Les scripts ne constituent **pas** encore un pipeline de déploiement intégrale
 - Les tests de volumes ne suffisent pas à valider la justesse métier de chaque enregistrement.
 - Les analyses par client, produit ou mois doivent afficher le taux de couverture et les lignes non attribuables.
 - Les performances ne sont pas comparées à un benchmark préalable.
-- À poursuivre : documentation métier des KPI, tableau de bord BI, analyses avancées, estimation de ROI et recommandations, selon la roadmap globale.
+- À poursuivre : tableau de bord BI, analyses avancées, estimation de ROI et recommandations, selon la roadmap globale. La documentation métier des deux marts dbt est disponible.
 
 ## Choix méthodologiques — Données textuelles
 
@@ -155,4 +229,4 @@ Les **8 888 réclamations** NexaRetail conservent leur structure synthétique. L
 Un consultant Data/IA doit relier **architecture**, **contrôles**, **impact chiffré**, **limites** et **décisions**. ConsultAI 360 illustre cette démarche sur un environnement simulé, avec conservation des erreurs observables plutôt que correction arbitraire des données.
 
 ---
-*Documentation mise à jour pour la clôture de la phase SQL / Data Warehouse — octobre 2026.*
+*Documentation mise à jour après validation de la couche dbt — novembre 2026.*

@@ -3,3 +3,7 @@ numpy
 Faker
 PyYAML
 psycopg[binary]
+
+# dbt - transformations SQL et tests
+dbt-core==1.11.0
+dbt-postgres==1.11.0
