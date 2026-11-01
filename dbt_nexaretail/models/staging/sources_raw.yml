@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: nexaretail_raw
+    schema: raw
+    description: Données brutes NexaRetail conservées pour les comparaisons.
+    tables:
+      - name: orders
+        description: Commandes brutes incluant le scénario ORIGINAL.
