@@ -37,3 +37,37 @@ models:
       - name: anomaly_rate_pct
         data_tests:
           - not_null
+
+  - name: mart_revenue_impact
+    description: >
+      Comparaison du chiffre d'affaires observé par scénario
+      avec la référence ORIGINAL issue des données RAW.
+
+    columns:
+      - name: scenario
+        data_tests:
+          - not_null
+          - unique
+          - accepted_values:
+              arguments:
+                values: ['low', 'medium', 'critical']
+
+      - name: original_revenue
+        data_tests:
+          - not_null
+
+      - name: observed_revenue
+        data_tests:
+          - not_null
+
+      - name: revenue_gap_eur
+        data_tests:
+          - not_null
+
+      - name: revenue_gap_pct
+        data_tests:
+          - not_null
+
+      - name: missing_amount_rate_pct
+        data_tests:
+          - not_null
