@@ -1,0 +1,99 @@
+table 'dw dim_stores'
+	lineageTag: 5c030922-2950-48f0-a11d-34e559ca1b65
+
+	column store_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f5c21af-e6b8-4304-a747-60da9e6ee3cd
+		summarizeBy: none
+		sourceColumn: store_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column scenario
+		dataType: string
+		lineageTag: 8242dafa-6798-426e-b5d7-a8675c050039
+		summarizeBy: none
+		sourceColumn: scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_id
+		dataType: string
+		lineageTag: 200afc24-8143-450d-bc85-fdfd6adffad4
+		summarizeBy: none
+		sourceColumn: store_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_name
+		dataType: string
+		lineageTag: 41dc2c59-5090-4911-a631-7af9f17751ff
+		summarizeBy: none
+		sourceColumn: store_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 801245f3-c95e-43bd-8987-71f0475719bd
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 69a10736-85e0-41b1-b2d0-a82372867c85
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column opening_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 854ae2b4-6645-4dd4-8e4d-ce785748fa29
+		summarizeBy: none
+		sourceColumn: opening_date
+
+		variation Variation
+			isDefault
+			relationship: 05943156-00bc-454c-a2c3-3e4adc4b1df4
+			defaultHierarchy: LocalDateTable_762446b9-c48d-485f-9c9e-e5b77f54cd10.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column store_size_m2
+		dataType: int64
+		formatString: 0
+		lineageTag: e7600cb8-1c42-4e60-8836-59cea9ba999e
+		summarizeBy: sum
+		sourceColumn: store_size_m2
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_unknown
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a5e38d77-b965-4837-85e3-b41e10eb0369
+		summarizeBy: none
+		sourceColumn: is_unknown
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_stores' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5432", "nexaretail_db"),
+				    dw_dim_stores = Source{[Schema="dw",Item="dim_stores"]}[Data]
+				in
+				    dw_dim_stores
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

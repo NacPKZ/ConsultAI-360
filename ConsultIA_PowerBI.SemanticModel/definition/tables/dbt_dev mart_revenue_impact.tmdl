@@ -1,0 +1,101 @@
+table 'dbt_dev mart_revenue_impact'
+	lineageTag: 25a5e719-3236-4a3b-b32e-1e11c3888751
+
+	column scenario
+		dataType: string
+		lineageTag: 8276b4d1-6a30-4706-ab81-1a495776fdaa
+		summarizeBy: none
+		sourceColumn: scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: b870c68e-9bb1-4080-8f8f-671242b3bb15
+		summarizeBy: sum
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders_with_amount
+		dataType: int64
+		formatString: 0
+		lineageTag: ebbad181-1354-4eea-9707-8f49e1a9259b
+		summarizeBy: sum
+		sourceColumn: orders_with_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders_missing_amount
+		dataType: int64
+		formatString: 0
+		lineageTag: 34ec13e9-68a2-4a87-a42f-8d0867b30ded
+		summarizeBy: sum
+		sourceColumn: orders_missing_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column original_revenue
+		dataType: double
+		lineageTag: 6433cf47-f3be-4337-b35d-99fc51be57a0
+		summarizeBy: sum
+		sourceColumn: original_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column observed_revenue
+		dataType: double
+		lineageTag: 8589b3e2-78f3-4098-a499-4b5ab06539b3
+		summarizeBy: sum
+		sourceColumn: observed_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column revenue_gap_eur
+		dataType: double
+		lineageTag: fd925012-cb27-4f68-aebd-820b5e0b7373
+		summarizeBy: sum
+		sourceColumn: revenue_gap_eur
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column revenue_gap_pct
+		dataType: double
+		lineageTag: 67cd2720-1be3-4961-a6f6-8670e562a19a
+		summarizeBy: sum
+		sourceColumn: revenue_gap_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column missing_amount_rate_pct
+		dataType: double
+		lineageTag: fd4c16d2-acd4-453b-a5f6-c4b9a216047d
+		summarizeBy: sum
+		sourceColumn: missing_amount_rate_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'dbt_dev mart_revenue_impact' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5432", "nexaretail_db"),
+				    dbt_dev_mart_revenue_impact = Source{[Schema="dbt_dev",Item="mart_revenue_impact"]}[Data]
+				in
+				    dbt_dev_mart_revenue_impact
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

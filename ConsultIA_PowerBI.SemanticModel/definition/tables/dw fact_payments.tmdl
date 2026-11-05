@@ -1,0 +1,101 @@
+table 'dw fact_payments'
+	lineageTag: fd5088e6-4f46-4f70-94cd-7961264570c9
+
+	column payment_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 81041f51-7254-4756-a7f1-0c2ace1940d0
+		summarizeBy: sum
+		sourceColumn: payment_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column scenario
+		dataType: string
+		lineageTag: 6ad8af41-415d-4afe-a4a0-478e88f5f059
+		summarizeBy: none
+		sourceColumn: scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_id
+		dataType: string
+		lineageTag: 86bf1090-cfcd-4a70-a758-f2b01da8f737
+		summarizeBy: none
+		sourceColumn: payment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_clean_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a3ebb139-16fc-442e-93f9-baf79c4edf72
+		summarizeBy: sum
+		sourceColumn: source_clean_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_key
+		dataType: int64
+		formatString: 0
+		lineageTag: a02b3019-39ef-466f-a98d-cd722e7f84f9
+		summarizeBy: none
+		sourceColumn: order_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method
+		dataType: string
+		lineageTag: 41d1a6bb-5c25-4828-ae44-deb3d0fea98f
+		summarizeBy: none
+		sourceColumn: payment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_status
+		dataType: string
+		lineageTag: 795cd7ad-4899-4722-805c-5c1b6750cffa
+		summarizeBy: none
+		sourceColumn: payment_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_amount
+		dataType: double
+		lineageTag: 87f1f9ac-dab0-4727-ad5e-c4d76f71719c
+		summarizeBy: sum
+		sourceColumn: payment_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column payment_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b7424e21-fe93-44ef-9f90-8da95d74b898
+		summarizeBy: none
+		sourceColumn: payment_date
+
+		variation Variation
+			isDefault
+			relationship: 1bf44ec6-bdad-482e-9297-1438a60cf9b8
+			defaultHierarchy: LocalDateTable_d9092811-4f1c-463f-bbcf-ce09ee9996c0.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'dw fact_payments' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5432", "nexaretail_db"),
+				    dw_fact_payments = Source{[Schema="dw",Item="fact_payments"]}[Data]
+				in
+				    dw_fact_payments
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "217c1315c45bccd791cb",
+  "displayName": "01 - Vue générale",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "pageBinding": {
+    "name": "4feeb8f0e0b841409460",
+    "type": "Default",
+    "parameters": [],
+    "acceptsFilterContext": "None"
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F5F7FB'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "6050cc5e87c11e178950",
+      "target": "e2fbb6e204ce47b008d5",
+      "type": "NoFilter"
+    },
+    {
+      "source": "bb4142c05a2d608a910e",
+      "target": "e2fbb6e204ce47b008d5",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6050cc5e87c11e178950",
+      "target": "bb4142c05a2d608a910e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6050cc5e87c11e178950",
+      "target": "6cea11a008ceabe8b8b2",
+      "type": "NoFilter"
+    }
+  ]
+}

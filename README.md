@@ -302,3 +302,80 @@ docker compose down
 
 Attention : docker compose down -v supprime également les volumes et donc les données PostgreSQL Docker.
 
+
+# Docker — ConsultAI 360
+
+## Objectif
+
+Exécuter PostgreSQL et dbt dans un environnement Docker isolé.
+
+## Technologies
+
+- PostgreSQL 18
+- Python 3.12
+- dbt-core 1.11.0
+- dbt-postgres 1.11.0
+- Docker Compose
+
+## Architecture
+
+- PostgreSQL : port local 5433, port interne 5432
+- Base de données : nexaretail_db
+- Profil dbt : dbt_nexaretail
+- Schéma dbt : dbt_dev
+- Stockage PostgreSQL persistant via un volume Docker
+
+## Démarrage
+
+Dans PowerShell, définir la variable DOCKER_POSTGRES_PASSWORD.
+
+Démarrer PostgreSQL :
+
+    docker compose up -d postgres
+
+Construire l'image dbt :
+
+    docker compose build dbt
+
+Vérifier la connexion :
+
+    docker compose run --rm dbt debug
+
+## Chargement des données
+
+La base Docker est initialement vide.
+
+Les schémas raw et clean doivent être importés avant d'exécuter les transformations dbt.
+
+Pour le développement, les données ont été transférées depuis PostgreSQL Windows avec pg_dump et pg_restore.
+
+Les sauvegardes locales sont exclues de Git.
+
+## Exécution
+
+    docker compose run --rm dbt build
+
+## Résultats validés
+
+- 16 modèles dbt : 3 tables et 13 vues
+- 37 tests
+- 53 validations réussies
+- 0 erreur
+- 0 avertissement
+
+## Arrêt
+
+    docker compose down
+
+Cette commande conserve les données.
+
+Attention : docker compose down -v supprime les volumes PostgreSQL.
+
+
+Le fichier README sera rempli automatiquement, sans avoir à le recopier dans VS Code.
+
+**Résultat attendu :** `docker/README.md` doit maintenant afficher plusieurs dizaines de lignes au lieu de `0`.
+
+Si `git ls-files` affiche `docker/dbt/profiles.yml`, cela confirme que ce fichier est déjà suivi par Git.
+
+Envoie-moi le résultat des deux dernières commandes. Nous pourrons alors faire le **commit final et le push GitHub de l'étape 5**.
