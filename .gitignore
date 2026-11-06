@@ -51,3 +51,14 @@ dbt_nexaretail/dbt_packages/
 
 # Fichier temporaire d'inspection
 /dbt_nexaretail/inspect_clean.sql
+
+# External ML datasets
+/data/external/dataco/*.csv
+
+# Generated ML artifacts
+/models/ml/
+/mlruns/
+/mlartifacts/
+
+# Power BI local caches
+**/.pbi/
