@@ -76,3 +76,5 @@ dbt_nexaretail/dbt_packages/
 /reports/ml/mlflow.db
 /reports/ml/mlflow.db-*
 /reports/ml/mlartifacts/
+
+/reports/ml/final_evaluation/
