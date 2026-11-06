@@ -62,3 +62,8 @@ dbt_nexaretail/dbt_packages/
 
 # Power BI local caches
 **/.pbi/
+
+/reports/ml/dataco_orders_audit.csv
+/reports/ml/processed/
+
+/reports/ml/model_comparison/
