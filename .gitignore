@@ -67,3 +67,8 @@ dbt_nexaretail/dbt_packages/
 /reports/ml/processed/
 
 /reports/ml/model_comparison/
+
+/reports/ml/explainability/
+
+/reports/ml/threshold_analysis/
+/reports/ml/explainability/
