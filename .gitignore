@@ -72,3 +72,7 @@ dbt_nexaretail/dbt_packages/
 
 /reports/ml/threshold_analysis/
 /reports/ml/explainability/
+
+/reports/ml/mlflow.db
+/reports/ml/mlflow.db-*
+/reports/ml/mlartifacts/
