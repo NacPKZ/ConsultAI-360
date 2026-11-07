@@ -24,7 +24,7 @@ def _connect():
         raise RuntimeError("ASSISTANT_DATABASE_URL manquant dans .env")
     return psycopg.connect(
         url,
-        row_factory=dict_row, # type: ignore
+        row_factory=dict_row,  # type: ignore
         options="-c default_transaction_read_only=on -c statement_timeout=10000",
     )
 
@@ -32,11 +32,11 @@ def _connect():
 def _run(sql: str, scenario: str) -> dict:
     scenario = _scenario(scenario)
     with _connect() as conn, conn.cursor() as cur:
-        cur.execute(sql, (scenario,)) # type: ignore
+        cur.execute(sql, (scenario,))  # type: ignore
         result = cur.fetchone()
         if result is None:
             raise RuntimeError("Aucun résultat")
-        return {k: float(v) if isinstance(v, Decimal) else v for k, v in result.items()} # type: ignore
+        return {k: float(v) if isinstance(v, Decimal) else v for k, v in result.items()}  # type: ignore
 
 
 def overview(scenario: str = "medium") -> dict:
