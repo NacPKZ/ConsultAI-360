@@ -78,3 +78,9 @@ dbt_nexaretail/dbt_packages/
 /reports/ml/mlartifacts/
 
 /reports/ml/final_evaluation/
+
+# Étape 8 — Assistant IA
+.env
+.env.*
+!.env.example
+!.env.assistant.example
