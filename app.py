@@ -530,35 +530,6 @@ def load_metrics(demo: bool) -> dict:
     }
 
 
-def safe_th(th: dict) -> dict:
-    """Des seuils incohérents (réserve > blocage) ne doivent jamais alimenter les autres pages."""
-    ok = th["m_warn"] <= th["m_fail"] and th["l_warn"] <= th["l_fail"]
-    return th if ok else dict(DEFAULT_TH)
-
-
-def gate(d: dict, th: dict) -> dict:
-    m, l = d["missing_pct"], d["late_pct"]
-    checks = [
-        (
-            "Montants renseignés",
-            f"{fmt(m, 2)} % absents",
-            "go" if m <= th["m_warn"] else "warn" if m <= th["m_fail"] else "stop",
-            f"Seuils : réserves au-delà de {fmt(th['m_warn'], 1)} %, blocage au-delà de {fmt(th['m_fail'], 1)} %",
-        ),
-        (
-            "Ponctualité des livraisons",
-            f"{fmt(l, 2)} % en retard",
-            "go" if l <= th["l_warn"] else "warn" if l <= th["l_fail"] else "stop",
-            f"Seuils : réserves au-delà de {fmt(th['l_warn'], 1)} %, blocage au-delà de {fmt(th['l_fail'], 1)} %",
-        ),
-    ]
-    order = {"go": 0, "warn": 1, "stop": 2}
-    return {
-        "checks": checks,
-        "overall": max((c[2] for c in checks), key=lambda s: order[s]),
-    }
-
-
 VERDICT = {
     "go": ("Publiable", "v-go"),
     "warn": ("Publiable avec réserves", "v-warn"),
