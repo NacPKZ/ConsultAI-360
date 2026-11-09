@@ -26,6 +26,7 @@ import streamlit as st
 from project_knowledge import correct as correct_question
 from project_knowledge import profile as author_profile
 from project_knowledge import project_answer
+from src.assistant.health_score import health
 
 st.set_page_config(
     page_title="ConsultAI 360",
@@ -532,19 +533,6 @@ def safe_th(th: dict) -> dict:
     """Des seuils incohérents (réserve > blocage) ne doivent jamais alimenter les autres pages."""
     ok = th["m_warn"] <= th["m_fail"] and th["l_warn"] <= th["l_fail"]
     return th if ok else dict(DEFAULT_TH)
-
-
-def health(d: dict) -> dict:
-    """Indice pédagogique : 60 % complétude, 40 % ponctualité. Pondérations volontairement simples et visibles."""
-    comp = max(0.0, 100 - 5 * d["missing_pct"])
-    punct = max(0.0, 100 - 2 * d["late_pct"])
-    return {
-        "score": round(0.6 * comp + 0.4 * punct, 1),
-        "comp": comp,
-        "punct": punct,
-        "lost_missing": 0.6 * (100 - comp),
-        "lost_late": 0.4 * (100 - punct),
-    }
 
 
 def gate(d: dict, th: dict) -> dict:
