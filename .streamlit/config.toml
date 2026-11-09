@@ -1,5 +1,3 @@
-
-# À placer dans .streamlit/config.toml à la racine du projet
 [theme]
 base = "light"
 primaryColor = "#2F4BFF"

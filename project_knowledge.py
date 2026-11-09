@@ -9,8 +9,12 @@ import unicodedata
 
 GITHUB = "https://github.com/NacPKZ/ConsultAI-360"
 PAGES = {
+    "atelier": (
+        "Atelier d’analyse",
+        "Diagnostic, comparaison, objectifs de complétude et restitution.",
+    ),
     "mission control": (
-        "Mission Control",
+        "Vue d’ensemble",
         "Synthèse exécutive, indicateurs et état de la mission.",
     ),
     "observatoire": (
@@ -22,19 +26,19 @@ PAGES = {
         "Diagnostic des risques, contrôles et priorisation des investigations.",
     ),
     "scenario lab": (
-        "Scenario Lab",
+        "Laboratoire de scénarios",
         "Hypothèses et simulations ; ne pas confondre projections et données observées.",
     ),
     "decision gate": (
-        "Decision Gate",
+        "Porte de décision",
         "Seuils de décision configurables et verdict de publication pédagogique.",
     ),
     "data lineage": (
-        "Data Lineage",
+        "Traçabilité des données",
         "Chaîne de preuve, dictionnaire des KPI et exports.",
     ),
     "ai copilot": (
-        "AI Copilot",
+        "Assistant IA",
         "Questions en langage naturel, outils de calcul, preuves et Ollama optionnel.",
     ),
 }
@@ -53,6 +57,7 @@ TECH = {
     "excel": "Excel : outil de manipulation et d'analyse, à distinguer des calculs SQL/Python présentés ici.",
     "dbt": "dbt : outil de transformation et de documentation SQL ; ne pas présumer de son déploiement sans preuve dans le dépôt.",
 }
+
 # Corrections volontairement restreintes aux termes métier, pour ne pas déformer les questions.
 TERMS = (
     "consultai",
@@ -111,6 +116,10 @@ TERMS = (
     "fiabilite",
 )
 ALIASES = {
+    "cmb": "combien",
+    "pk": "pourquoi",
+    "steamlit": "streamlit",
+    "completud": "completude",
     "linkdin": "linkedin",
     "linkedln": "linkedin",
     "linkdln": "linkedin",
@@ -144,16 +153,16 @@ def norm(text: str) -> str:
 def correct(text: str) -> tuple[str, list[tuple[str, str]]]:
     fixes = []
 
-    def fix(match):
+    def fix(match: re.Match[str]) -> str:
         original = match.group(0)
         token = norm(original)
-        if len(token) < 5 or token.isnumeric():
+        if token.isnumeric() or (len(token) < 5 and token not in ALIASES):
             return original
         replacement = ALIASES.get(token)
         if replacement is None and token not in TERMS:
             # Seuil strict : éviter de remplacer des mots ordinaires proches.
             candidate = difflib.get_close_matches(token, TERMS, n=1, cutoff=0.86)
-            if candidate and (token[0] == candidate[0][0]):
+            if candidate and token[0] == candidate[0][0]:
                 replacement = candidate[0]
         if replacement and replacement != token:
             fixes.append((original, replacement))
@@ -174,7 +183,7 @@ def profile() -> dict:
         "CONSULTAI_LINKEDIN_URL", "https://www.linkedin.com/in/can-pekgoz/"
     ).strip()
     if not re.fullmatch(
-        r"https://(?:www\.)?linkedin\.com/(?:in|company)/[A-Za-z0-9_\-%/]+/?(?:\?[^\s]*)?",
+        r"https://(?:www\.)?linkedin\.com/(?:in|company)/[A-Za-z0-9_%-]+/?(?:\?[^\s]*)?",
         li,
     ):
         li = ""
@@ -185,7 +194,7 @@ def project_answer(question: str) -> dict | None:
     q = norm(question)
     p = profile()
 
-    def out(text, topic):
+    def out(text: str, topic: str) -> dict:
         return {
             "text": text,
             "topic": topic,
@@ -275,6 +284,7 @@ def project_answer(question: str) -> dict | None:
             if key in q or any(
                 alias in q
                 for alias in {
+                    "atelier": ("atelier", "fiabilisation", "restitution"),
                     "mission control": ("accueil", "synthese", "kpi"),
                     "observatoire": ("graphique", "graphe", "graphiques"),
                     "investigation": ("diagnostic", "risque"),
