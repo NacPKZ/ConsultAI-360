@@ -26,6 +26,7 @@ import streamlit as st
 from project_knowledge import correct as correct_question
 from project_knowledge import profile as author_profile
 from project_knowledge import project_answer
+from src.assistant.decision_rules import gate, safe_th
 from src.assistant.health_score import health
 
 st.set_page_config(
