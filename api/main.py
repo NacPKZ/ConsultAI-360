@@ -80,6 +80,7 @@ def scenarios():
 
 @app.get("/kpis/{scenario}")
 def kpis(scenario: str):
+    scenario = scenario.strip().lower()
     if scenario not in SCENARIOS:
         raise HTTPException(
             status_code=404,
