@@ -84,3 +84,7 @@ dbt_nexaretail/dbt_packages/
 .env.*
 !.env.example
 !.env.assistant.example
+
+# Power BI - fichiers locaux temporaires
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
