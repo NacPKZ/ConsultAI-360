@@ -6,6 +6,8 @@
 **Technologies mises en œuvre :** Python 3.12, PostgreSQL 18, SQL, dbt Core 1.11.0, dbt-postgres 1.11.0, Power BI/DAX, scikit-learn, FastAPI, Streamlit, Ollama, DBeaver, VS Code, Git/GitHub.
 **Périmètre :** NexaRetail, entreprise fictive ; aucune conclusion ne porte sur une entreprise réelle.
 
+**Documentation complète :** [index des documents en français](docs/INDEX.md).
+
 ## Livrables et rapports
 
 > **Rapport disponible :** [**01 — Data Engineering, Data Quality & Business Analytics (PDF)**](rapports/01_Rapport_Data_Engineering_Analytics.pdf)
