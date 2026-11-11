@@ -1,0 +1,51 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "ba71f3c706a899ceed67",
+  "displayName": "02 - Performance commerciale",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "pageBinding": {
+    "name": "5949fba7db9575c71801",
+    "type": "Default",
+    "parameters": []
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F5F7FB'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "3249585d94b1cc287ac0",
+      "target": "16d077e4b21261236eec",
+      "type": "NoFilter"
+    },
+    {
+      "source": "3249585d94b1cc287ac0",
+      "target": "c08931d11302bb886432",
+      "type": "NoFilter"
+    }
+  ]
+}

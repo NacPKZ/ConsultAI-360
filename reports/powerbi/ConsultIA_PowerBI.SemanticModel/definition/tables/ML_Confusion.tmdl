@@ -1,0 +1,84 @@
+table ML_Confusion
+	lineageTag: 7a53e903-f6ca-475a-a32a-4d966d2c6dff
+
+	column threshold
+		dataType: double
+		lineageTag: 91f63d75-846c-4a5e-9873-86307da07132
+		summarizeBy: sum
+		sourceColumn: threshold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tn
+		dataType: double
+		formatString: 0
+		lineageTag: 8d21ca0d-9097-4faf-b370-432aeb8e5b44
+		summarizeBy: sum
+		sourceColumn: tn
+
+		annotation SummarizationSetBy = Automatic
+
+	column fp
+		dataType: double
+		formatString: 0
+		lineageTag: 86f1488f-f8ed-46e0-9487-e325ca0b80cf
+		summarizeBy: sum
+		sourceColumn: fp
+
+		annotation SummarizationSetBy = Automatic
+
+	column fn
+		dataType: double
+		formatString: 0
+		lineageTag: f724ad40-4536-4167-9f73-6101dae9db7b
+		summarizeBy: sum
+		sourceColumn: fn
+
+		annotation SummarizationSetBy = Automatic
+
+	column tp
+		dataType: double
+		formatString: 0
+		lineageTag: ebca1d5c-a5e1-46a0-929d-f5046d3c010d
+		summarizeBy: sum
+		sourceColumn: tp
+
+		annotation SummarizationSetBy = Automatic
+
+	column precision
+		dataType: double
+		lineageTag: aa8c5c2c-194b-492b-a2f8-59dfe5165b4c
+		summarizeBy: sum
+		sourceColumn: precision
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recall
+		dataType: double
+		lineageTag: 53b624fb-83d6-40f7-9361-d9a5a91c75c0
+		summarizeBy: sum
+		sourceColumn: recall
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ML_Confusion = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Pekgoz\Documents\Projet\Consult IA 360\reports\ml\explainability\threshold_confusion_counts.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"threshold", type text}, {"tn", Int64.Type}, {"fp", Int64.Type}, {"fn", Int64.Type}, {"tp", Int64.Type}, {"precision", type text}, {"recall", type text}}),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"Type modifié", {{"threshold", type number}, {"tn", type number}, {"fp", type number}, {"fn", type number}, {"tp", type number}, {"precision", type number}, {"recall", type number}}, "en-US")
+				in
+				    #"Type modifié avec paramètres régionaux"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

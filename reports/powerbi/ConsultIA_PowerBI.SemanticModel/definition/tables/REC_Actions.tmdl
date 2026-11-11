@@ -1,0 +1,128 @@
+table REC_Actions
+	lineageTag: 973c0490-3a0d-4924-b6d4-4f9eeec0dfda
+
+	measure 'REC Nombre actions' = ```
+			
+			COUNTROWS(REC_Actions)
+			
+			```
+		formatString: 0
+		lineageTag: 73ed374a-a2ca-4514-b688-8f557f0e8325
+
+	measure 'REC Actions prioritaires' = ```
+			
+			CALCULATE(
+			    COUNTROWS(REC_Actions),
+			    REC_Actions[Priorite] <= 2
+			)
+			
+			```
+		formatString: 0
+		lineageTag: c0086587-46c0-459d-917f-2b646103cb3e
+
+	measure 'REC Horizon' = ```
+			
+			"90 jours"
+			
+			```
+		lineageTag: cb5577af-619d-4bf8-9e0d-1423ff2333a0
+
+	measure 'REC Diagnostic' = ```
+			
+			VAR Scenario =
+			    SELECTEDVALUE(
+			        ROI_Scenarios[Scenario],
+			        "Central"
+			    )
+			RETURN
+			SWITCH(
+			    Scenario,
+			    "Prudent",
+			        "Décision : déploiement progressif. 
+			         Prioriser la réduction des retards et la qualité des données avant d'engager des investissements supplémentaires.",
+			    "Central",
+			        "Décision : lancer un pilote de 90 jours. 
+			         Mesurer les gains logistiques, 
+			         la fiabilité des alertes et les coûts réels avant généralisation.",
+			    "Optimiste",
+			        "Décision : tester les hypothèses de gains élevés. 
+			         Ne pas engager un déploiement complet sans validation opérationnelle et financière.",
+			    "Décision : sélectionner un scénario financier."
+			)
+			
+			```
+		lineageTag: 3af58d16-ac29-4d9c-bfec-8a9de1080387
+
+	column Priorite
+		formatString: 0
+		lineageTag: 7e5c9e2c-44e2-4510-9e26-59a58b36c46b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Priorite]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Action
+		lineageTag: 9295d608-ef9e-4d54-8a45-0b312401db54
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Action]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Axe
+		lineageTag: 1d8896ff-726e-498d-a570-771a68b48cf5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Axe]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Horizon
+		lineageTag: bf0eded0-8751-4ce9-af63-0ac1793e5b61
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Horizon]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Responsable
+		lineageTag: 1a23792d-4de8-4aa8-bdf7-f7209f7313ec
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Responsable]
+
+		annotation SummarizationSetBy = Automatic
+
+	column KPI
+		lineageTag: 89d38cd0-7c5b-43fd-a857-e70a180b869c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [KPI]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition REC_Actions = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Priorite", INTEGER,
+				    "Action", STRING,
+				    "Axe", STRING,
+				    "Horizon", STRING,
+				    "Responsable", STRING,
+				    "KPI", STRING,
+				    {
+				        {1, "Réduire les retards", "Logistique", "J1-J30", "Supply Chain", "Taux de retard"},
+				        {2, "Fiabiliser les données", "Qualité", "J1-J30", "Data Team", "Taux de complétude"},
+				        {3, "Tester les alertes IA", "IA prédictive", "J31-J60", "Data Science", "Précision et rappel"},
+				        {4, "Évaluer les économies", "Finance", "J61-J90", "Contrôle de gestion", "ROI observé"},
+				        {5, "Décider du déploiement", "Stratégie", "J61-J90", "Direction", "Bilan du pilote"}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 37fe16e12e184fa8bd76aadd84c8019b
+

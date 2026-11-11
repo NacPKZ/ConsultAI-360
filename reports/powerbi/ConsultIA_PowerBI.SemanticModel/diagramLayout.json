@@ -1,0 +1,285 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 949.56639321412752,
+        "y": 4.9934392793113549
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1099.5663932141274,
+            "y": 571.34353971050029
+          },
+          "nodeIndex": "dbt_dev mart_data_quality_summary",
+          "nodeLineageTag": "ea472300-913b-4034-ac81-538feffd5859",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1408.648799630412,
+            "y": 551.48988779228375
+          },
+          "nodeIndex": "dbt_dev mart_revenue_impact",
+          "nodeLineageTag": "25a5e719-3236-4a3b-b32e-1e11c3888751",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 95.91131859359723,
+            "y": 301.00447544953397
+          },
+          "nodeIndex": "dw dim_customers",
+          "nodeLineageTag": "2d707363-d99b-45d2-b97b-92f2b4bc377a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1173.2028254287723,
+            "y": 201.0270564308006
+          },
+          "nodeIndex": "dw dim_dates",
+          "nodeLineageTag": "9df9e0b0-26cc-4b96-ad1b-73e3c4bf7fd3",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 992.68707942100059
+          },
+          "nodeIndex": "dw dim_products",
+          "nodeLineageTag": "c4bfbfb1-c8fd-43c6-8766-61f0f4ad0432",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 814.58635859342166,
+            "y": 644.25913627738942
+          },
+          "nodeIndex": "dw dim_stores",
+          "nodeLineageTag": "5c030922-2950-48f0-a11d-34e559ca1b65",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 578.25191192875729,
+            "y": 360.03603543838915
+          },
+          "nodeIndex": "dw fact_orders",
+          "nodeLineageTag": "b029ba0a-5adc-49d8-b1ce-8524b62a366a",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 413.05444506308913,
+            "y": 0
+          },
+          "nodeIndex": "dw fact_payments",
+          "nodeLineageTag": "fd5088e6-4f46-4f70-94cd-7961264570c9",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 313.79471407383335,
+            "y": 683.56230902500874
+          },
+          "nodeIndex": "dw fact_sales",
+          "nodeLineageTag": "90ce0055-714b-48b5-879d-627ea92e4fa6",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 896.64100987442725,
+            "y": 987.267546790157
+          },
+          "nodeIndex": "DimScenario",
+          "nodeLineageTag": "92993b78-5303-40eb-986d-805189bd4c70",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 922.4895930246804,
+            "y": 18.321330914105584
+          },
+          "nodeIndex": "dw fact_shipments",
+          "nodeLineageTag": "7e2ed4b9-d9f4-443a-8021-9f84b9276ad6",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1642.648799630412,
+            "y": 496.34353971050029
+          },
+          "nodeIndex": "ML_Metrics",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1876.648799630412,
+            "y": 510.34353971050029
+          },
+          "nodeIndex": "ML_ByMode",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2110.6487996304122,
+            "y": 498.34353971050029
+          },
+          "nodeIndex": "ML_Thresholds",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2578.6487996304122,
+            "y": 570.34353971050029
+          },
+          "nodeIndex": "ML_Importance",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2344.6487996304122,
+            "y": 522.34353971050029
+          },
+          "nodeIndex": "ML_Confusion",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2812.6487996304122,
+            "y": 546.34353971050029
+          },
+          "nodeIndex": "ML_Confusion_Final",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3046.6487996304122,
+            "y": 546.34353971050029
+          },
+          "nodeIndex": "ROI_Scenarios",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3280.6487996304122,
+            "y": 546.34353971050029
+          },
+          "nodeIndex": "ROI_Leviers",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3514.6487996304122,
+            "y": 546.34353971050029
+          },
+          "nodeIndex": "ROI_Mois",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3748.6487996304122,
+            "y": 546.34353971050029
+          },
+          "nodeIndex": "REC_Actions",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Toutes les tables",
+      "zoomValue": 16.145833333333336,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Toutes les tables",
+  "defaultDiagram": "Toutes les tables"
+}

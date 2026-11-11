@@ -1,0 +1,75 @@
+table 'dw dim_dates'
+	lineageTag: 9df9e0b0-26cc-4b96-ad1b-73e3c4bf7fd3
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 84c79937-3a40-4008-a0b4-8187e78493a8
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 785847be-67f7-46a9-8bf5-1accb86f647f
+		summarizeBy: none
+		sourceColumn: full_date
+
+		variation Variation
+			isDefault
+			relationship: 22709a7c-bef7-47b1-bde4-2290b8f6f3db
+			defaultHierarchy: LocalDateTable_ede2a6d5-6663-4966-9925-20853d28b09a.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 9704948a-24c7-43cd-b0db-3532efdf20af
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 93ad0fe0-cbaa-4193-9d21-3268fbf2d788
+		summarizeBy: sum
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 7dbd99ac-9eb8-4bd7-a752-d98ab045168a
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: e2c90e1d-8b4c-4aa3-a2d0-06eddae0bc77
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_dates' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5432", "nexaretail_db"),
+				    dw_dim_dates = Source{[Schema="dw",Item="dim_dates"]}[Data]
+				in
+				    dw_dim_dates
+
+	annotation PBI_ResultType = Table
+

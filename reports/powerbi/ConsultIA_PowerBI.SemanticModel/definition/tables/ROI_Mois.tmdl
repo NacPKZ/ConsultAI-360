@@ -1,0 +1,22 @@
+table ROI_Mois
+	lineageTag: ac53d38a-f196-4458-96f3-bf1fe0dfd2de
+
+	column Value
+		formatString: 0
+		lineageTag: a5ca5ad4-3dc9-44fb-8140-36ecf3e89dcc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ROI_Mois = calculated
+		mode: import
+		source = ```
+				
+				GENERATESERIES(0, 12, 1)
+				
+				```
+
+	annotation PBI_Id = fcdb8ebff03b407d97e9cfad3c273efc
+

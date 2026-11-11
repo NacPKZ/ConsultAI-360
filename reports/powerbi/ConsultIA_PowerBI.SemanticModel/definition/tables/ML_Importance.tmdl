@@ -1,0 +1,49 @@
+table ML_Importance
+	lineageTag: 63ad108e-f1ad-446f-ab81-4d6f34ceed07
+
+	column feature
+		dataType: string
+		lineageTag: 826b858d-5592-43f3-923d-38e2539169b3
+		summarizeBy: none
+		sourceColumn: feature
+
+		annotation SummarizationSetBy = Automatic
+
+	column auc_drop_mean
+		dataType: double
+		lineageTag: 776cbc08-c20e-4523-937d-d4ea98f1cf3f
+		summarizeBy: sum
+		sourceColumn: auc_drop_mean
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column auc_drop_std
+		dataType: double
+		lineageTag: f06512d5-14ec-48cc-af38-596461db75ac
+		summarizeBy: sum
+		sourceColumn: auc_drop_std
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ML_Importance = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Pekgoz\Documents\Projet\Consult IA 360\reports\ml\explainability\permutation_importance.csv"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Type modifié" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+				    #"Plage de lignes conservée" = Table.Range(#"Type modifié",1,11),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"Plage de lignes conservée", {{"Column2", type number}, {"Column3", type number}}, "en-US"),
+				    #"Conserver les premières lignes" = Table.FirstN(#"Type modifié avec paramètres régionaux",12),
+				    #"Plage de lignes conservée1" = Table.Range(#"Conserver les premières lignes",0,12),
+				    #"Colonnes renommées" = Table.RenameColumns(#"Plage de lignes conservée1",{{"Column2", "auc_drop_mean"}, {"Column1", "feature"}, {"Column3", "auc_drop_std"}})
+				in
+				    #"Colonnes renommées"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

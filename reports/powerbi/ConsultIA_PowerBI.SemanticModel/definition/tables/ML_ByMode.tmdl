@@ -1,0 +1,142 @@
+table ML_ByMode
+	lineageTag: 230416f9-d059-47bd-b4b3-87cd8be49179
+
+	measure 'ML ROC AUC' = ```
+			
+			CALCULATE(
+			    MAX(ML_Metrics[roc_auc]),
+			    ML_Metrics[model] = "random_forest"
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 40edb649-5db0-46cd-a1c9-943eb28e9cfa
+
+	measure 'ML Recall' = ```
+			
+			CALCULATE(
+			    MAX(ML_Metrics[recall]),
+			    ML_Metrics[model] = "random_forest"
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 7f0fa034-ac76-4838-8e1d-90f2225dd607
+
+	measure 'ML Precision' = ```
+			
+			CALCULATE(
+			    MAX(ML_Metrics[precision]),
+			    ML_Metrics[model] = "random_forest"
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: a5cfd370-faad-4bdf-b00a-9c3e6c957f51
+
+	measure 'ML F1' = ```
+			
+			CALCULATE(
+			    MAX(ML_Metrics[f1]),
+			    ML_Metrics[model] = "random_forest"
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 01bd8bf6-9f64-4547-8340-7453f3010795
+
+	column model
+		dataType: string
+		lineageTag: 24a5d127-1a0c-4dfd-9b97-7a0fbfe2183f
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipping_mode
+		dataType: string
+		lineageTag: 56487c25-2eb3-42e8-a1af-b51ebe1a76af
+		summarizeBy: none
+		sourceColumn: shipping_mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders
+		dataType: double
+		formatString: 0
+		lineageTag: ae4a1183-96e7-44a2-b1ea-16a3d88aaf15
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column actual_late_rate
+		dataType: double
+		lineageTag: f95fe65b-3b9a-4f87-b8b7-2a33fe6ac746
+		summarizeBy: sum
+		sourceColumn: actual_late_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column precision
+		dataType: double
+		lineageTag: 0e0b1f6f-9aca-4db1-bbe3-adad37c35f74
+		summarizeBy: sum
+		sourceColumn: precision
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recall
+		dataType: double
+		lineageTag: 95c6e88d-44ca-4b4d-88d3-f4429896d43e
+		summarizeBy: sum
+		sourceColumn: recall
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column false_positives
+		dataType: double
+		formatString: 0
+		lineageTag: 6bc1f16e-4b73-4cc8-8e67-a4014ff50e9d
+		summarizeBy: sum
+		sourceColumn: false_positives
+
+		annotation SummarizationSetBy = Automatic
+
+	column false_negatives
+		dataType: double
+		formatString: 0
+		lineageTag: c32eea2f-90cf-4f78-bd65-2dc15994d987
+		summarizeBy: sum
+		sourceColumn: false_negatives
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'precision Hiérarchie'
+		lineageTag: 58588f4b-d74c-4b1e-9b93-a8affebf8eb8
+
+		level precision
+			lineageTag: 79325671-32de-4806-aecf-cafc90b49866
+			column: precision
+
+	partition ML_ByMode = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Pekgoz\Documents\Projet\Consult IA 360\reports\ml\final_evaluation\final_by_shipping_mode.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"model", type text}, {"shipping_mode", type text}, {"orders", Int64.Type}, {"actual_late_rate", type text}, {"precision", type text}, {"recall", type text}, {"false_positives", Int64.Type}, {"false_negatives", Int64.Type}}),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"Type modifié", {{"orders", type number}, {"actual_late_rate", type number}, {"precision", type number}, {"recall", type number}, {"false_positives", type number}, {"false_negatives", type number}}, "en-US")
+				in
+				    #"Type modifié avec paramètres régionaux"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

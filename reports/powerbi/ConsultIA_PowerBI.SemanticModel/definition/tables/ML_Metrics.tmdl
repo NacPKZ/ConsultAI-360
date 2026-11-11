@@ -1,0 +1,241 @@
+table ML_Metrics
+	lineageTag: f6ed3398-91ab-4e75-9ac0-adc346e30c51
+
+	measure 'ROI Coefficient' = ```
+			
+			SELECTEDVALUE(
+			    ROI_Scenarios[Coefficient],
+			    1
+			)
+			
+			```
+		lineageTag: e36a4595-8dff-4dc3-860e-24145c5e044b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ROI Investissement' = ```
+			
+			50000
+			
+			```
+		formatString: #,0\ "€";-#,0\ "€";#,0\ "€"
+		lineageTag: 851cabaf-b01a-4eee-9c91-946dfc1000b6
+
+	measure 'ROI Gain annuel' = ```
+			
+			SUM(ROI_Leviers[GainAnnuelBase])
+			    * [ROI Coefficient]
+			
+			```
+		formatString: #,0\ "€";-#,0\ "€";#,0\ "€"
+		lineageTag: 5b6bb395-59d7-42e6-bfbc-4701d7905c5e
+
+	measure 'ROI Gain net' = ```
+			
+			[ROI Gain annuel] - [ROI Investissement]
+			
+			```
+		formatString: #,0\ "€";-#,0\ "€";#,0\ "€"
+		lineageTag: 04d6b00c-895d-432d-823c-2d99fa90e202
+
+	measure 'ROI Pourcentage' = ```
+			
+			DIVIDE(
+			    [ROI Gain net],
+			    [ROI Investissement]
+			)
+			
+			```
+		formatString: 0\ %;-0\ %;0\ %
+		lineageTag: 96076b68-2885-4461-bc81-a2a324253748
+
+	measure 'ROI Gains cumulés' = ```
+			
+			[ROI Gain annuel]
+			    * DIVIDE(
+			        MAX(ROI_Mois[Value]),
+			        12
+			    )
+			
+			```
+		lineageTag: 28218782-294e-43ce-9b06-05cb15247078
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ROI Seuil rentabilité mois' = ```
+			
+			DIVIDE(
+			    [ROI Investissement],
+			    [ROI Gain annuel]
+			) * 12
+			
+			```
+		lineageTag: 69f7f84e-3379-4910-8c25-54deb945e8ba
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ROI Gain par levier' = ```
+			
+			SUM(ROI_Leviers[GainAnnuelBase])
+			    * [ROI Coefficient]
+			
+			```
+		lineageTag: 768f414f-90f6-4302-895e-2dc5cc272696
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ROI Analyse Business' = ```
+			
+			VAR Scenario =
+			    SELECTEDVALUE(
+			        ROI_Scenarios[Scenario],
+			        "Central"
+			    )
+			
+			VAR Analyse =
+			    SWITCH(
+			        Scenario,
+			        "Prudent",
+			        "Rentabilité positive mais marge de sécurité limitée. Un déploiement progressif est recommandé.",
+			
+			        "Central",
+			        "Potentiel financier intéressant. Les gains reposent principalement sur la logistique et la qualité des données. Un pilote opérationnel est recommandé.",
+			
+			        "Optimiste",
+			        "Potentiel de rentabilité élevé, sous réserve de confirmer les hypothèses ambitieuses de gains.",
+			
+			        "Scénario non défini."
+			    )
+			
+			RETURN
+			    "Diagnostic Financier : " & UNICHAR(10) &
+			    Analyse & UNICHAR(10) & UNICHAR(10) &
+			    "ROI net estimé : " &
+			    FORMAT([ROI Pourcentage], "0.0%") &
+			    UNICHAR(10) &
+			    "Retour sur investissement : " &
+			    FORMAT([ROI Seuil rentabilité mois], "0.0") &
+			    " mois" & UNICHAR(10) & UNICHAR(10) &
+			    "Limite : résultats simulés, non observés."
+			
+			```
+		lineageTag: 8675d60a-caf6-4fbd-bf97-0d3cc00e1ce7
+
+	column model
+		dataType: string
+		lineageTag: b3359473-3573-436e-8275-ef34767da86c
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column threshold
+		dataType: double
+		lineageTag: 7fd1fc31-235c-49da-9a5a-a556382abcc0
+		summarizeBy: sum
+		sourceColumn: threshold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column roc_auc
+		dataType: double
+		lineageTag: 500a0ba7-c4d0-4abf-85b1-faaa02038024
+		summarizeBy: sum
+		sourceColumn: roc_auc
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pr_auc
+		dataType: double
+		lineageTag: 62a9ac7e-c62e-4372-9e9e-4a1abc531322
+		summarizeBy: sum
+		sourceColumn: pr_auc
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column precision
+		dataType: double
+		lineageTag: ec1d4740-e499-4858-aba4-ce5b850af4a8
+		summarizeBy: sum
+		sourceColumn: precision
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recall
+		dataType: double
+		lineageTag: 23515bfc-0cf1-410a-9daf-ddc44e55941e
+		summarizeBy: sum
+		sourceColumn: recall
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column f1
+		dataType: double
+		lineageTag: 04abb90f-9bcf-4715-a40d-4d390323b870
+		summarizeBy: sum
+		sourceColumn: f1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tn
+		dataType: double
+		formatString: 0
+		lineageTag: be2d1796-2336-46d7-924d-68d56b7d78ed
+		summarizeBy: sum
+		sourceColumn: tn
+
+		annotation SummarizationSetBy = Automatic
+
+	column fp
+		dataType: double
+		formatString: 0
+		lineageTag: ee7bf985-667a-425c-a88e-7e8cc2e99bbe
+		summarizeBy: sum
+		sourceColumn: fp
+
+		annotation SummarizationSetBy = Automatic
+
+	column fn
+		dataType: double
+		formatString: 0
+		lineageTag: 72f72b3e-8021-4eba-9d6c-375fca9c0ac2
+		summarizeBy: sum
+		sourceColumn: fn
+
+		annotation SummarizationSetBy = Automatic
+
+	column tp
+		dataType: double
+		formatString: 0
+		lineageTag: 0764b75f-021c-46af-8682-0b998ec037ec
+		summarizeBy: sum
+		sourceColumn: tp
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ML_Metrics = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Pekgoz\Documents\Projet\Consult IA 360\reports\ml\final_evaluation\final_metrics.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"En-têtes promus", {{"threshold", type number}, {"roc_auc", type number}, {"pr_auc", type number}, {"precision", type number}, {"recall", type number}, {"f1", type number}, {"tn", type number}, {"fp", type number}, {"fn", type number}, {"tp", type number}}, "en-US")
+				in
+				    #"Type modifié avec paramètres régionaux"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

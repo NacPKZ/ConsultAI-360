@@ -1,0 +1,39 @@
+table ROI_Scenarios
+	lineageTag: 36866854-7171-4ac1-8dda-06e755810893
+
+	column Scenario
+		lineageTag: 491eda56-12ee-41ac-b953-b48bfa51a593
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Scenario]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Coefficient
+		lineageTag: 97efe9c9-5534-4342-bf1d-56cfe5d21cb6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Coefficient]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ROI_Scenarios = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Scenario", STRING,
+				    "Coefficient", DOUBLE,
+				    {
+				        {"Prudent", 0.65},
+				        {"Central", 1.00},
+				        {"Optimiste", 1.40}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 9c32939398c3489ab4fcc9ed10ed70dc
+

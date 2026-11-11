@@ -1,0 +1,103 @@
+table ML_Thresholds
+	lineageTag: f7ea07e0-5a22-4759-a60b-6ef479802f7f
+
+	column threshold
+		dataType: double
+		lineageTag: a2accc91-fa8b-4589-b7f1-b58d90a2ebde
+		summarizeBy: sum
+		sourceColumn: threshold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column precision
+		dataType: double
+		lineageTag: 261c4c70-64a5-4736-8566-32faecaa981c
+		summarizeBy: sum
+		sourceColumn: precision
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recall
+		dataType: double
+		lineageTag: 0c4e60f9-88c8-4dfb-9385-6ac1ad8156be
+		summarizeBy: sum
+		sourceColumn: recall
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column f1
+		dataType: double
+		lineageTag: 109e6cc1-7269-4720-bdc3-9c2ccc63f8e1
+		summarizeBy: sum
+		sourceColumn: f1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column alerts
+		dataType: double
+		formatString: 0
+		lineageTag: 865d3b9f-5f3f-4e5a-a7aa-66a612065153
+		summarizeBy: sum
+		sourceColumn: alerts
+
+		annotation SummarizationSetBy = Automatic
+
+	column tn
+		dataType: double
+		formatString: 0
+		lineageTag: b5e09fef-944a-4e97-89fc-fb86cc82244c
+		summarizeBy: sum
+		sourceColumn: tn
+
+		annotation SummarizationSetBy = Automatic
+
+	column fp
+		dataType: double
+		formatString: 0
+		lineageTag: 6f3b2db1-275a-4685-97ba-1eb97e01bf48
+		summarizeBy: sum
+		sourceColumn: fp
+
+		annotation SummarizationSetBy = Automatic
+
+	column fn
+		dataType: double
+		formatString: 0
+		lineageTag: 404c75f8-1320-4bd1-8367-a328741f2646
+		summarizeBy: sum
+		sourceColumn: fn
+
+		annotation SummarizationSetBy = Automatic
+
+	column tp
+		dataType: double
+		formatString: 0
+		lineageTag: d8407b7d-9a9d-4bb7-97d7-91a8d61f20cb
+		summarizeBy: sum
+		sourceColumn: tp
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ML_Thresholds = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Pekgoz\Documents\Projet\Consult IA 360\reports\ml\threshold_analysis\threshold_metrics.csv"),[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"threshold", type text}, {"precision", type text}, {"recall", type text}, {"f1", type text}, {"alerts", Int64.Type}, {"tn", Int64.Type}, {"fp", Int64.Type}, {"fn", Int64.Type}, {"tp", Int64.Type}}),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"Type modifié", {{"threshold", type number}, {"precision", type number}, {"recall", type number}, {"f1", type number}, {"alerts", type number}, {"tn", type number}, {"fp", type number}, {"fn", type number}, {"tp", type number}}, "en-US")
+				in
+				    #"Type modifié avec paramètres régionaux"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

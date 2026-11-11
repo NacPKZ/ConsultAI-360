@@ -1,0 +1,89 @@
+relationship 1bf44ec6-bdad-482e-9297-1438a60cf9b8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw fact_payments'.payment_date
+	toColumn: LocalDateTable_d9092811-4f1c-463f-bbcf-ce09ee9996c0.Date
+
+relationship 2921053f-0da6-430c-b04d-b7e8a6f09bb7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw dim_customers'.registration_date
+	toColumn: LocalDateTable_ecbabbee-6f7b-4fa7-93ce-b50a312bc753.Date
+
+relationship 22709a7c-bef7-47b1-bde4-2290b8f6f3db
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw dim_dates'.full_date
+	toColumn: LocalDateTable_ede2a6d5-6663-4966-9925-20853d28b09a.Date
+
+relationship 05943156-00bc-454c-a2c3-3e4adc4b1df4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw dim_stores'.opening_date
+	toColumn: LocalDateTable_762446b9-c48d-485f-9c9e-e5b77f54cd10.Date
+
+relationship d4ad8202-efda-4665-aedd-2888f12ffa2b
+	fromColumn: 'dw fact_sales'.product_key
+	toColumn: 'dw dim_products'.product_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 7defa47e-6c30-41e5-a339-ce04643df3b7
+	fromColumn: 'dw fact_sales'.order_key
+	toColumn: 'dw fact_orders'.order_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 0fe4e29c-4798-45a3-a06b-ff9be22e9b30
+	fromColumn: 'dw fact_payments'.order_key
+	toColumn: 'dw fact_orders'.order_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 0c907d53-db13-4e57-be5e-a1020ec1f61c
+	fromColumn: 'dw fact_orders'.customer_key
+	toColumn: 'dw dim_customers'.customer_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 9c496085-ba6a-49bb-8df8-f11517d250fe
+	fromColumn: 'dw fact_orders'.date_key
+	toColumn: 'dw dim_dates'.date_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship 28870f74-f6b6-4845-815e-9fdfaa0ca53a
+	fromColumn: 'dw fact_orders'.store_key
+	toColumn: 'dw dim_stores'.store_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship aad16c09-e81e-d84a-7f04-34f8de762192
+	fromColumn: 'dw fact_orders'.scenario
+	toColumn: DimScenario.scenario
+
+relationship 25845bf0-605a-36d9-a0f6-7dcb944acece
+	fromColumn: 'dbt_dev mart_data_quality_summary'.scenario
+	toColumn: DimScenario.scenario
+
+relationship 76e624d8-7bc9-76a5-e699-9848524de9b1
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DimScenario.scenario
+	toColumn: 'dbt_dev mart_revenue_impact'.scenario
+
+relationship 3ebae599-9240-411e-8db6-df5d7c01ee47
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw fact_shipments'.shipping_date
+	toColumn: LocalDateTable_ae2b62e6-c8da-4d2d-b4d6-cc2e899f5eb1.Date
+
+relationship f116dfa0-638a-491f-9a61-7d28868f1d64
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw fact_shipments'.estimated_delivery_date
+	toColumn: LocalDateTable_db7ca7f5-f90e-4d18-95bc-e14dd46f1021.Date
+
+relationship 7f4f70e3-4ab8-4e45-a98f-8c5900ae58e1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw fact_shipments'.actual_delivery_date
+	toColumn: LocalDateTable_c4f15552-8a4e-4eec-8f6e-239da5241d57.Date
+
+relationship cf4f6000-722d-623f-4f23-e6e235560d76
+	fromColumn: 'dw fact_shipments'.order_key
+	toColumn: 'dw fact_orders'.order_key
+

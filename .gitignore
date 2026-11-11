@@ -85,3 +85,7 @@ dbt_nexaretail/dbt_packages/
 # Fichiers temporaires Power BI
 **/.pbi/localSettings.json
 **/.pbi/cache.abf
+
+# Sauvegardes Power BI locales
+/backup_powerbi_ancien/
+/ConsultIA_PowerBI.pbix

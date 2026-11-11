@@ -1,0 +1,104 @@
+table 'dw dim_customers'
+	lineageTag: 2d707363-d99b-45d2-b97b-92f2b4bc377a
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b9c9220-9ffb-4360-bc2c-8d8b5b154dd9
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column scenario
+		dataType: string
+		lineageTag: a4c24a3f-74e9-4187-9f3a-d211c9fc108b
+		summarizeBy: none
+		sourceColumn: scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: 9cd91ad5-c941-464c-b0ec-e1e3dd6e3593
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_name
+		dataType: string
+		lineageTag: eb929a08-6591-4b6d-9e82-dc55f5b91ede
+		summarizeBy: none
+		sourceColumn: first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_name
+		dataType: string
+		lineageTag: 601dc360-a810-42c3-ae22-0e721869a844
+		summarizeBy: none
+		sourceColumn: last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 5351dcab-ebab-4d7e-a7b2-7bab931d63bb
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 2db1493c-7504-4dcf-b560-63a19b883b14
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column registration_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 78720cd6-4626-478b-8e84-34e03bf5be8d
+		summarizeBy: none
+		sourceColumn: registration_date
+
+		variation Variation
+			isDefault
+			relationship: 2921053f-0da6-430c-b04d-b7e8a6f09bb7
+			defaultHierarchy: LocalDateTable_ecbabbee-6f7b-4fa7-93ce-b50a312bc753.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column loyalty_tier
+		dataType: string
+		lineageTag: 18b650ff-edb3-440e-85fa-78a2c42bde0a
+		summarizeBy: none
+		sourceColumn: loyalty_tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_unknown
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a113e813-57ae-491a-94a4-80897aee5b06
+		summarizeBy: none
+		sourceColumn: is_unknown
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_customers' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5432", "nexaretail_db"),
+				    dw_dim_customers = Source{[Schema="dw",Item="dim_customers"]}[Data]
+				in
+				    dw_dim_customers
+
+	annotation PBI_ResultType = Table
+

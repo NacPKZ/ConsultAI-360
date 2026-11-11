@@ -1,0 +1,39 @@
+table ROI_Leviers
+	lineageTag: b7b7f29c-e792-45ac-83e2-bddc880fa010
+
+	column Levier
+		lineageTag: d64dfb10-1695-41fe-8214-aaa6150a16d5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Levier]
+
+		annotation SummarizationSetBy = Automatic
+
+	column GainAnnuelBase
+		lineageTag: f113d0bc-ba11-4da0-869f-3ef6c47c036d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [GainAnnuelBase]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ROI_Leviers = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Levier", STRING,
+				    "GainAnnuelBase", DOUBLE,
+				    {
+				        {"Optimisation logistique", 47250.0},
+				        {"Réduction des anomalies", 31500.0},
+				        {"Productivité opérationnelle", 26250.0}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 99672eb665e3483e8cd51bbe6d187a4d
+

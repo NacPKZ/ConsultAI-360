@@ -1,0 +1,58 @@
+table ML_Confusion_Final
+	lineageTag: c75b436e-0d3c-416d-9fa9-5b25a1aacc3a
+
+	column Réel
+		lineageTag: 4f433664-ba8c-4f14-ad21-092f313ed39c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Réel]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Prédit
+		lineageTag: 35fb6d50-8245-49c1-905e-bf2f8b1a2a1c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Prédit]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre
+		lineageTag: e09d2307-1c4c-4581-beed-d74b4d49eafe
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Nombre]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ML_Confusion_Final = calculated
+		mode: import
+		source =
+				
+				UNION(
+				    ROW(
+				        "Réel", "Pas de retard",
+				        "Prédit", "Pas de retard",
+				        "Nombre", CALCULATE(MAX(ML_Metrics[tn]), ML_Metrics[model] = "random_forest")
+				    ),
+				    ROW(
+				        "Réel", "Pas de retard",
+				        "Prédit", "Retard",
+				        "Nombre", CALCULATE(MAX(ML_Metrics[fp]), ML_Metrics[model] = "random_forest")
+				    ),
+				    ROW(
+				        "Réel", "Retard",
+				        "Prédit", "Pas de retard",
+				        "Nombre", CALCULATE(MAX(ML_Metrics[fn]), ML_Metrics[model] = "random_forest")
+				    ),
+				    ROW(
+				        "Réel", "Retard",
+				        "Prédit", "Retard",
+				        "Nombre", CALCULATE(MAX(ML_Metrics[tp]), ML_Metrics[model] = "random_forest")
+				    )
+				)
+
+	annotation PBI_Id = f29d1691927747dc9f4f14a8074e4f37
+
