@@ -17,14 +17,20 @@ PostgreSQL doit être accessible et les schémas sources nécessaires doivent d�
 
 ## Commandes de contrôle
 
-Depuis la racine du dépôt, avec un environnement Python/dbt opérationnel et un profil correctement configuré :
+Le profil versionné dans `docker/dbt/profiles.yml` utilise l'hôte `postgres`, résolu dans le réseau Docker. Il **n'est pas directement adapté à une exécution dbt sur Windows** sans profil local distinct.
+
+Depuis la racine du dépôt, avec Docker disponible et `DOCKER_POSTGRES_PASSWORD` défini :
 
 ```powershell
-dbt debug --project-dir dbt_nexaretail --profiles-dir docker/dbt
-dbt build --project-dir dbt_nexaretail --profiles-dir docker/dbt
+docker compose up -d postgres
+docker compose build dbt
+docker compose run --rm dbt debug
+docker compose run --rm dbt build
 ```
 
-Ces commandes sont des exemples de reproduction, **pas une affirmation qu'elles ont été relancées lors du nettoyage documentaire**. Ne pas les lancer si PostgreSQL ou Docker n'est pas disponible.
+Le service dbt est associé au profil Compose `tools` ; ces commandes explicites ciblent ce service. Les schémas `raw` et `clean` doivent être importés avant `dbt build`.
+
+Ces commandes sont des indications de reproduction, **pas une affirmation qu'elles ont été relancées pendant le nettoyage**. Voir également [le guide Docker](../docker/README.md).
 
 ## Validation et limites
 
