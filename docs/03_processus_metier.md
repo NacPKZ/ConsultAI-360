@@ -57,6 +57,53 @@ flowchart LR
 
 
 
+## Processus détaillés et points de contrôle
+
+### 1. Vente et constitution de la commande
+
+La commande regroupe un événement d'achat. Les lignes de commande décrivent les articles et quantités. Le modèle analytique doit préserver cette distinction pour éviter de multiplier le montant d'une commande lors d'une jointure avec les lignes.
+
+**Contrôles :** identifiant de commande, présence des articles, cohérence des quantités, canal, magasin éventuel et date de transaction.
+
+### 2. Paiement et rapprochement
+
+Le paiement constitue un événement financier distinct. Une commande peut être associée à plusieurs paiements. Il faut donc choisir explicitement si l'analyse porte sur les montants commandés, payés ou effectivement encaissés.
+
+**Contrôles :** référence commande, statut de paiement, montants, paiements sans commande et pluralité des paiements.
+
+### 3. Stock et préparation
+
+Le stock renseigne la disponibilité théorique des produits. Il ne prouve pas à lui seul qu'un article a été préparé ni qu'un entrepôt a respecté un délai. Les conclusions doivent se limiter aux champs réellement disponibles.
+
+**Contrôles :** référence produit, quantités, cohérence des stocks et période de référence.
+
+### 4. Expédition et livraison
+
+Le suivi logistique s'appuie sur les dates d'expédition, de livraison prévue et de livraison réelle. Un retard ne peut être évalué que si les dates requises sont présentes et interprétables.
+
+**Contrôles :** dates impossibles, références orphelines, modes d'expédition, doublons d'événements et couverture des livraisons.
+
+### 5. Réclamation et traitement
+
+Les réclamations sont des événements de service client. Une commande peut comporter plusieurs réclamations. La question « combien de tickets ? » diffère donc de « combien de commandes touchées ? ».
+
+**Contrôles :** identifiant de ticket, commande associée, motif, statut et éventuelles dates de résolution.
+
+## Matrice de rapprochement
+
+| Source A | Source B | Risque de jointure | Contrôle |
+|---|---|---|---|
+| Commandes | Lignes de commande | Multiplication des commandes | Compter les commandes distinctes |
+| Commandes | Paiements | Multiplication des montants | Agréger les paiements avant rapprochement si nécessaire |
+| Commandes | Expéditions | Plusieurs événements par commande | Définir le grain expédition |
+| Commandes | Réclamations | Plusieurs tickets par commande | Distinguer tickets et commandes concernées |
+
+## Exemple d'incident de bout en bout
+
+Une commande apparaît dans les ventes, mais la référence client est invalide. La commande reste visible dans le CA global. Elle est placée dans une catégorie non attribuable pour l'analyse client. Un contrôle d'intégrité détecte l'incident ; le dashboard affiche la couverture de segmentation ; une correction n'est appliquée que si une référence fiable est retrouvée.
+
+Cette approche évite qu'une anomalie de référentiel fasse disparaître une activité commerciale de l'analyse.
+
 ## Lecture du parcours omnicanal
 
 ```mermaid
