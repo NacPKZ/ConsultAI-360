@@ -1,4 +1,4 @@
-# 04 · Dictionnaire des indicateurs — Référentiel KPI
+# 04 · Dictionnaire des indicateurs : Référentiel KPI
 
 > **CONSULTAI 360 / CONTRAT DE MESURE**  
 > **Version :** référentiel enrichi · **Périmètre :** NexaRetail synthétique, expérience ML DataCo indépendante, ROI hypothétique.
