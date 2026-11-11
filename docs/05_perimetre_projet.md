@@ -1,4 +1,4 @@
-# 05 · Périmètre de mission — Inclus, exclus, conditions
+# 05 · Périmètre de mission : Inclus, exclus, conditions
 
 > **CONSULTAI 360 / PROJECT SCOPE**  
 > **Statut :** cadrage initial (180 h prévisionnelles) enrichi d'une lecture des livrables documentés.  
