@@ -2,8 +2,8 @@
 
 > **Projet de conseil Data & IA — cas d'étude sur données synthétiques.** Conception d'une chaîne analytique PostgreSQL, simulation de dégradations de données, mesure de leur impact sur les KPI et préparation de recommandations business.
 
-**État :** génération des scénarios, SQL/Data Warehouse et transformations dbt réalisés ; BI, ML, NLP, IA et ROI restent à développer ou documenter selon leur avancement effectif.
-**Technologies mises en œuvre :** Python 3.12, PostgreSQL 18, SQL, dbt Core 1.11.0, dbt-postgres 1.11.0, DBeaver, VS Code, Git/GitHub.
+**État (novembre 2026) :** chaîne SQL/Data Warehouse et dbt documentée ; dashboard Power BI à sept pages, expérience ML DataCo, API FastAPI, assistant Streamlit/Ollama, scénarios ROI et rapport final de conseil documentés. **Attention :** résultats de simulation, validations de composants à des dates différentes et reproductibilité intégrale non démontrée.
+**Technologies mises en œuvre :** Python 3.12, PostgreSQL 18, SQL, dbt Core 1.11.0, dbt-postgres 1.11.0, Power BI/DAX, scikit-learn, FastAPI, Streamlit, Ollama, DBeaver, VS Code, Git/GitHub.
 **Périmètre :** NexaRetail, entreprise fictive ; aucune conclusion ne porte sur une entreprise réelle.
 
 ## Livrables et rapports
@@ -14,11 +14,11 @@
 | Livrable | Statut | Accès |
 |---|---|---|
 | **01 — Data Engineering, Data Quality & Business Analytics** | Disponible | [Consulter le rapport PDF](rapports/01_Rapport_Data_Engineering_Analytics.pdf) |
-| 02 — Business Intelligence & Data Visualisation | À venir | — |
-| 03 — Machine Learning & évaluation | À venir | — |
-| 04 — Synthèse finale de conseil Data & IA | À venir | — |
+| 02 — Business Intelligence & Data Visualisation | Documenté | [Documentation Power BI](docs/10_powerbi_final.md) |
+| 03 — Machine Learning & évaluation | Documenté | [Rapport ML final](docs/08_ml_final_report.md) |
+| 04 — Synthèse finale de conseil Data & IA | Disponible | [Rapport final](docs/12_rapport_final.md) |
 
-Les livrables sont centralisés dans le dossier [`rapports/`](rapports/). Les analyses et les scripts restent accessibles dans les dossiers techniques du dépôt.
+Le rapport Data Engineering PDF est conservé dans [`rapports/`](rapports/). Le rapport final de conseil et les documentations de composants sont dans [`docs/`](docs/). Les scripts restent dans leurs dossiers techniques. [Bilan de validation et reproductibilité](docs/11_validation_report.md).
 
 ## Résumé exécutif
 
@@ -56,7 +56,7 @@ Data Warehouse dimensionnel (dw)
 KPI SQL, analyse d'impact, contrôle de qualité
             |
             v
-Exploitation BI / recommandations (travaux ultérieurs)
+Exploitation BI / recommandations (Power BI, API et Streamlit documentés)
 ```
 
 - **RAW :** 1 006 394 lignes ORIGINAL ; 1 011 524 LOW ; 1 032 042 MEDIUM ; 1 057 689 CRITICAL.
@@ -202,7 +202,7 @@ dbt docs serve --project-dir .\dbt_nexaretail --port 8080
 - Les tests de volumes ne suffisent pas à valider la justesse métier de chaque enregistrement.
 - Les analyses par client, produit ou mois doivent afficher le taux de couverture et les lignes non attribuables.
 - Les performances ne sont pas comparées à un benchmark préalable.
-- À poursuivre : tableau de bord BI, analyses avancées, estimation de ROI et recommandations, selon la roadmap globale. La documentation métier des deux marts dbt est disponible.
+- Les travaux BI, ML, ROI et recommandations sont documentés dans les livrables ultérieurs ; les validations et limites sont détaillées dans les rapports correspondants. La documentation métier des deux marts dbt est disponible.
 
 ## Choix méthodologiques — Données textuelles
 
