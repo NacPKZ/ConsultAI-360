@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
   "name": "a6387f3483759e52044e",
-  "displayName": "06 - Imapct financier & ROI",
+  "displayName": "06 - Impact financier & ROI",
   "displayOption": "FitToPage",
   "height": 1080,
   "width": 1920,
