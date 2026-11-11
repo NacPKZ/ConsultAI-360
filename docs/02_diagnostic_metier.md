@@ -53,78 +53,7 @@ Le risque majeur pour NexaRetail n'est pas uniquement la présence d'erreurs : c
 | Analyse commerciale | Décisions sur des périmètres incomplets | Mesures contextualisées | **P2 : Pilotage** |
 | IA sans gouvernance | Recommandations non justifiées | Assistant contrôlé, pilote et ROI | **P3 : Expérimentation** |
 
-> [!NOTE]
-> Les problèmes organisationnels décrits ici sont des **hypothèses de cadrage**. Les anomalies chiffrées proviennent, elles, des jeux de données synthétiques générés dans le projet.
 
-## 1. Hypothèses et mécanismes de risque
-
-### DQ-01 | Qualité des données
-
-**Symptômes envisagés :** identifiants absents, références invalides, dates manquantes, doublons et incohérences.
-
-**Mécanisme :** si une commande n'est plus associable à son client, le montant peut rester présent dans le total global tout en disparaissant d'une analyse par segment client. La différence n'est pas nécessairement une perte commerciale ; c'est une **perte de capacité d'attribution**.
-
-**Contrôles proposés :** complétude par champ, intégrité référentielle, volumes par scénario, montants non attribuables, conservation des lignes et journalisation des anomalies.
-
-**Critère de décision :** publier chaque KPI avec son périmètre, sa couverture et ses exclusions.
-
-### BI-02 | Reporting fragmenté
-
-**Symptômes envisagés :** multiples fichiers Excel, extractions ponctuelles, définitions concurrentes.
-
-**Mécanisme :** une même expression (« chiffre d'affaires ») peut désigner des sommes de commandes, de lignes de vente ou de paiements, pourtant non interchangeables.
-
-**Réponse :** modèle dimensionnel, règles de jointure incluant le scénario, dictionnaire KPI, dashboard de pilotage.
-
-**Critère de décision :** une mesure n'est publiable que si sa source, sa granularité et ses filtres sont explicites.
-
-### LOG-03 | Livraison et qualité de service
-
-**Symptômes envisagés :** retards, délais difficiles à expliquer, données de livraison incomplètes.
-
-**Mécanisme :** calculer un taux de retard sur toutes les commandes, y compris celles sans date de livraison exploitable, peut masquer l'incertitude.
-
-**Réponse :** suivre séparément **expéditions évaluables**, **retards** et **enregistrements non évaluables** ; comparer les modes de livraison sans conclure automatiquement à une causalité.
-
-**Critère de décision :** ne pas confondre corrélation, prédiction et levier opérationnel démontré.
-
-### COM-04 | Exploitation commerciale
-
-**Symptômes envisagés :** faible visibilité consolidée sur les ventes, les canaux et les magasins.
-
-**Mécanisme :** une variation de KPI peut provenir d'un changement réel d'activité, d'une donnée manquante ou d'un filtre différent.
-
-**Réponse :** analyses par canal et magasin, comparaisons entre scénarios, rapprochements avec les montants de référence.
-
-### IA-05 | Expérimentation sans gouvernance
-
-**Symptômes envisagés :** attente de réponses automatiques, bénéfices difficiles à mesurer.
-
-**Mécanisme :** un assistant génératif peut formuler un commentaire plausible mais faux ; un modèle entraîné sur DataCo ne constitue pas une preuve de performance sur NexaRetail.
-
-**Réponse :** calculs réalisés par SQL/Python, assistant limité à l'interprétation, évaluation ML indépendante, scénarios financiers explicites et décision de pilote conditionnelle.
-
-## 2. Éléments observés dans la simulation
-
-| Observation documentée | Lecture correcte | Lecture à éviter |
-|:--|:--|:--|
-| 120 000 commandes dans ORIGINAL | Base de comparaison synthétique | Volume d'une entreprise réelle |
-| CA ORIGINAL : **72 056 406,60 €** | Indicateur de référence simulé | Chiffre d'affaires audité |
-| CA CRITICAL : **64 901 512,00 €** | Montant mesuré dans le scénario dégradé | Encaissements réels |
-| Écart CRITICAL : **−7 154 894,60 €** | Sous-estimation simulée du CA mesuré | « 7,15 M€ de ventes perdues » |
-| 19 200 commandes sans date, tous scénarios dégradés confondus | Risque de sous-couverture des analyses temporelles | Commandes inexistantes |
-
-Ces valeurs sont reprises du [README de référence](../README.md). Le détail des transformations, scénarios et limites est présenté dans le [rapport final](12_rapport_final_conseil.md).
-
-## 3. Diagnostic des causes : hypothèses à tester
-
-| Domaine | Cause possible | Test ou preuve attendue | Responsable métier fictif |
-|:--|:--|:--|:--|
-| Référentiel | Identifiants incohérents | Anti-jointures et contrôles de clés | Data / Finance |
-| Temporalité | Dates absentes ou invalides | Taux de couverture par période | Logistique |
-| Consolidation | Définitions divergentes | Rapprochement SQL ↔ BI | Finance / Commercial |
-| Explicabilité | Granularités mélangées | Vérification des tables de faits | Data |
-| Adoption IA | Confiance excessive dans les réponses | Tests, garde-fous, revue humaine | Direction / Data |
 
 > [!CAUTION]
 > Les causes ci-dessus ne sont **pas établies par une enquête de terrain**. Elles constituent des pistes de diagnostic à vérifier dans une mission réelle.
@@ -165,37 +94,25 @@ Cette séquence décrit une **dépendance de décision**, pas une preuve que cha
 **Suite du dossier :** [Cartographie des processus](03_processus_metier.md) | [Dictionnaire des KPI](04_dictionnaire_indicateurs.md) | [Rapport final de conseil](12_rapport_final_conseil.md)
 
 
+
+## Comment lire un diagnostic
+
+```mermaid
+flowchart TD
+ A["Observation : anomalie détectée"] --> B["Hypothèse de cause"]
+ B --> C["Contrôle ciblé"]
+ C --> D{"Cause confirmée ?"}
+ D -->|Oui| E["Correction et mesure d'impact"]
+ D -->|Non| F["Nouvelle hypothèse"]
+ F --> C
+```
+
+<details><summary><strong>Exemple de distinction entre constat et hypothèse</strong></summary>
+
+Un taux de valeurs manquantes est mesurable. Une mauvaise synchronisation entre systèmes peut l'expliquer, mais cette cause doit être testée. Dans le cas NexaRetail, l'organisation est fictive : aucune enquête terrain n'a confirmé une cause organisationnelle.
+
+</details>
+
 ---
 
-## Ce que cette partie m'a appris
-
-> [!NOTE]
-> **Notion clé : Diagnostic, cause et conséquence**
-> Un taux de nulls est un constat. Une mauvaise intégration entre systèmes est une cause possible, non prouvée. Une segmentation incomplète est une conséquence analytique potentielle.
-
-> [!TIP]
-> **Exercice pratique**
-> Pour chaque anomalie, rédiger séparément observation, hypothèse causale, test et impact.
-
-> [!WARNING]
-> **Erreur à éviter**
-> Présenter une hypothèse d'organisation comme une découverte issue des données synthétiques.
-
-> [!IMPORTANT]
-> **À retenir pour un entretien**
-> Une recommandation solide commence par la séparation entre preuve et interprétation.
-
-### Passer de la théorie à la pratique
-
-| En situation professionnelle | Réflexe recommandé |
-|---|---|
-| Avant de développer | Clarifier la question métier et les données disponibles |
-| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
-| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
-| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
-
-### Navigation dans le dossier
-
-[Précédent : 01 Contexte métier](01_contexte_metier.md) | **02 / 12 : Diagnostic métier** | [Suivant : 03 Processus métier](03_processus_metier.md)
-
-[Retour au sommaire documentaire](INDEX.md)
+[Chapitre précédent](01_contexte_metier.md) | [Sommaire](INDEX.md) | [Chapitre suivant](03_processus_metier.md)
