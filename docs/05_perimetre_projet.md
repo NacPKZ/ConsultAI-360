@@ -1,5 +1,14 @@
 # 05 : Périmètre de mission : Inclus, exclus, conditions
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 > **CONSULTAI 360 / PROJECT SCOPE**  
 > **Statut :** cadrage initial (180 h prévisionnelles) enrichi d'une lecture des livrables documentés.  
 > **Principe :** distinguer **intention**, **prototype réalisé** et **solution déployée**.
@@ -127,3 +136,39 @@ Le périmètre est volontairement **large en démonstration de compétences** et
 ---
 
 **Suite :** [06 | Charte](06_charte_projet.md) | [Rapport final](12_rapport_final_conseil.md)
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Prototype, pilote et production**
+> Un prototype démontre une possibilité technique. Un pilote mesure l'utilité sur un périmètre réel et limité. La production exige des garanties d'exploitation, de sécurité et de responsabilité.
+
+> [!TIP]
+> **Exercice pratique**
+> Définir pour chaque composant son niveau de maturité et la preuve nécessaire pour franchir l'étape suivante.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Décrire un modèle testé sur DataCo comme déjà opérationnel sur NexaRetail.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> Le niveau de preuve doit correspondre à la promesse formulée.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Précédent : 04 Dictionnaire KPI](04_dictionnaire_indicateurs.md) | **05 / 12 : Périmètre** | [Suivant : 06 Charte de projet](06_charte_projet.md)
+
+[Retour au sommaire documentaire](INDEX.md)
