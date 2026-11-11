@@ -112,8 +112,8 @@ ConsultAI 360 relie Data Engineering, Data Quality, Analytics, BI, Machine Learn
 
 ## 11. Références internes
 - [Rapport Data Engineering & Analytics](../rapports/01_Rapport_Data_Engineering_Analytics.pdf)
-- [Rapport ML final](08_ml_final_report.md)
-- [Documentation API](09_api.md)
-- [Documentation Power BI](10_powerbi_final.md)
-- [Bilan de validation et reproductibilité](11_validation_report.md)
+- [Rapport ML final](08_rapport_final_prediction.md)
+- [Documentation API](09_documentation_api.md)
+- [Documentation Power BI](10_rapport_power_bi.md)
+- [Bilan de validation et reproductibilité](11_validation_reproductibilite.md)
 - [README du dépôt](../README.md)
