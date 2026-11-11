@@ -153,37 +153,24 @@ Le rapport suit une identité **bleu marine, doré et fond clair**, avec navigat
 Confirmer les sources actives, le modèle de relations, les mesures DAX, les filtres de scénario et la concordance des exports ML. Ces contrôles sont proposés comme **checklist documentaire**, sans prétendre qu'ils ont été réexécutés aujourd'hui.
 
 
+
+## Trois sources, trois lectures
+
+```mermaid
+flowchart LR
+ N["NexaRetail synthétique"] --> A["Pages 1 à 4"]
+ D["DataCo public"] --> B["Page 5"]
+ R["Hypothèses financières"] --> C["Pages 6 et 7"]
+```
+
+<details><summary><strong>Pourquoi ne pas fusionner ces résultats ?</strong></summary>
+
+Les pages commerciales décrivent NexaRetail, la page prédictive restitue une expérience indépendante sur DataCo et les pages financières utilisent des hypothèses de simulation. Ces ensembles ne représentent pas la même population ni le même type de preuve.
+
+</details>
+
+[Voir aussi la démonstration Streamlit](https://consultai-360.streamlit.app/)
+
 ---
 
-## Ce que cette partie m'a appris
-
-> [!NOTE]
-> **Notion clé : Mesure DAX et contexte de filtre**
-> Une mesure Power BI se recalcule selon le contexte de filtre. Une table calculée est matérialisée au rafraîchissement. La distinction influence les cartes KPI, les scénarios et les comparaisons.
-
-> [!TIP]
-> **Exercice pratique**
-> Vérifier que le changement de scénario modifie les visuels attendus sans mélanger les populations NexaRetail, DataCo et ROI.
-
-> [!WARNING]
-> **Erreur à éviter**
-> Comparer deux cartes issues de granularités ou filtres différents sans l'indiquer.
-
-> [!IMPORTANT]
-> **À retenir pour un entretien**
-> La qualité d'un dashboard dépend autant du modèle sémantique que de son esthétique.
-
-### Passer de la théorie à la pratique
-
-| En situation professionnelle | Réflexe recommandé |
-|---|---|
-| Avant de développer | Clarifier la question métier et les données disponibles |
-| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
-| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
-| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
-
-### Navigation dans le dossier
-
-[Précédent : 09 API et Streamlit](09_documentation_api.md) | **10 / 12 : Power BI** | [Suivant : 11 Validation](11_validation_reproductibilite.md)
-
-[Retour au sommaire documentaire](INDEX.md)
+[Chapitre précédent](09_documentation_api.md) | [Sommaire](INDEX.md) | [Chapitre suivant](11_validation_reproductibilite.md)
