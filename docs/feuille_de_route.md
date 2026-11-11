@@ -1,12 +1,16 @@
-# ConsultAI 360 : Roadmap du projet
+# ConsultAI 360 : feuille de route et bilan d'évolution
 
 **Entreprise :** NexaRetail (fictive)
 
 **Mission :** Transformation Data & Intelligence Artificielle
 
-**Durée prévisionnelle :** 180 heures
+**Durée prévisionnelle initiale :** 180 heures (estimation, pas temps effectivement chronométré)
 
-**Nature du document :** Feuille de route de référence
+**Nature du document :** Plan initial conservé et bilan rétrospectif documenté
+
+**Lecture :** les sections 1 à 16 décrivent le cadrage prévisionnel, et non un journal d'exécution. Les sections 17 à 24 confrontent ce cadrage aux livrables et aux preuves disponibles.
+
+[Sommaire documentaire](INDEX.md) | [Rapport de conseil](12_rapport_final_conseil.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
 
 ## 1. Présentation du projet
 
@@ -34,7 +38,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 | 12 | Rapport, présentation et GitHub | 22 h |
 | **Total** | | **180 h** |
 
-## 3. Phase 1 — Cadrage métier
+## 3. Phase 1 : Cadrage métier
 
 **Objectif :** définir les besoins de NexaRetail et les limites de la mission.
 
@@ -48,7 +52,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** documents de cadrage, diagnostic métier, dictionnaire des KPI et charte de projet.
 
-## 4. Phase 2 — Génération des données synthétiques
+## 4. Phase 2 : Génération des données synthétiques
 
 **Objectif :** construire un environnement de données réaliste et reproductible.
 
@@ -64,7 +68,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** jeux de données synthétiques, scripts Python et documentation technique.
 
-## 5. Phase 3 — Injection d'anomalies et Excel
+## 5. Phase 3 : Injection d'anomalies et Excel
 
 **Objectif :** simuler des problèmes de qualité des données et établir un diagnostic initial.
 
@@ -78,7 +82,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** données corrompues, registre des anomalies et rapport de diagnostic.
 
-## 6. Phase 4 — PostgreSQL et qualité des données
+## 6. Phase 4 : PostgreSQL et qualité des données
 
 **Objectif :** centraliser, contrôler et fiabiliser les données.
 
@@ -93,7 +97,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** base PostgreSQL, scripts SQL et rapport de qualité.
 
-## 7. Phase 5 — Data Warehouse et dbt
+## 7. Phase 5 : Data Warehouse et dbt
 
 **Objectif :** structurer les données pour les analyses décisionnelles.
 
@@ -107,7 +111,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** Data Warehouse, projet dbt et documentation du modèle.
 
-## 8. Phase 6 — Power BI
+## 8. Phase 6 : Power BI
 
 **Objectif :** développer un environnement de pilotage interactif.
 
@@ -125,7 +129,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** rapport Power BI interactif et dictionnaire des mesures.
 
-## 9. Phase 7 — Machine Learning
+## 9. Phase 7 : Machine Learning
 
 **Objectif :** expérimenter une approche prédictive sur des données publiques adaptées.
 
@@ -141,7 +145,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** notebooks, modèles évalués et rapport Machine Learning.
 
-## 10. Phase 8 — Assistant IA et Streamlit
+## 10. Phase 8 : Assistant IA et Streamlit
 
 **Objectif :** développer une interface d'analyse assistée par IA.
 
@@ -157,7 +161,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** application Streamlit, assistant IA et rapport d'évaluation.
 
-## 11. Phase 9 — Analyse financière et ROI
+## 11. Phase 9 : Analyse financière et ROI
 
 **Objectif :** estimer la valeur économique de la transformation.
 
@@ -171,7 +175,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** modèle financier et rapport d'analyse du ROI.
 
-## 12. Phase 10 — Stratégie de transformation
+## 12. Phase 10 : Stratégie de transformation
 
 **Objectif :** formuler une stratégie Data & IA adaptée aux besoins de NexaRetail.
 
@@ -184,7 +188,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** stratégie de transformation et plan d'action.
 
-## 13. Phase 11 — Tests et documentation
+## 13. Phase 11 : Tests et documentation
 
 **Objectif :** garantir la cohérence et la reproductibilité des résultats.
 
@@ -200,7 +204,7 @@ Il comprend également une évaluation financière et des recommandations strat�
 
 **Livrables :** rapports de tests et documentation consolidée.
 
-## 14. Phase 12 — Rapport et finalisation
+## 14. Phase 12 : Rapport et finalisation
 
 **Objectif :** présenter les résultats sous une forme professionnelle.
 
@@ -236,3 +240,139 @@ Cette feuille de route constitue le cadre méthodologique de ConsultAI 360.
 Elle définit les activités, les objectifs et les livrables des douze phases du projet.
 
 Elle est destinée à rester un document de référence stable, indépendamment de l'avancement des travaux.
+
+
+---
+
+## 17. Du plan initial au périmètre effectivement documenté
+
+Le tableau des 180 heures ci-dessus est un **budget de temps initial**. Il ne permet pas de calculer le temps réel passé sur le projet. Plusieurs travaux ont évolué pendant la réalisation : le dashboard s'est étendu, le volet API a été formalisé, et les preuves de reproductibilité ont été distinguées des résultats historiques.
+
+| Axe | Intention initiale | Évolution documentée | Limite à garder visible |
+|---|---|---|---|
+| Données | Générer et dégrader des données fictives | Quatre scénarios NexaRetail : ORIGINAL, LOW, MEDIUM, CRITICAL | Simulation, pas observation client |
+| Stockage et qualité | PostgreSQL et contrôles SQL | Structuration RAW, CLEAN et DW, rapprochements et règles de qualité | La couverture d'un KPI peut varier selon le scénario |
+| Transformations | Construire un projet dbt | Bilan historique de 16 modèles et 37 tests réussis | Reconstruction sur machine vierge non démontrée |
+| BI | Quatre pages | Rapport décrit sur **sept pages** | Contrôler le fichier Power BI avant de certifier son état actuel |
+| ML | Expérience prédictive sur données publiques | DataCo, risque de retard, baseline et Random Forest | Modèle non validé sur NexaRetail |
+| Assistant | Streamlit et commentaires IA | Fonctions KPI autorisées, contrôles de commentaire, interface de démonstration | Disponibilité cloud et connexion aux sources à vérifier séparément |
+| API | Non isolée dans les douze phases | Documentation de routes FastAPI locales | API publique non démontrée |
+| Finance | Trois scénarios ROI | Scénarios prudent, central et optimiste | Hypothèses de simulation, pas gains réalisés |
+| Stratégie | Plan de transformation | Recommandation de pilote limité de 90 jours | Production immédiate non recommandée |
+
+## 18. Carte de la chaîne de valeur
+
+```mermaid
+flowchart TD
+ A["Cadrage et définitions KPI"] --> B["Génération NexaRetail"]
+ B --> C["Scénarios et anomalies"]
+ C --> D["PostgreSQL : RAW / CLEAN / DW"]
+ D --> E["Transformations et contrôles dbt"]
+ E --> F["Power BI : pilotage"]
+ D --> G["Assistant : KPI et interprétation"]
+ H["DataCo : données publiques"] --> I["Évaluation ML indépendante"]
+ F --> J["Analyse financière et stratégie"]
+ G --> J
+ I --> J
+ J --> K["Pilote proposé de 90 jours"]
+```
+
+La branche DataCo reste **distincte** de la chaîne transactionnelle NexaRetail. Le diagramme représente la logique de restitution du projet, sans affirmer une connexion technique directe entre toutes les briques.
+
+## 19. Les quatre scénarios NexaRetail
+
+| Scénario | Volume RAW documenté, toutes tables confondues | Usage analytique |
+|---|---:|---|
+| ORIGINAL | 1 006 394 lignes | Référence synthétique initiale |
+| LOW | 1 011 524 lignes | Perturbations limitées |
+| MEDIUM | 1 032 042 lignes | Perturbations intermédiaires |
+| CRITICAL | 1 057 689 lignes | Perturbations plus importantes |
+
+Ces volumes agrègent les lignes de dix tables et ne sont donc **pas des nombres de commandes**. Les scénarios servent à tester la résistance des traitements et des KPI à la dégradation des données.
+
+### Exemple de lecture : scénario MEDIUM
+
+Dans le bilan PostgreSQL documenté, **120 000 commandes** sont recensées, dont **114 000** avec montant renseigné. La complétude des montants est donc **95 %**. Le CA connu atteint **68 448 127,94 €** et le panier moyen sur les seules commandes à montant renseigné est d'environ **600,42 €**.
+
+Ce CA connu ne doit pas être interprété comme un chiffre d'affaires définitivement perdu par rapport au scénario ORIGINAL. Il peut refléter une dégradation de la mesure liée aux données manquantes.
+
+## 20. Les sept pages du rapport Power BI
+
+| Page | Question principale | Source ou précaution |
+|---|---|---|
+| 01. Vue générale | Quels sont les KPI de pilotage ? | NexaRetail et scénario sélectionné |
+| 02. Performance commerciale | Où se concentre l'activité ? | Ventes, canaux et magasins |
+| 03. Performance logistique | Quels retards sont mesurables ? | Expéditions évaluables |
+| 04. Qualité des données | Quels défauts dégradent les analyses ? | Complétude et intégrité |
+| 05. Analyse IA et prédictions | Que révèle l'expérience prédictive ? | **DataCo**, non NexaRetail |
+| 06. Impact financier et ROI | Quels bénéfices sont envisageables ? | Hypothèses financières |
+| 07. Recommandations stratégiques | Quelles actions prioriser ? | Décision et conditions de pilote |
+
+Le passage de quatre à sept pages est une évolution de périmètre, pas une erreur à effacer du planning initial. Les détails de conception sont consignés dans [le rapport Power BI](10_rapport_power_bi.md).
+
+## 21. Protocole ML et résultats à interpréter
+
+L'expérience DataCo repose sur une cible binaire de risque de retard. Le dataset source comporte **180 519 lignes d'articles** pour **65 752 commandes distinctes**. L'évaluation doit préserver la séparation des commandes entre les partitions et exclure les variables révélant l'issue après le moment de prédiction.
+
+| Mesure rapportée pour le Random Forest | Valeur arrondie |
+|---|---:|
+| ROC-AUC | 76,05 % |
+| Précision | 65,88 % |
+| Rappel | 77,66 % |
+| F1 | 71,29 % |
+| Seuil de décision | 0,40 |
+
+Un meilleur rappel peut se payer par davantage de fausses alertes. Aucun résultat sur DataCo ne constitue une validation de performance sur les commandes NexaRetail. Consulter [la problématique](07_problematique_prediction.md) et [le rapport ML](08_rapport_final_prediction.md).
+
+## 22. Hypothèses financières et décision
+
+| Scénario simulé | ROI présenté |
+|---|---:|
+| Prudent | 36,5 % |
+| Central | 110 % |
+| Optimiste | 194 % |
+
+Ces pourcentages sont des **estimations conditionnelles** : ils dépendent des hypothèses de gains et de coûts retenues. Ils ne sont ni des rendements observés ni des promesses de rentabilité. Certains coûts récurrents et éléments fiscaux ne sont pas nécessairement intégrés au périmètre de calcul.
+
+```mermaid
+flowchart LR
+ A["Hypothèses de valeur"] --> B["Pilote de 90 jours"]
+ B --> C["Mesure des coûts et effets"]
+ C --> D{"Valeur démontrée ?"}
+ D -->|Oui| E["Étudier une extension"]
+ D -->|Non| F["Corriger ou arrêter"]
+```
+
+La recommandation du dossier est **GO pour un pilote instrumenté**, mais **NO-GO pour une mise en production immédiate**. Le [rapport final de conseil](12_rapport_final_conseil.md) développe les critères de décision.
+
+## 23. Journal des arbitrages et difficultés
+
+| Situation | Risque | Réponse méthodologique |
+|---|---|---|
+| Les mesures commerciales varient selon les scénarios | Confondre absence de mesure et perte de ventes | Publier complétude, dénominateur et périmètre |
+| Les commandes et les expéditions ont des grains différents | Doubler des montants lors des jointures | Séparer les faits et contrôler les cardinalités |
+| La première version BI ne couvrait pas toutes les analyses | Réduire le pilotage à des cartes générales | Étendre le rapport et distinguer ses sources |
+| Le modèle ML utilise un dataset public distinct | Suggérer une performance sur l'entreprise fictive | Étiqueter DataCo et interdire l'extrapolation |
+| Le modèle génératif peut produire des formulations non vérifiées | Mélanger chiffres calculés et texte généré | Garder les calculs déterministes et contrôler le commentaire |
+| Les contrôles ont été exécutés à des moments différents | Présenter un bilan historique comme un test actuel | Dater les preuves et décrire leurs limites |
+| L'environnement Docker n'a pas été intégralement revalidé | Surpromettre la reproductibilité | Documenter prérequis et incidents, sans inventer de succès |
+
+### Une règle de restitution
+
+Pour chaque décision technique, conserver : **la question initiale, les options considérées, le choix effectué, le contrôle appliqué et ce qui reste non démontré**. Cette structure permet de défendre le projet en entretien sans transformer une simulation en cas client réel.
+
+## 24. Parcours de lecture et vérifications restantes
+
+| Pour comprendre... | Document à consulter |
+|---|---|
+| Le problème métier | [01. Contexte](01_contexte_metier.md) et [02. Diagnostic](02_diagnostic_metier.md) |
+| Le parcours des données | [03. Processus](03_processus_metier.md) et [Schéma relationnel](modele_donnees/01_schema_relationnel.md) |
+| Les définitions de KPI | [04. Dictionnaire](04_dictionnaire_indicateurs.md) |
+| Le périmètre et la gouvernance | [05. Périmètre](05_perimetre_projet.md) et [06. Charte](06_charte_projet.md) |
+| La prédiction | [07. Problématique](07_problematique_prediction.md) et [08. Résultats](08_rapport_final_prediction.md) |
+| L'interface et l'API | [09. Documentation API](09_documentation_api.md) et [Guide assistant](guides/installation_assistant_ia.md) |
+| Le reporting | [10. Power BI](10_rapport_power_bi.md) |
+| La qualité des preuves | [11. Validation](11_validation_reproductibilite.md) |
+| La décision de conseil | [12. Rapport final](12_rapport_final_conseil.md) |
+
+Les derniers travaux de publication concernent la reconstruction de [l'index documentaire](INDEX.md) et du README principal. Une vérification technique de bout en bout sur un environnement neuf reste une démarche distincte de cette révision documentaire.
