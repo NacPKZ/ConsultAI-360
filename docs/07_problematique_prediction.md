@@ -99,37 +99,24 @@ DataCo contient **180 519 lignes d'articles** pour **65 752 commandes uniques**.
 Une validation sur une autre période, une analyse de calibration, des coûts d'intervention, un suivi des dérives et une validation sur la population cible seraient nécessaires. La cible DataCo ne doit jamais être présentée comme un retard final de livraison chez NexaRetail.
 
 
+
+## Disponibilité des variables
+
+```mermaid
+flowchart TD
+ A["Commande créée"] --> B["Variables disponibles immédiatement"]
+ A --> C["Événements futurs"]
+ B --> D["Modèle de risque"]
+ C --> E["Variables exclues de l'entraînement"]
+ D --> F["Score et éventuelle alerte"]
+```
+
+<details><summary><strong>Le piège de la fuite de données</strong></summary>
+
+Une durée d'expédition réelle ou un statut de livraison constaté après la commande ne peut pas servir à prédire un risque au moment de la commande. Le modèle paraîtrait performant en utilisant une information inaccessible lors de la décision.
+
+</details>
+
 ---
 
-## Ce que cette partie m'a appris
-
-> [!NOTE]
-> **Notion clé : Fuite de données en Machine Learning**
-> Une variable qui révèle une information postérieure au moment de prédiction peut produire un modèle artificiellement performant. Le moment de disponibilité de chaque variable est déterminant.
-
-> [!TIP]
-> **Exercice pratique**
-> Construire un tableau des variables disponibles à la commande et de celles connues seulement après l'expédition.
-
-> [!WARNING]
-> **Erreur à éviter**
-> Conserver la durée réelle d'expédition pour prédire un retard au moment de la commande.
-
-> [!IMPORTANT]
-> **À retenir pour un entretien**
-> La qualité d'un protocole ML dépend autant de sa temporalité que de son algorithme.
-
-### Passer de la théorie à la pratique
-
-| En situation professionnelle | Réflexe recommandé |
-|---|---|
-| Avant de développer | Clarifier la question métier et les données disponibles |
-| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
-| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
-| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
-
-### Navigation dans le dossier
-
-[Précédent : 06 Charte de projet](06_charte_projet.md) | **07 / 12 : Problématique ML** | [Suivant : 08 Résultats ML](08_rapport_final_prediction.md)
-
-[Retour au sommaire documentaire](INDEX.md)
+[Chapitre précédent](06_charte_projet.md) | [Sommaire](INDEX.md) | [Chapitre suivant](08_rapport_final_prediction.md)
