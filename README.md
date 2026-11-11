@@ -421,24 +421,32 @@ Dans le réseau Compose, dbt contacte PostgreSQL via `postgres:5432`. Le port h�
 
 [Guide dbt](dbt_nexaretail/README.md) | [Guide Docker](docker/README.md) | [Guide assistant IA](docs/guides/installation_assistant_ia.md)
 
-## Tests, validation et limites
+## Reproductibilité : que peut-on refaire avec ce dépôt ?
 
-Les preuves sont classées selon leur nature et leur date.
+**La reproductibilité signifie qu'une autre personne peut récupérer le projet, exécuter les traitements et retrouver les résultats annoncés.** Le dépôt fournit le code, les configurations et les explications, mais pas nécessairement toutes les données locales ni un environnement déjà prêt.
 
-| Domaine | Dernière preuve documentée | Ce qu'elle ne démontre pas |
+| Ce que l'on veut refaire | Situation actuelle | Ce qu'il faut en plus |
 |---|---|---|
-| Python, API et assistant | **31 tests réussis le 10/11/2026** | Connexion PostgreSQL réelle pour tous les tests |
-| dbt | **53/53 PASS**, bilan historique | Nouveau build exécuté aujourd'hui |
-| SQL et DW | Contrôles historiques de volumes, sommes et scénarios | Reconstitution intégrale sur un ordinateur vierge |
-| Power BI | Rapport à sept pages documenté | Recalcul visuel et DAX effectué pendant cette publication |
-| ML DataCo | Évaluation finale documentée | Généralisation du modèle à NexaRetail |
-| Streamlit | URL de démonstration communiquée | Disponibilité permanente ou architecture cloud certifiée |
-| Docker | Configuration versionnée | Reconstruction de bout en bout récemment validée |
-| ROI | Trois scénarios calculés | Économies réelles ou rendement constaté |
+| **Lire le code et la documentation** | Accessible directement sur GitHub | Rien |
+| **Lancer les tests Python** | 31 tests réussis le 10/11/2026 | Python et dépendances installées |
+| **Reconstruire PostgreSQL et dbt** | Scripts et configuration disponibles ; 53/53 éléments dbt réussis historiquement | Sources, base, identifiants et environnement opérationnel |
+| **Reproduire les résultats ML** | Code, protocole et métriques documentés | Dataset DataCo, artefacts et versions compatibles |
+| **Ouvrir et actualiser Power BI** | Rapport à sept pages documenté | Fichier complet, connexions et sources disponibles |
+| **Utiliser Streamlit et l'assistant** | Code et URL de démonstration fournis | Services et paramètres adaptés au mode choisi |
+| **Tout reconstruire sur un PC neuf** | **Pas encore validé de bout en bout** | Procédure intégrale testée et entrées disponibles |
 
-**Limites structurantes :** données NexaRetail synthétiques ; DataCo indépendant ; anomalies volontairement conservées ; certains fichiers locaux non distribués ; résultats historiques non systématiquement rejoués ; absence de preuve de déploiement industriel et de reconstruction complète sur machine vierge.
+### En pratique
 
-[Lire le registre complet des validations](docs/11_validation_reproductibilite.md)
+1. **Récupérer le dépôt** et installer les dépendances du composant à tester.
+2. **Préparer les données et la configuration locale** sans publier de mots de passe.
+3. **Exécuter les scripts et les tests** en respectant l'ordre des étapes.
+4. **Comparer les résultats** aux valeurs de référence et documenter les écarts.
+
+**Important :** un test Python réussi ne prouve pas que Power BI, PostgreSQL, Docker et Ollama fonctionnent ensemble. De même, une URL Streamlit ne garantit pas que tous les services locaux sont disponibles dans le cloud.
+
+Les chiffres NexaRetail proviennent de simulations, les métriques ML de DataCo et les ROI d'hypothèses. Ces trois périmètres doivent rester séparés.
+
+[Guide complet de validation et reproductibilité](docs/11_validation_reproductibilite.md) | [Installation technique](docs/guides/organisation_technique.md) | [Guide Docker](docker/README.md)
 
 ## Documentation : choisir son parcours
 
