@@ -1,5 +1,14 @@
 # 04 : Dictionnaire des indicateurs : Référentiel KPI
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 > **CONSULTAI 360 / CONTRAT DE MESURE**  
 > **Version :** référentiel enrichi | **Périmètre :** NexaRetail synthétique, expérience ML DataCo indépendante, ROI hypothétique.
 
@@ -163,3 +172,39 @@ Avant publication, renseigner : **nom**, **question métier**, **formule**, **ta
 ---
 
 **Suite :** [05 | Périmètre](05_perimetre_projet.md) | [06 | Charte de projet](06_charte_projet.md)
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Numérateur, dénominateur et couverture**
+> Un taux de retard doit préciser quelles expéditions sont évaluables. Les enregistrements sans dates suffisantes ne sont ni à temps ni en retard.
+
+> [!TIP]
+> **Exercice pratique**
+> Afficher simultanément le nombre de retards, le nombre d'expéditions évaluables et le taux de couverture.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Améliorer artificiellement un taux en incluant des observations non évaluables au dénominateur.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> Un pourcentage isolé est rarement un indicateur complet.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Précédent : 03 Processus métier](03_processus_metier.md) | **04 / 12 : Dictionnaire KPI** | [Suivant : 05 Périmètre](05_perimetre_projet.md)
+
+[Retour au sommaire documentaire](INDEX.md)
