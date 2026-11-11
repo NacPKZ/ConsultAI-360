@@ -1,5 +1,14 @@
 # 10 : Power BI, lecture métier et conception du dashboard
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 ## 1. Objectif
 
 Concevoir un tableau de bord décisionnel de sept pages permettant d'analyser les performances commerciales, logistiques et la qualité des données, puis de présenter une évaluation de modèle prédictif, des scénarios financiers et des recommandations opérationnelles.
@@ -142,3 +151,39 @@ Le rapport suit une identité **bleu marine, doré et fond clair**, avec navigat
 ### Vérifications à réaliser lors d'une prochaine ouverture du PBIX
 
 Confirmer les sources actives, le modèle de relations, les mesures DAX, les filtres de scénario et la concordance des exports ML. Ces contrôles sont proposés comme **checklist documentaire**, sans prétendre qu'ils ont été réexécutés aujourd'hui.
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Mesure DAX et contexte de filtre**
+> Une mesure Power BI se recalcule selon le contexte de filtre. Une table calculée est matérialisée au rafraîchissement. La distinction influence les cartes KPI, les scénarios et les comparaisons.
+
+> [!TIP]
+> **Exercice pratique**
+> Vérifier que le changement de scénario modifie les visuels attendus sans mélanger les populations NexaRetail, DataCo et ROI.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Comparer deux cartes issues de granularités ou filtres différents sans l'indiquer.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> La qualité d'un dashboard dépend autant du modèle sémantique que de son esthétique.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Précédent : 09 API et Streamlit](09_documentation_api.md) | **10 / 12 : Power BI** | [Suivant : 11 Validation](11_validation_reproductibilite.md)
+
+[Retour au sommaire documentaire](INDEX.md)
