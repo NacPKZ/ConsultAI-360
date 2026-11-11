@@ -139,6 +139,38 @@ Le périmètre est volontairement **large en démonstration de compétences** et
 
 
 
+## Livrables attendus et preuves associées
+
+| Domaine | Livrable concret | Comment le vérifier | Ce qui reste hors preuve |
+|---|---|---|---|
+| Génération | Jeux NexaRetail et scénarios | Comptage, contrôles d'injection | Réalisme statistique universel |
+| Entrepôt | Schémas RAW, CLEAN et DW | Requêtes de rapprochement | Exploitation industrielle |
+| Transformations | Modèles et tests dbt | Journaux historiques | Reconstruction garantie partout |
+| Visualisation | Rapport Power BI | Inspection des pages et mesures | Adoption par de vrais métiers |
+| Prédiction | Modèle et rapport DataCo | Métriques de test | Performance sur NexaRetail |
+| Assistant | Interface et fonctions KPI | Tests et revue des réponses | Fiabilité totale du langage généré |
+| Conseil | Hypothèses ROI et feuille de route | Sensibilité des scénarios | Gains réellement obtenus |
+
+## Comment gérer une demande supplémentaire
+
+**Exemple :** ajouter une prédiction du risque sur chaque commande NexaRetail.
+
+Cette demande semble proche du prototype DataCo, mais elle change le périmètre. Elle exige des données NexaRetail étiquetées, une définition comparable du retard, un contrôle de disponibilité des variables et une nouvelle évaluation. Il ne suffit pas de copier le modèle DataCo.
+
+**Autre exemple :** publier l'API sur Internet. Cela implique authentification, gestion des secrets, sécurité des requêtes, supervision et politique d'exploitation. Le fait qu'une interface Streamlit soit accessible ne couvre pas ces exigences.
+
+## Critères de sortie par niveau
+
+| Niveau | Critère de sortie |
+|---|---|
+| Documentation | Définitions, sources et limites explicites |
+| Prototype | Démonstration reproductible dans un environnement contrôlé |
+| Évaluation | Métriques sur données indépendantes et protocole écrit |
+| Pilote | Usage, coûts, incidents et bénéfices mesurés |
+| Production | Sécurité, supervision, maintenance et responsabilités formalisées |
+
+Le dossier s'arrête volontairement avant la revendication d'une exploitation en production.
+
 ## Lecture du niveau de maturité
 
 ```mermaid
