@@ -158,6 +158,41 @@ La mission ne démontre ni récupération effective de revenus, ni baisse causal
 
 
 
+## Diagnostic et décision : lecture croisée
+
+| Domaine | Constat du dossier | Implication pour la direction |
+|---|---|---|
+| Données | Des anomalies peuvent dégrader les KPI sans supprimer les transactions | Investir dans la traçabilité et les définitions |
+| Reporting | Le dashboard regroupe plusieurs angles de pilotage | Gouverner les mesures et les sources |
+| ML | Le Random Forest améliore le rappel sur DataCo au prix de plus de fausses alertes | Tester l'utilité opérationnelle avant déploiement |
+| Assistant | Les commentaires reposent sur des KPI calculés | Préserver la validation humaine |
+| Finance | Les scénarios ROI sont positifs sous certaines hypothèses | Mesurer les gains dans un pilote |
+
+## Feuille de route du pilote : livrables attendus
+
+| Période | Activité | Livrable |
+|---|---|---|
+| J0 à J30 | Définir les KPI, sources et populations | Référentiel accepté, état initial |
+| J31 à J60 | Tester les analyses et le processus d'alerte | Journal d'usage, incidents, coûts |
+| J61 à J90 | Mesurer les résultats et comparer les scénarios | Bilan chiffré et décision |
+| Après J90 | Arbitrer | Arrêt, correction, extension ou préparation de production |
+
+Les durées constituent un **plan proposé**, non un calendrier de projet déjà exécuté.
+
+## Conditions minimales pour autoriser la suite
+
+Une décision d'industrialisation devrait réunir des données fiables, un protocole d'évaluation indépendant, un bénéfice mesuré, des coûts d'exploitation connus, une responsabilité métier identifiée et une architecture sécurisée. Si une condition manque, la poursuite du pilote ou son arrêt reste préférable à une généralisation automatique.
+
+## Questions de comité de direction
+
+**Pourquoi investir si le ROI est seulement simulé ?** Pour vérifier à petite échelle si les hypothèses de valeur résistent aux conditions opérationnelles.
+
+**Pourquoi ne pas déployer le modèle DataCo directement ?** Parce que la population, la cible et les variables ne sont pas validées sur NexaRetail.
+
+**Pourquoi maintenir un contrôle humain sur l'assistant ?** Parce que la justesse des chiffres calculés ne garantit pas celle de toutes les interprétations générées.
+
+**Quel serait un échec utile ?** Un pilote qui démontre qu'un cas d'usage ne couvre pas ses coûts permet d'éviter un investissement plus important.
+
 ## Synthèse de la recommandation
 
 ```mermaid
