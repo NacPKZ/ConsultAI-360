@@ -160,6 +160,53 @@ Les métriques proviennent de l'[évaluation finale DataCo](08_rapport_final_pre
 
 
 
+## Exemple chiffré : pourquoi le dénominateur compte
+
+Dans le scénario MEDIUM, **114 000 commandes** ont un montant renseigné sur **120 000**. Le CA mesuré est de **68 448 127,94 €**.
+
+| Méthode | Calcul | Résultat arrondi |
+|---|---|---:|
+| Panier sur montants connus | 68 448 127,94 / 114 000 | **600,42 €** |
+| Division sur toutes les commandes | 68 448 127,94 / 120 000 | **570,40 €** |
+| Écart de définition | 600,42 - 570,40 | **30,02 €** |
+
+Le second résultat n'est pas un panier moyen comparable au premier : il mélange des montants connus et des commandes sans montant. La différence provient du **choix du dénominateur**, pas d'une variation des achats.
+
+## Distinguer qualité des données et qualité du modèle
+
+| Domaine | Exemple de métrique | Ce qu'elle mesure |
+|---|---|---|
+| Données | Complétude des montants | Proportion de montants disponibles |
+| Logistique | Couverture des expéditions | Proportion de livraisons évaluables |
+| ML | Rappel | Retards effectivement détectés |
+| ML | Précision | Alertes positives réellement confirmées |
+| Finance | ROI hypothétique | Relation entre gains supposés et coûts retenus |
+
+Les pourcentages ne sont pas interchangeables. Un taux de complétude élevé ne garantit pas l'exactitude des montants ; un bon rappel ML ne démontre pas une amélioration du service.
+
+## Règles de contrôle avant publication
+
+1. Identifier la table de référence et le grain.
+2. Définir précisément les filtres de scénario et de période.
+3. Vérifier les lignes exclues ou non évaluables.
+4. Contrôler le résultat sur un petit échantillon connu.
+5. Rapprocher SQL et Power BI avec les mêmes filtres.
+6. Indiquer les limites de lecture à côté du visuel.
+
+### Exemple SQL de principe
+
+```sql
+SELECT
+    COUNT(*) AS commandes,
+    COUNT(total_amount) AS montants_renseignes,
+    SUM(total_amount) AS ca_mesure,
+    AVG(total_amount) AS panier_sur_montants_connus
+FROM dw.fact_orders
+WHERE scenario = 'medium';
+```
+
+Cet exemple décrit la logique du calcul ; les noms physiques des colonnes et le champ de scénario doivent être vérifiés dans le modèle réel avant exécution.
+
 ## Du calcul à l'interprétation
 
 ```mermaid
