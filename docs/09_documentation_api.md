@@ -80,37 +80,27 @@ Ces exemples supposent que l'API est **déjà lancée localement sur le port 800
 Authentification, limitation de débit, schéma de réponse commun, journalisation contrôlée, gestion des secrets, observabilité et tests d'intégration réels restent nécessaires. **La présence d'une application Streamlit en ligne ne prouve pas que l'API est exposée ou sécurisée.**
 
 
+
+## Architecture des accès
+
+```mermaid
+flowchart TD
+ U["Utilisateur"] --> S["Interface Streamlit"]
+ S --> K["Fonctions KPI autorisées"]
+ K --> P["PostgreSQL en lecture seule"]
+ K --> L["Commentaire IA contrôlé"]
+ A["Client API local"] --> F["FastAPI"]
+ F --> K
+```
+
+[Consulter la démonstration Streamlit](https://consultai-360.streamlit.app/)
+
+<details><summary><strong>Mode démonstration et données PostgreSQL</strong></summary>
+
+L'API peut retourner des valeurs de démonstration lorsque le mode correspondant est activé. Le champ de provenance doit être consulté avant de réutiliser un chiffre. Le lien Streamlit ne constitue pas une preuve de disponibilité publique de l'API.
+
+</details>
+
 ---
 
-## Ce que cette partie m'a appris
-
-> [!NOTE]
-> **Notion clé : Séparation interface, API et source de vérité**
-> Streamlit présente l'expérience utilisateur. FastAPI expose des routes. PostgreSQL fournit des KPI calculés. Ces composants peuvent être utilisés séparément, et l'accès à l'un ne prouve pas la disponibilité des autres.
-
-> [!TIP]
-> **Exercice pratique**
-> Tester séparément la route de santé, les scénarios et les KPI, puis relever la source indiquée dans la réponse.
-
-> [!WARNING]
-> **Erreur à éviter**
-> Confondre une réponse de démonstration avec une mesure PostgreSQL.
-
-> [!IMPORTANT]
-> **À retenir pour un entretien**
-> La provenance doit rester visible jusqu'à l'interface.
-
-### Passer de la théorie à la pratique
-
-| En situation professionnelle | Réflexe recommandé |
-|---|---|
-| Avant de développer | Clarifier la question métier et les données disponibles |
-| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
-| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
-| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
-
-### Navigation dans le dossier
-
-[Précédent : 08 Résultats ML](08_rapport_final_prediction.md) | **09 / 12 : API et Streamlit** | [Suivant : 10 Power BI](10_rapport_power_bi.md)
-
-[Retour au sommaire documentaire](INDEX.md)
+[Chapitre précédent](08_rapport_final_prediction.md) | [Sommaire](INDEX.md) | [Chapitre suivant](10_rapport_power_bi.md)
