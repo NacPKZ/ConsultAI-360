@@ -1,13 +1,34 @@
-# 05 · Périmètre de mission : Inclus, exclus, conditions
+# 05 : Périmètre de mission : Inclus, exclus, conditions
 
 > **CONSULTAI 360 / PROJECT SCOPE**  
 > **Statut :** cadrage initial (180 h prévisionnelles) enrichi d'une lecture des livrables documentés.  
 > **Principe :** distinguer **intention**, **prototype réalisé** et **solution déployée**.
 
-[← Dictionnaire KPI](04_dictionnaire_indicateurs.md) · [Index](INDEX.md) · [Charte →](06_charte_projet.md)
+[← Dictionnaire KPI](04_dictionnaire_indicateurs.md) | [Index](INDEX.md) | [Charte →](06_charte_projet.md)
+
+## Matrice de décision : ce qui est démontré et ce qui reste à prouver
+
+| Niveau | Exemple ConsultAI 360 | Preuve attendue pour aller plus loin |
+|:--|:--|:--|
+| **Démonstration** | Rapport Power BI et assistant local | Usage compréhensible, sources identifiées |
+| **Évaluation** | Modèle ML testé sur DataCo | Comparaison à des références, stabilité |
+| **Pré-pilote** | Scénarios ROI et feuille de route | Hypothèses validées avec les métiers |
+| **Pilote** | Expérimentation en environnement contrôlé | KPI avant/après, coût réel, incidents |
+| **Production** | Non revendiquée dans ce projet | Sécurité, supervision, exploitation, responsabilités |
+
+### Contrôle des demandes d'extension
+
+Avant d'ajouter une fonctionnalité, documenter :
+
+1. **Décision visée :** quel utilisateur fera quoi différemment ?
+2. **Données nécessaires :** existe-t-il une source suffisamment fiable ?
+3. **Démonstration minimale :** quel résultat permet de tester l'hypothèse ?
+4. **Coût de maintien :** qui surveille, corrige et met à jour ?
+5. **Critère d'arrêt :** dans quel cas abandonner l'initiative ?
+
+Une extension sans critère d'arrêt augmente le périmètre sans nécessairement améliorer la valeur.
 
 ---
-
 ## 1. Mandat
 
 ConsultAI 360 simule une mission de conseil Data & IA pour NexaRetail, distributeur omnicanal fictif. La mission vise à montrer comment des données imparfaites peuvent être structurées, contrôlées, analysées et utilisées pour préparer une décision d'investissement.
@@ -19,10 +40,10 @@ ConsultAI 360 simule une mission de conseil Data & IA pour NexaRetail, distribut
 
 | Centre | Objectif métier | Livrables documentés | Limite principale |
 |:--|:--|:--|:--|
-| **01 · Data Quality** | Rendre les erreurs visibles et quantifiables | Génération synthétique, scénarios d'anomalies, audits Python/SQL | CLEAN n'est pas « sans anomalie » |
-| **02 · BI & Data Engineering** | Consolider une lecture commune | PostgreSQL RAW/CLEAN/DW, dbt, Power BI à **7 pages** | Reconstruction intégrale non démontrée sur machine vierge |
-| **03 · Predictive Analytics** | Tester une méthode d'alerte logistique | Random Forest évalué sur **DataCo** | Aucun transfert validé vers NexaRetail |
-| **04 · AI Consulting** | Faciliter l'interprétation de KPI calculés | Streamlit, assistant local Ollama, API FastAPI documentée | Pas d'autonomie décisionnelle ni de garantie de vérité des commentaires |
+| **01 | Data Quality** | Rendre les erreurs visibles et quantifiables | Génération synthétique, scénarios d'anomalies, audits Python/SQL | CLEAN n'est pas « sans anomalie » |
+| **02 | BI & Data Engineering** | Consolider une lecture commune | PostgreSQL RAW/CLEAN/DW, dbt, Power BI à **7 pages** | Reconstruction intégrale non démontrée sur machine vierge |
+| **03 | Predictive Analytics** | Tester une méthode d'alerte logistique | Random Forest évalué sur **DataCo** | Aucun transfert validé vers NexaRetail |
+| **04 | AI Consulting** | Faciliter l'interprétation de KPI calculés | Streamlit, assistant local Ollama, API FastAPI documentée | Pas d'autonomie décisionnelle ni de garantie de vérité des commentaires |
 
 ### Extension : conseil financier et stratégie
 
@@ -105,4 +126,4 @@ Le périmètre est volontairement **large en démonstration de compétences** et
 
 ---
 
-**Suite :** [06 · Charte](06_charte_projet.md) · [Rapport final](12_rapport_final_conseil.md)
+**Suite :** [06 | Charte](06_charte_projet.md) | [Rapport final](12_rapport_final_conseil.md)
