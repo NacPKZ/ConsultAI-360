@@ -1,5 +1,14 @@
 # 11 : Registre de validation et reproductibilité
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 Date du bilan : 10 novembre 2026.
 
 ## Périmètre et méthode
@@ -157,3 +166,39 @@ La présence de cette URL est une information de publication communiquée par le
 6. Documenter les écarts, les limites et les corrections nécessaires.
 
 Ce protocole **n'a pas été exécuté** dans le cadre de cette mise à jour des textes.
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Test unitaire et test d'intégration**
+> Un test avec une base simulée peut valider une fonction, mais pas la connectivité réelle, les droits d'accès ou les performances de PostgreSQL.
+
+> [!TIP]
+> **Exercice pratique**
+> Classer les preuves par environnement, date, composant et niveau de test.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Présenter 31 tests Python réussis comme une certification de toute l'architecture.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> Chaque preuve doit être accompagnée de son périmètre.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Chapitre précédent](10_rapport_power_bi.md) | **11 / 12 : Validation et reproductibilité** | [Chapitre suivant](12_rapport_final_conseil.md)
+
+[Retour au sommaire documentaire](INDEX.md)
