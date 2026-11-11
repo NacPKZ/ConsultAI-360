@@ -1,5 +1,14 @@
 # 06 : Charte de mission : ConsultAI 360
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 > **PROJECT CHARTER / NEXARETAIL**  
 > **Version :** cadrage initial 1.0, annoté pour lecture finale | **Validation :** simulée | **Entreprise :** fictive | **Pilotage :** projet individuel.
 
@@ -162,3 +171,39 @@ La charte fixe une ambition : **démontrer une méthode de transformation respon
 ---
 
 [Rapport final de conseil](12_rapport_final_conseil.md) | [Bilan de validation](11_validation_reproductibilite.md) | [Retour à l'index](INDEX.md)
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Critère d'acceptation**
+> Une tâche n'est pas terminée parce qu'un fichier existe. Elle doit satisfaire des critères vérifiables, par exemple un résultat de test, une définition de KPI et une limite documentée.
+
+> [!TIP]
+> **Exercice pratique**
+> Associer à chaque livrable un responsable, une preuve, une date et une condition d'arrêt.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Confondre validation historique et validation réexécutée aujourd'hui.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> Une charte utile rend les décisions et les preuves auditables.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Précédent : 05 Périmètre](05_perimetre_projet.md) | **06 / 12 : Charte de projet** | [Suivant : 07 Problématique ML](07_problematique_prediction.md)
+
+[Retour au sommaire documentaire](INDEX.md)
