@@ -1,4 +1,4 @@
-# ConsultAI 360 — Rapport final de conseil Data & IA
+# 12 : Rapport final de conseil Data & IA
 **Client fictif : NexaRetail | Version de synthèse : novembre 2026**
 
 > Cas d'étude de conseil sur données synthétiques. Les performances ML proviennent du jeu public distinct DataCo. Les gains financiers sont des hypothèses, non des résultats observés.
@@ -30,7 +30,7 @@ NexaRetail est une entreprise omnicanale fictive. Les enjeux simulés concernent
 ## 4. Diagnostic de qualité et résultats analytiques
 | Scénario | Commandes de référence analytique | CA mesuré | Écart vs ORIGINAL |
 |---|---:|---:|---:|
-| ORIGINAL | 120 000 | 72 056 406,60 € | — |
+| ORIGINAL | 120 000 | 72 056 406,60 € | : |
 | LOW | 120 000 | 71 327 494,22 € | −728 912,38 € (−1,01 %) |
 | MEDIUM | 120 000 | 68 448 127,94 € | −3 608 278,66 € (−5,01 %) |
 | CRITICAL | 120 000 | 64 901 512,00 € | −7 154 894,60 € (−9,93 %) |
@@ -43,17 +43,17 @@ Anomalies identifiées dans les scénarios dégradés : références clients inc
 
 ## 5. Restitution Power BI
 Le tableau de bord comprend :
-1. Vue globale — commandes, CA, panier moyen, canal online, retards.
-2. Performance commerciale — magasins, canaux et segmentation.
-3. Logistique — expéditions, modes et retards.
-4. Qualité des données — anomalies, valeurs manquantes et couverture.
-5. IA & prédictions — résultats de l'expérience DataCo.
-6. ROI — trois scénarios de gains hypothétiques.
-7. Recommandations — actions prioritaires et pilote de 90 jours.
+1. Vue globale : commandes, CA, panier moyen, canal online, retards.
+2. Performance commerciale : magasins, canaux et segmentation.
+3. Logistique : expéditions, modes et retards.
+4. Qualité des données : anomalies, valeurs manquantes et couverture.
+5. IA & prédictions : résultats de l'expérience DataCo.
+6. ROI : trois scénarios de gains hypothétiques.
+7. Recommandations : actions prioritaires et pilote de 90 jours.
 
 Les pages 5 et 6 ne constituent pas des mesures opérationnelles sur les mêmes transactions que les pages NexaRetail.
 
-## 6. Expérience Machine Learning — DataCo
+## 6. Expérience Machine Learning : DataCo
 **Problème :** classification du risque de retard d'expédition à partir de données publiques DataCo.
 
 | Métrique finale documentée | Résultat |
@@ -66,7 +66,7 @@ Les pages 5 et 6 ne constituent pas des mesures opérationnelles sur les mêmes 
 
 Le modèle démontre une capacité de discrimination sur le jeu de test DataCo, **pas** une performance prouvée sur NexaRetail. La cible `Late_delivery_risk` et le poids du mode d'expédition imposent une prudence métier. La provenance des exports de seuil et d'évaluation finale doit être réconciliée avant d'affirmer qu'ils décrivent une expérience identique. Une comparaison avec une règle simple, une validation temporelle complémentaire et un test terrain sont recommandés avant déploiement.
 
-## 7. Scénarios financiers — hypothèses de ROI
+## 7. Scénarios financiers : hypothèses de ROI
 Hypothèse commune : **investissement initial de 50 000 €**.
 
 | Scénario | Gains annuels hypothétiques | Gain net hypothétique | ROI net simulé |
@@ -117,3 +117,32 @@ ConsultAI 360 relie Data Engineering, Data Quality, Analytics, BI, Machine Learn
 - [Documentation Power BI](10_rapport_power_bi.md)
 - [Bilan de validation et reproductibilité](11_validation_reproductibilite.md)
 - [README du dépôt](../README.md)
+
+---
+
+## Accès aux démonstrations et aux preuves
+
+**Démonstration interactive :** [ConsultAI 360 sur Streamlit](https://consultai-360.streamlit.app/). L'URL a été fournie par le porteur du projet ; son fonctionnement actuel et ses connexions ne sont pas certifiés par cette revue.
+
+| Public | Parcours conseillé | Document |
+|---|---|---|
+| Direction | Diagnostic, ROI, recommandations, pilote | Ce rapport |
+| Responsable BI | Définitions KPI et pages du dashboard | [Dictionnaire](04_dictionnaire_indicateurs.md), [Power BI](10_rapport_power_bi.md) |
+| Responsable Data | Architecture, contrôles et limites | [Validation](11_validation_reproductibilite.md) |
+| Data Scientist | Cible, baseline, seuil et protocole | [Rapport ML](08_rapport_final_prediction.md) |
+| Développeur | Interface, API et modes de données | [Documentation API](09_documentation_api.md) |
+
+## Cadre de décision : pilote de 90 jours
+
+| Porte de décision | Question | Critère qualitatif |
+|---|---|---|
+| **J0 : lancement** | Les définitions et sources sont-elles acceptées ? | Responsables, KPI et périmètre documentés |
+| **J30 : qualité** | Les anomalies et exclusions sont-elles suivies ? | Mesures de couverture et registre d'incidents |
+| **J60 : usage** | Les alertes apportent-elles une information utile ? | Comparaison à une règle simple et suivi des interventions |
+| **J90 : arbitrage** | Le bénéfice observé justifie-t-il le coût total ? | Résultats mesurés, risques maîtrisés, décision écrite |
+
+**Orientation : GO pour un pilote instrumenté, NO-GO pour une industrialisation immédiate.** Les pourcentages de ROI présentés dans ce rapport restent des hypothèses et ne remplacent pas les mesures du pilote.
+
+## Ce que cette mission ne démontre pas
+
+La mission ne démontre ni récupération effective de revenus, ni baisse causale des retards, ni performances du modèle DataCo sur NexaRetail, ni exploitation sécurisée d'une API publique. Ces limites font partie intégrante de la recommandation de conseil.
