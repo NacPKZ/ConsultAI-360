@@ -1,5 +1,14 @@
 # 01 : NexaRetail : Contexte et ambition de transformation
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 > **CONSULTAI 360 / DOSSIER DE CADRAGE**  
 > **Statut :** contexte métier fictif et hypothèses initiales, enrichis par les réalisations documentées | **Secteur :** distribution omnicanale | **Périmètre :** étude de cas, aucune entreprise cliente réelle.
 
@@ -133,3 +142,39 @@ La réussite de cette étude de cas repose sur cinq exigences : **définitions s
 ---
 
 **À suivre :** [02 | Diagnostic métier](02_diagnostic_metier.md) | [03 | Cartographie des processus](03_processus_metier.md) | [04 | Dictionnaire des KPI](04_dictionnaire_indicateurs.md)
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Donnée disponible et donnée exploitable**
+> Une donnée peut être présente dans une table sans être utilisable pour toutes les analyses. Une commande dont le client est inconnu reste comptabilisable dans le volume global, mais ne peut pas être attribuée correctement à un segment client.
+
+> [!TIP]
+> **Exercice pratique**
+> Comparer un KPI global avec sa ventilation par client, puis expliquer l'écart.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Interpréter un montant non attribuable comme une perte de chiffre d'affaires.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> La qualité dépend de la décision à prendre, pas uniquement du nombre de champs remplis.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Sommaire](INDEX.md) | **01 / 12 : Contexte métier** | [Suivant : 02 Diagnostic métier](02_diagnostic_metier.md)
+
+[Retour au sommaire documentaire](INDEX.md)
