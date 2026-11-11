@@ -157,37 +157,26 @@ ConsultAI 360 relie Data Engineering, Data Quality, Analytics, BI, Machine Learn
 La mission ne démontre ni récupération effective de revenus, ni baisse causale des retards, ni performances du modèle DataCo sur NexaRetail, ni exploitation sécurisée d'une API publique. Ces limites font partie intégrante de la recommandation de conseil.
 
 
+
+## Synthèse de la recommandation
+
+```mermaid
+flowchart TD
+ A["Données et indicateurs fiabilisés"] --> B["Pilote de 90 jours"]
+ B --> C["Mesure des effets et des coûts"]
+ C --> D{"Valeur démontrée et risques maîtrisés ?"}
+ D -->|Oui| E["Étudier l'industrialisation"]
+ D -->|Non| F["Corriger, prolonger ou arrêter"]
+```
+
+<details><summary><strong>Comment interpréter le scénario ROI central ?</strong></summary>
+
+Le ROI central de 110 % est calculé à partir de gains supposés et d'un investissement initial retenu dans la simulation. Il ne représente ni une économie réalisée ni une promesse de rendement. Le pilote doit mesurer les gains et les coûts réellement constatés.
+
+</details>
+
+[Accéder à l'application Streamlit](https://consultai-360.streamlit.app/)
+
 ---
 
-## Ce que cette partie m'a appris
-
-> [!NOTE]
-> **Notion clé : ROI simulé et ROI observé**
-> Un ROI construit sur des gains supposés permet d'explorer des décisions. Un ROI observé exige des coûts supportés, des effets mesurés et une comparaison pertinente.
-
-> [!TIP]
-> **Exercice pratique**
-> Définir pour le pilote un état initial, un groupe de référence pertinent et le coût des interventions.
-
-> [!WARNING]
-> **Erreur à éviter**
-> Transformer les 110 % du scénario central en promesse de rentabilité.
-
-> [!IMPORTANT]
-> **À retenir pour un entretien**
-> Un pilote peut être recommandé même lorsque la production immédiate est déconseillée.
-
-### Passer de la théorie à la pratique
-
-| En situation professionnelle | Réflexe recommandé |
-|---|---|
-| Avant de développer | Clarifier la question métier et les données disponibles |
-| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
-| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
-| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
-
-### Navigation dans le dossier
-
-[Chapitre précédent](11_validation_reproductibilite.md) | **12 / 12 : Rapport de conseil** | [Sommaire](INDEX.md)
-
-[Retour au sommaire documentaire](INDEX.md)
+[Chapitre précédent](11_validation_reproductibilite.md) | [Sommaire](INDEX.md) | [Retour au début](01_contexte_metier.md)
