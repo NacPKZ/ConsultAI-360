@@ -1,12 +1,46 @@
-# 04 · Dictionnaire des indicateurs : Référentiel KPI
+# 04 : Dictionnaire des indicateurs : Référentiel KPI
 
 > **CONSULTAI 360 / CONTRAT DE MESURE**  
-> **Version :** référentiel enrichi · **Périmètre :** NexaRetail synthétique, expérience ML DataCo indépendante, ROI hypothétique.
+> **Version :** référentiel enrichi | **Périmètre :** NexaRetail synthétique, expérience ML DataCo indépendante, ROI hypothétique.
 
-[← Processus](03_processus_metier.md) · [Index](INDEX.md) · [Périmètre →](05_perimetre_projet.md)
+[← Processus](03_processus_metier.md) | [Index](INDEX.md) | [Périmètre →](05_perimetre_projet.md)
+
+## Exemples de lecture : les pièges les plus fréquents
+
+### Cas A : un panier moyen artificiellement faible
+
+Si le CA ne porte que sur les commandes dont le montant est renseigné, mais que le dénominateur inclut toutes les commandes, le panier moyen est mécaniquement abaissé. Le calcul doit donc préciser la population utilisée.
+
+### Cas B : une amélioration apparente du taux de retard
+
+Un taux peut diminuer si des livraisons problématiques deviennent non évaluables. **La couverture des dates doit être publiée à côté du taux**, sinon l'amélioration peut être trompeuse.
+
+### Cas C : une hausse des alertes ML
+
+Abaisser un seuil de classification peut accroître le rappel et le volume d'alertes, au prix de davantage de faux positifs. Le seuil de 0,40 doit être interprété dans le contexte du coût métier des erreurs, et non comme un optimum universel.
+
+### Cas D : un ROI positif sans décision immédiate
+
+Un scénario financier favorable n'annule ni les risques d'intégration, ni l'incertitude des gains, ni les coûts exclus. La recommandation d'un pilote peut donc être cohérente avec un ROI théorique positif.
+
+## Gabarit pour ajouter un KPI
+
+```yaml
+nom: "Nom lisible du KPI"
+question_metier: "Quelle décision ce KPI aide-t-il à prendre ?"
+source: "Table ou requête de référence"
+granularite: "commande | ligne | paiement | expedition"
+scenario: "ORIGINAL | LOW | MEDIUM | CRITICAL"
+numerateur: "Règle exacte"
+denominateur: "Population éligible"
+exclusions: "Nulls, statuts, dates et autres filtres"
+controle: "Rapprochement SQL ou test attendu"
+limites: "Biais et cas non évaluables"
+```
+
+Ce gabarit est un **modèle documentaire**, pas une configuration exécutable.
 
 ---
-
 ## Principe fondamental
 
 > **Un KPI = une définition + une source + une granularité + un dénominateur + des filtres + une règle de gestion des données manquantes.**
@@ -39,7 +73,7 @@ Le dictionnaire initial proposait des indicateurs métier génériques. Cette ve
 | **CA net** | Ventes − remises − remboursements selon règles validées | **Indicateur cible** : ne pas l'assimiler au CA mesuré sans rapprochement |
 | **Marge brute** | CA net − coût des produits vendus | **Conditionnel** à la disponibilité de coûts fiables |
 
-### Exemple de lecture documentée — scénario MEDIUM
+### Exemple de lecture documentée : scénario MEDIUM
 
 | Mesure | Valeur | Signification |
 |:--|--:|:--|
@@ -81,7 +115,7 @@ Le dictionnaire initial proposait des indicateurs métier génériques. Cette ve
 
 Les **82 953 anomalies de référence** mentionnées dans le README sont des lignes affectées dans plusieurs tables, **pas 82 953 commandes distinctes**.
 
-## 5. Machine Learning — DataCo uniquement
+## 5. Machine Learning : DataCo uniquement
 
 | Indicateur | Sens | Valeur finale documentée |
 |:--|:--|--:|
@@ -105,7 +139,7 @@ Les métriques proviennent de l'[évaluation finale DataCo](08_rapport_final_pre
 
 **Règle de sécurité analytique :** les chiffres sont produits par SQL/Python ; le modèle génératif **commente**, sans inventer de nouveaux KPI.
 
-## 7. ROI — interprétation financière
+## 7. ROI : interprétation financière
 
 `ROI = (bénéfices estimés − coûts retenus) / coûts retenus × 100`, pour un horizon et un périmètre de coûts **explicitement identiques**.
 
@@ -124,8 +158,8 @@ Avant publication, renseigner : **nom**, **question métier**, **formule**, **ta
 
 ## 9. Références
 
-[Rapport Power BI](10_rapport_power_bi.md) · [Évaluation ML](08_rapport_final_prediction.md) · [Validation et reproductibilité](11_validation_reproductibilite.md) · [Rapport final](12_rapport_final_conseil.md)
+[Rapport Power BI](10_rapport_power_bi.md) | [Évaluation ML](08_rapport_final_prediction.md) | [Validation et reproductibilité](11_validation_reproductibilite.md) | [Rapport final](12_rapport_final_conseil.md)
 
 ---
 
-**Suite :** [05 · Périmètre](05_perimetre_projet.md) · [06 · Charte de projet](06_charte_projet.md)
+**Suite :** [05 | Périmètre](05_perimetre_projet.md) | [06 | Charte de projet](06_charte_projet.md)
