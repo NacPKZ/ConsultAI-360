@@ -383,44 +383,6 @@ Cette arborescence est une **vue fonctionnelle simplifiée**. D'autres fichiers,
 
 [Guide de l'organisation technique](docs/guides/organisation_technique.md) | [Schéma relationnel](docs/modele_donnees/01_schema_relationnel.md)
 
-## Exécution locale : points d'entrée
-
-Le dépôt n'est pas présenté comme une installation complète en un clic. Les données d'entrée, les secrets, certaines sorties de modèles et les configurations locales peuvent ne pas être versionnés.
-
-### Python et tests
-
-~~~powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m pytest -q tests
-~~~
-
-Pour les modules spécifiques, utiliser également les fichiers de dépendances prévus dans le dépôt, notamment `requirements-ml.txt` et `requirements-assistant.txt`.
-
-### PostgreSQL et SQL
-
-Les scripts se trouvent dans `sql/`, classés par étapes. La base `nexaretail_db` doit disposer des schémas et des sources attendus. Les chemins locaux et les paramètres d'import sont à adapter.
-
-Ordre de travail recommandé : préparer les sources, importer RAW, qualifier CLEAN, construire DW, puis exécuter les analyses et contrôles.
-
-### dbt avec Docker Compose
-
-~~~powershell
-# Nécessite Docker Desktop, les sources et la variable
-# DOCKER_POSTGRES_PASSWORD configurée localement.
-docker compose up -d postgres
-docker compose build dbt
-docker compose run --rm dbt debug
-docker compose run --rm dbt build
-~~~
-
-Dans le réseau Compose, dbt contacte PostgreSQL via `postgres:5432`. Le port hôte configuré est `127.0.0.1:5433`. Les deux contextes ne doivent pas être confondus.
-
-**Ne pas utiliser `docker compose down -v` sans décision explicite :** cette option peut supprimer le volume de données PostgreSQL.
-
-[Guide dbt](dbt_nexaretail/README.md) | [Guide Docker](docker/README.md) | [Guide assistant IA](docs/guides/installation_assistant_ia.md)
-
 ## Installer le projet en local : PostgreSQL, dbt et Streamlit
 
 Cette section s'adresse à une personne qui **clone le dépôt et veut faire fonctionner le projet sur son propre ordinateur**, notamment connecter PostgreSQL à dbt et à l'assistant IA. Les commandes ci-dessous sont prévues pour **Windows et PowerShell**, depuis la racine du dépôt.
