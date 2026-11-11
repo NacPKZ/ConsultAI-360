@@ -138,37 +138,22 @@ Le périmètre est volontairement **large en démonstration de compétences** et
 **Suite :** [06 | Charte](06_charte_projet.md) | [Rapport final](12_rapport_final_conseil.md)
 
 
+
+## Lecture du niveau de maturité
+
+```mermaid
+flowchart LR
+ A["Démonstration"] --> B["Évaluation"]
+ B --> C["Pilote instrumenté"]
+ C --> D["Décision de production"]
+```
+
+<details><summary><strong>La frontière entre prototype et production</strong></summary>
+
+Une démonstration valide un principe. Un pilote vérifie l'utilité, les coûts et les incidents sur un périmètre défini. La production exige des contrôles d'accès, de la supervision et une responsabilité opérationnelle. ConsultAI 360 ne revendique pas ce dernier niveau.
+
+</details>
+
 ---
 
-## Ce que cette partie m'a appris
-
-> [!NOTE]
-> **Notion clé : Prototype, pilote et production**
-> Un prototype démontre une possibilité technique. Un pilote mesure l'utilité sur un périmètre réel et limité. La production exige des garanties d'exploitation, de sécurité et de responsabilité.
-
-> [!TIP]
-> **Exercice pratique**
-> Définir pour chaque composant son niveau de maturité et la preuve nécessaire pour franchir l'étape suivante.
-
-> [!WARNING]
-> **Erreur à éviter**
-> Décrire un modèle testé sur DataCo comme déjà opérationnel sur NexaRetail.
-
-> [!IMPORTANT]
-> **À retenir pour un entretien**
-> Le niveau de preuve doit correspondre à la promesse formulée.
-
-### Passer de la théorie à la pratique
-
-| En situation professionnelle | Réflexe recommandé |
-|---|---|
-| Avant de développer | Clarifier la question métier et les données disponibles |
-| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
-| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
-| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
-
-### Navigation dans le dossier
-
-[Précédent : 04 Dictionnaire KPI](04_dictionnaire_indicateurs.md) | **05 / 12 : Périmètre** | [Suivant : 06 Charte de projet](06_charte_projet.md)
-
-[Retour au sommaire documentaire](INDEX.md)
+[Chapitre précédent](04_dictionnaire_indicateurs.md) | [Sommaire](INDEX.md) | [Chapitre suivant](06_charte_projet.md)
