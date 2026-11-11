@@ -15,7 +15,7 @@ table 'dw fact_shipments'
 	measure 'Nombre expéditions' =
 			
 			COUNTROWS('dw fact_shipments')
-		formatString: 0.00
+		formatString: 0
 		lineageTag: 77c53e3d-c8bf-40f7-ad58-e374def5fada
 
 	measure 'Livraisons en retard' =
@@ -38,7 +38,7 @@ table 'dw fact_shipments'
 			    ),
 			    0
 			)
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: 0.00%
 		lineageTag: 40ccb7bf-6708-4a3d-981b-d47a0deb54e1
 
 	measure 'Délai moyen livraison' =
