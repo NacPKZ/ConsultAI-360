@@ -1,30 +1,55 @@
-# 02 · Diagnostic métier : Du symptôme à la décision
+# 02 : Diagnostic métier : Du symptôme à la décision
 
 > **CONSULTAI 360 / DIAGNOSTIC INITIAL**  
-> **Nature :** hypothèses métier d'une entreprise fictive, confrontées aux observations du projet · **Règle :** ne pas transformer une simulation en incident réellement subi.
+> **Nature :** hypothèses métier d'une entreprise fictive, confrontées aux observations du projet | **Règle :** ne pas transformer une simulation en incident réellement subi.
 
-[← Contexte](01_contexte_metier.md) · [Index](INDEX.md) · [Processus →](03_processus_metier.md)
+[← Contexte](01_contexte_metier.md) | [Index](INDEX.md) | [Processus →](03_processus_metier.md)
+
+## Plan d'investigation pour un diagnostic en entreprise
+
+Le diagnostic présenté plus haut serait approfondi par des entretiens, un échantillonnage des données et une revue des contrôles existants.
+
+| Séquence | Investigation | Livrable de décision |
+|:--|:--|:--|
+| **A. Écouter** | Entretiens avec responsables métier et utilisateurs | Carte des irritants et décisions affectées |
+| **B. Mesurer** | Profils de données, taux de nulls, contrôles de clés | Registre des anomalies avec périmètre |
+| **C. Réconcilier** | Comparaison de plusieurs calculs d'un même indicateur | Définition commune et exceptions |
+| **D. Prioriser** | Impact métier, coût, urgence, dépendances | Backlog classé et propriétaires |
+| **E. Tester** | Pilote ciblé avec mesure avant/après | Décision documentée de poursuite |
+
+### Exemple de fiche d'incident qualité
+
+| Champ | Exemple illustratif |
+|:--|:--|
+| Identifiant | DQ-REF-001 |
+| Objet | Commande sans client attribuable |
+| Impact | Segmentation commerciale incomplète |
+| Détection | Anti-jointure entre commandes et référentiel clients |
+| Traitement | Préserver la commande, exposer « Inconnu », rechercher la source fiable |
+| Validation | Contrôle du nombre de lignes et des montants avant/après |
+| Décision | Correction uniquement avec preuve d'identité |
+
+*Cette fiche est un modèle de méthode, pas un ticket issu d'un système de production.*
 
 ---
-
 ## Synthèse de direction
 
 Le risque majeur pour NexaRetail n'est pas uniquement la présence d'erreurs : c'est **l'illusion de précision** produite par des indicateurs qui masquent les données non attribuables. Le diagnostic recommande de traiter d'abord la confiance dans les données, ensuite leur exploitation analytique, puis les expérimentations IA et leur valeur économique.
 
 | Enjeu | Risque métier | Réponse | Priorité logique |
 |:--|:--|:--|:--|
-| Qualité des données | KPI incomplets ou mal attribués | Contrôles Python/SQL/dbt | **P1 — Fondation** |
-| Reporting fragmenté | Versions contradictoires d'un indicateur | DW et Power BI | **P2 — Pilotage** |
-| Logistique | Retards difficiles à qualifier | Analyse des expéditions | **P2 — Pilotage** |
-| Analyse commerciale | Décisions sur des périmètres incomplets | Mesures contextualisées | **P2 — Pilotage** |
-| IA sans gouvernance | Recommandations non justifiées | Assistant contrôlé, pilote et ROI | **P3 — Expérimentation** |
+| Qualité des données | KPI incomplets ou mal attribués | Contrôles Python/SQL/dbt | **P1 : Fondation** |
+| Reporting fragmenté | Versions contradictoires d'un indicateur | DW et Power BI | **P2 : Pilotage** |
+| Logistique | Retards difficiles à qualifier | Analyse des expéditions | **P2 : Pilotage** |
+| Analyse commerciale | Décisions sur des périmètres incomplets | Mesures contextualisées | **P2 : Pilotage** |
+| IA sans gouvernance | Recommandations non justifiées | Assistant contrôlé, pilote et ROI | **P3 : Expérimentation** |
 
 > [!NOTE]
 > Les problèmes organisationnels décrits ici sont des **hypothèses de cadrage**. Les anomalies chiffrées proviennent, elles, des jeux de données synthétiques générés dans le projet.
 
 ## 1. Hypothèses et mécanismes de risque
 
-### DQ-01 · Qualité des données
+### DQ-01 | Qualité des données
 
 **Symptômes envisagés :** identifiants absents, références invalides, dates manquantes, doublons et incohérences.
 
@@ -34,7 +59,7 @@ Le risque majeur pour NexaRetail n'est pas uniquement la présence d'erreurs : c
 
 **Critère de décision :** publier chaque KPI avec son périmètre, sa couverture et ses exclusions.
 
-### BI-02 · Reporting fragmenté
+### BI-02 | Reporting fragmenté
 
 **Symptômes envisagés :** multiples fichiers Excel, extractions ponctuelles, définitions concurrentes.
 
@@ -44,7 +69,7 @@ Le risque majeur pour NexaRetail n'est pas uniquement la présence d'erreurs : c
 
 **Critère de décision :** une mesure n'est publiable que si sa source, sa granularité et ses filtres sont explicites.
 
-### LOG-03 · Livraison et qualité de service
+### LOG-03 | Livraison et qualité de service
 
 **Symptômes envisagés :** retards, délais difficiles à expliquer, données de livraison incomplètes.
 
@@ -54,7 +79,7 @@ Le risque majeur pour NexaRetail n'est pas uniquement la présence d'erreurs : c
 
 **Critère de décision :** ne pas confondre corrélation, prédiction et levier opérationnel démontré.
 
-### COM-04 · Exploitation commerciale
+### COM-04 | Exploitation commerciale
 
 **Symptômes envisagés :** faible visibilité consolidée sur les ventes, les canaux et les magasins.
 
@@ -62,7 +87,7 @@ Le risque majeur pour NexaRetail n'est pas uniquement la présence d'erreurs : c
 
 **Réponse :** analyses par canal et magasin, comparaisons entre scénarios, rapprochements avec les montants de référence.
 
-### IA-05 · Expérimentation sans gouvernance
+### IA-05 | Expérimentation sans gouvernance
 
 **Symptômes envisagés :** attente de réponses automatiques, bénéfices difficiles à mesurer.
 
@@ -128,4 +153,4 @@ Cette séquence décrit une **dépendance de décision**, pas une preuve que cha
 
 **Recommandation :** adopter une transformation progressive, avec une priorité donnée à la qualité et à la traçabilité, puis à la diffusion d'indicateurs communs. Les composants IA doivent rester soumis à des tests et à une validation humaine.
 
-**Suite du dossier :** [Cartographie des processus](03_processus_metier.md) · [Dictionnaire des KPI](04_dictionnaire_indicateurs.md) · [Rapport final de conseil](12_rapport_final_conseil.md)
+**Suite du dossier :** [Cartographie des processus](03_processus_metier.md) | [Dictionnaire des KPI](04_dictionnaire_indicateurs.md) | [Rapport final de conseil](12_rapport_final_conseil.md)
