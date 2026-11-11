@@ -40,8 +40,7 @@ Cette cadence est une **proposition méthodologique**, non une gouvernance déj�
 
 **Mission retenue :** démontrer, dans un environnement synthétique, une démarche de conseil reliant **fiabilisation des données → architecture analytique → pilotage → expérimentation IA → décision économique**.
 
-> [!IMPORTANT]
-> Cette charte documente une **décision pédagogique simulée**, et non un contrat ou une approbation émanant d'un client réel. Les budgets de temps sont des **prévisions initiales**, pas des heures certifiées.
+**Statut du document :** Cette charte documente une **décision pédagogique simulée**, et non un contrat ou une approbation émanant d'un client réel. Les budgets de temps sont des **prévisions initiales**, pas des heures certifiées.
 
 | Paramètre | Référence |
 |:--|:--|
