@@ -1,156 +1,144 @@
-# CONSULTAI 360 : CHARTE DE PROJET
+# 06 · Charte de mission — ConsultAI 360
 
-**Entreprise :** NexaRetail (fictive)
+> **PROJECT CHARTER / NEXARETAIL**  
+> **Version :** cadrage initial 1.0, annoté pour lecture finale · **Validation :** simulée · **Entreprise :** fictive · **Pilotage :** projet individuel.
 
-**Mission :** Transformation Data & Intelligence Artificielle
+[← Périmètre](05_perimetre_projet.md) · [Index](INDEX.md) · [Roadmap initiale](feuille_de_route.md)
 
-**Version :** 1.0
+---
 
-**Statut :** Cadrage initial : Validation simulée
+## Décision de cadrage
 
-## 1. Contexte
+**Mission retenue :** démontrer, dans un environnement synthétique, une démarche de conseil reliant **fiabilisation des données → architecture analytique → pilotage → expérimentation IA → décision économique**.
 
-NexaRetail est une entreprise fictive française spécialisée dans le commerce omnicanal.
+> [!IMPORTANT]
+> Cette charte documente une **décision pédagogique simulée**, et non un contrat ou une approbation émanant d'un client réel. Les budgets de temps sont des **prévisions initiales**, pas des heures certifiées.
 
-Elle dispose de 35 magasins, d'environ 120 000 clients, de 450 collaborateurs et d'un catalogue de 8 000 produits.
+| Paramètre | Référence |
+|:--|:--|
+| Organisation | NexaRetail — distribution omnicanale fictive |
+| Commanditaire | Direction générale simulée |
+| Réalisation | Projet individuel ConsultAI 360 |
+| Budget de travail | **180 heures prévisionnelles** |
+| Horizon de données | **24 mois** (hypothèse de cadrage) |
+| Livrable décisionnel | Rapport final et recommandations de pilote |
+| Principe de qualité | Traçabilité des calculs et limites explicites |
 
-L'entreprise rencontre plusieurs difficultés liées à l'exploitation de ses données : informations de qualité variable, reporting fragmenté, visibilité limitée sur les opérations logistiques et absence de stratégie structurée en intelligence artificielle.
+## 1. Justification de la mission
 
-ConsultAI 360 propose une démarche de transformation visant à améliorer la fiabilité des données et leur utilisation dans les décisions métier.
+NexaRetail dispose, dans le scénario de travail, de **35 magasins**, **120 000 clients**, **450 employés** et **8 000 produits**. L'activité est distribuée entre magasins et e-commerce.
 
-## 2. Objectifs stratégiques
+Le risque central est de produire des décisions à partir de données incomplètes ou de définitions contradictoires. La mission doit rendre visibles les erreurs, documenter leur impact analytique et tester les conditions d'une utilisation responsable de l'IA.
 
-La mission poursuit cinq objectifs :
+## 2. Objectifs et critères de valeur
 
-1. **Fiabiliser les données** grâce à des contrôles automatisés.
-2. **Centraliser les informations** dans une architecture analytique cohérente.
-3. **Améliorer le pilotage** avec des indicateurs et des tableaux de bord.
-4. **Explorer les capacités prédictives** du Machine Learning.
-5. **Évaluer les opportunités de l'IA** à travers un assistant et une analyse financière.
+| Objectif stratégique | Question de direction | Critère de démonstration |
+|:--|:--|:--|
+| **Fiabiliser** | Quelles données sont utilisables ? | Anomalies mesurées, exclusions visibles |
+| **Consolider** | Quel chiffre fait autorité ? | Sources et granularités explicites |
+| **Piloter** | Où agir en priorité ? | Dashboard et indicateurs cohérents |
+| **Expérimenter** | Le ML apporte-t-il un signal ? | Évaluation indépendante, limites connues |
+| **Encadrer l'IA** | Peut-on expliquer sans inventer ? | Calculs déterministes, garde-fous |
+| **Décider** | Quel investissement tester ? | ROI hypothétique et pilote conditionnel |
 
-L'objectif final est de proposer des recommandations opérationnelles et stratégiques fondées sur des résultats vérifiables.
+## 3. Livrables et périmètre
 
-## 3. Périmètre fonctionnel
+| Workstream | Livrable | Frontière de responsabilité |
+|:--|:--|:--|
+| **Data Quality** | Jeux synthétiques, injections, audits | Pas de correction arbitraire sans source fiable |
+| **Data Engineering** | PostgreSQL RAW/CLEAN/DW et dbt | Pas de garantie de déploiement automatisé |
+| **BI** | Power BI, dictionnaire KPI | Indicateurs limités par la couverture des données |
+| **Data Science** | Évaluation ML DataCo | Pas de généralisation à NexaRetail |
+| **IA analytique** | Streamlit, assistant local, API documentée | Pas d'action autonome sur la base |
+| **Stratégie** | Scénarios ROI, recommandations, rapport | Pas de gains financiers réellement constatés |
 
-Le projet comprend quatre modules.
+### Exclusions majeures
 
-| Module | Finalité | Livrable |
-|---|---|---|
-| Data Quality Center | Détection et traitement des anomalies | Pipeline et rapport qualité |
-| BI Center | Analyse des performances | Data Warehouse et Power BI |
-| Predictive Analytics Center | Expérimentation prédictive | Modèles ML évalués |
-| AI Consulting Center | Interprétation des KPI | Application Streamlit |
+E-commerce réel, paiement opérationnel, infrastructure de production, application mobile, ERP/WMS complet, modèle ML déployé sur NexaRetail, LLM entraîné sur mesure et décisions automatisées.
 
-Ces modules seront complétés par une analyse du ROI, une stratégie de transformation et une documentation technique.
+## 4. Architecture de référence
 
-Le développement d'une plateforme e-commerce, d'une application mobile ou d'une infrastructure de production est exclu.
-
-## 4. Architecture prévisionnelle
-
-Le fonctionnement général reposera sur les étapes suivantes :
-
-```text
-Données synthétiques NexaRetail
-              |
-              v
-    Contrôles qualité Python
-              |
-              v
-          PostgreSQL
-              |
-              v
-        Transformations dbt
-              |
-              v
-         Data Warehouse
-              |
-       +------+------+
-       |             |
-       v             v
-    Power BI      Streamlit
-                     |
-                     v
-               Assistant IA
+```mermaid
+flowchart TD
+    A["NexaRetail · données synthétiques"] --> B["Anomalies / contrôles"]
+    B --> C["PostgreSQL · RAW / CLEAN / DW"]
+    C --> D["dbt · modèles et tests"]
+    C --> E["Power BI · 7 pages"]
+    C --> F["KPI SQL / Python"]
+    F --> G["Streamlit / assistant IA"]
+    H["DataCo · source publique indépendante"] --> I["ML · évaluation du retard"]
+    E --> J["Conseil et scénarios ROI"]
+    G --> J
+    I --> J
 ```
 
-Le module Machine Learning utilisera un jeu de données public distinct.
+Le diagramme représente des **composants documentés et leurs rôles analytiques** ; il ne garantit pas que tous les échanges soient automatisés en production.
 
-Ses performances ne seront pas présentées comme une validation sur les données de NexaRetail.
+## 5. Planning initial — base de référence
 
-## 5. Planification
-
-Le budget de travail prévisionnel est de **180 heures**, réparties en 12 phases.
-
-| Phase | Activité | Durée |
-|---|---|---:|
+| Phase | Activité | Estimation |
+|:--|:--|--:|
 | 1 | Cadrage métier | 6 h |
-| 2 | Génération des données | 10 h |
-| 3 | Injection d'anomalies et Excel | 10 h |
-| 4 | PostgreSQL et qualité des données | 15 h |
+| 2 | Génération synthétique | 10 h |
+| 3 | Anomalies et Excel | 10 h |
+| 4 | PostgreSQL et qualité | 15 h |
 | 5 | Data Warehouse et dbt | 15 h |
 | 6 | Power BI | 18 h |
 | 7 | Machine Learning | 17 h |
-| 8 | Assistant IA et Streamlit | 24 h |
-| 9 | Analyse du ROI | 14 h |
-| 10 | Stratégie de transformation | 8 h |
+| 8 | Streamlit et assistant IA | 24 h |
+| 9 | ROI | 14 h |
+| 10 | Stratégie | 8 h |
 | 11 | Tests et documentation | 21 h |
 | 12 | Rapport, présentation et GitHub | 22 h |
-| **Total** | | **180 h** |
+| **Total prévisionnel** | | **180 h** |
 
-Les durées constituent des estimations et pourront être ajustées selon les difficultés rencontrées.
+La [roadmap initiale](feuille_de_route.md) conserve ce découpage. L'évolution ultérieure du dashboard de quatre à **sept pages** illustre une modification de périmètre ; elle ne doit pas être réécrite rétroactivement comme une intention initiale.
 
-## 6. Parties prenantes
+## 6. Parties prenantes — simulation RACI simplifiée
 
-Dans le cadre de cette simulation, les principales parties prenantes sont :
+| Acteur fictif | Responsabilité principale |
+|:--|:--|
+| Direction générale | Priorités, arbitrage et décision de pilote |
+| Finance | Définitions financières et hypothèses ROI |
+| Commercial | Analyse des ventes et des canaux |
+| Logistique | Définition des retards et des populations évaluables |
+| Service client | Interprétation des réclamations |
+| Consultant Data & IA | Architecture, contrôles, analyses, restitution |
 
-| Partie prenante | Responsabilité simulée |
-|---|---|
-| Direction générale | Définition des priorités stratégiques |
-| Direction financière | Évaluation des coûts et du ROI |
-| Direction commerciale | Analyse des ventes |
-| Direction logistique | Suivi des livraisons |
-| Service client | Analyse des réclamations |
-| Consultant Data & IA | Conception, analyses et recommandations |
+Il n'existe **aucun comité de pilotage réel** associé à cette étude de cas.
 
-Le projet est réalisé individuellement. Les rôles métier correspondent à des interlocuteurs fictifs.
+## 7. Registre de risques
 
-## 7. Principaux risques
+| Risque | Conséquence | Mesure de maîtrise | Risque résiduel |
+|:--|:--|:--|:--|
+| Données manquantes | KPI incomplets | Mesure de couverture et conservation des anomalies | Décisions limitées par les sources |
+| Références invalides | Mauvaise attribution | Contrôles de clés, membres « Inconnu » | Attribution non récupérable sans vérité terrain |
+| Granularités confondues | Doubles comptes | Faits distincts, dictionnaire KPI | Mauvais usage possible par le lecteur |
+| Fuite de cible ML | Performance artificielle | Exclusion des variables postérieures à la prédiction | Décalage entre jeux de données |
+| Hallucination IA | Commentaire trompeur | Calculs SQL/Python, validation des réponses | Revue humaine requise |
+| ROI trop optimiste | Mauvaise allocation de capital | Scénarios et limites documentées | Gains non observés |
+| Reproductibilité incomplète | Reprise difficile | Guides, scripts, tests historiques | Environnement neuf non garanti |
 
-| Risque | Impact potentiel | Mesure préventive |
-|---|---|---|
-| Données incohérentes | KPI incorrects | Tests de qualité |
-| Périmètre trop large | Retards | Priorisation des fonctionnalités |
-| Complexité technique | Blocages | Développement progressif |
-| Résultats ML peu concluants | Faible valeur prédictive | Baselines et évaluation rigoureuse |
-| Réponses IA incorrectes | Recommandations trompeuses | Calculs vérifiés et tests |
-| Hypothèses ROI irréalistes | Conclusions financières fragiles | Scénarios et analyse de sensibilité |
+## 8. Gouvernance des changements
 
-## 8. Critères de validation
+Une demande d'évolution doit préciser **le besoin**, **les dépendances**, **le bénéfice attendu**, **le coût de réalisation**, **les contrôles nécessaires** et **l'impact documentaire**.
 
-La mission sera considérée comme techniquement aboutie lorsque :
+**Exemples de changements documentés :** extension Power BI à sept pages, sélection de DataCo pour le ML, ajout d'une API locale documentée, adoption de Streamlit/Ollama.
 
-- Les données synthétiques seront reproductibles.
-- Les anomalies injectées seront documentées et évaluées.
-- Les transformations SQL et dbt seront testées.
-- Les indicateurs Power BI seront cohérents avec les calculs de référence.
-- Les modèles ML disposeront d'une évaluation reproductible.
-- L'assistant IA aura été évalué sur au moins 20 questions.
-- Les hypothèses du ROI seront explicites.
-- Les recommandations seront reliées aux analyses réalisées.
-- Le dépôt GitHub et les documents permettront de comprendre les résultats.
+## 9. Conditions de réception
 
-## 9. Décision de cadrage
+La réception documentaire exige des preuves **traçables**, et non une déclaration générale de succès : code versionné, définitions de KPI, rapports de tests datés, protocole ML, limites de l'IA et hypothèses ROI.
 
-**Décision simulée :** le périmètre initial de ConsultAI 360 est retenu comme référence pour le développement.
+Le [bilan de validation](11_validation_reproductibilite.md) distingue tests historiques, validations de composants et absence de preuve de reconstruction intégrale.
 
-Toute modification majeure devra être évaluée selon son impact sur les objectifs, les délais et les livrables.
+### Décision finale de conseil
 
-Cette décision correspond à une validation interne du projet pédagogique et non à une approbation par un client réel.
+La recommandation documentée est un **pilote de 90 jours sous conditions**, avec **GO pour un pilote cadré** et **NO-GO pour une mise en production immédiate**. Il s'agit d'une recommandation dans le cas fictif, pas d'une autorisation de déploiement réelle.
 
-## 10. Conclusion
+## 10. Clôture du cadrage
 
-La phase de cadrage définit les objectifs, les limites, les livrables et les critères de réussite de ConsultAI 360.
+La charte fixe une ambition : **démontrer une méthode de transformation responsable plutôt que simuler une entreprise déjà transformée**. Les résultats, changements et limites sont détaillés dans les livrables finaux.
 
-Elle fournit un cadre de travail cohérent pour démarrer la génération des données et les développements techniques.
+---
 
-Les choix établis dans cette charte pourront être révisés si des contraintes techniques ou méthodologiques le justifient.
+[Rapport final de conseil](12_rapport_final_conseil.md) · [Bilan de validation](11_validation_reproductibilite.md) · [Retour à l'index](INDEX.md)
