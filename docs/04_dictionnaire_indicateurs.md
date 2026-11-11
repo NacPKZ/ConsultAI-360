@@ -197,14 +197,14 @@ Les pourcentages ne sont pas interchangeables. Un taux de complétude élevé ne
 ```sql
 SELECT
     COUNT(*) AS commandes,
-    COUNT(total_amount) AS montants_renseignes,
-    SUM(total_amount) AS ca_mesure,
-    AVG(total_amount) AS panier_sur_montants_connus
+    COUNT(order_total) AS montants_renseignes,
+    SUM(order_total) AS ca_mesure,
+    AVG(order_total) AS panier_sur_montants_connus
 FROM dw.fact_orders
 WHERE scenario = 'medium';
 ```
 
-Cette requête est un **pseudo-exemple SQL** : les noms de colonnes et le champ de scénario n'ont pas été confirmés ici dans le schéma physique. Ne pas l'exécuter tel quel sans vérifier les définitions du Data Warehouse.
+La table `dw.fact_orders` et ses colonnes `order_total` et `scenario` ont été rapprochées de `sql/04_warehouse/02_create_dw_tables.sql` et de `src/assistant/kpi.py`. Le calcul correspond à la logique de l'assistant ; son résultat chiffré dépend des données réellement chargées.
 
 ## Du calcul à l'interprétation
 
