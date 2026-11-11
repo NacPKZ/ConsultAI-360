@@ -1,235 +1,473 @@
-# ConsultAI 360 — NexaRetail | Data Quality, Analytics & AI Consulting
+<div align="center">
 
-> **Projet de conseil Data & IA — cas d'étude sur données synthétiques.** Conception d'une chaîne analytique PostgreSQL, simulation de dégradations de données, mesure de leur impact sur les KPI et préparation de recommandations business.
+# CONSULTAI 360
 
-**État (novembre 2026) :** chaîne SQL/Data Warehouse et dbt documentée ; dashboard Power BI à sept pages, expérience ML DataCo, API FastAPI, assistant Streamlit/Ollama, scénarios ROI et rapport final de conseil documentés. **Attention :** résultats de simulation, validations de composants à des dates différentes et reproductibilité intégrale non démontrée.
-**Technologies mises en œuvre :** Python 3.12, PostgreSQL 18, SQL, dbt Core 1.11.0, dbt-postgres 1.11.0, Power BI/DAX, scikit-learn, FastAPI, Streamlit, Ollama, DBeaver, VS Code, Git/GitHub.
-**Périmètre :** NexaRetail, entreprise fictive ; aucune conclusion ne porte sur une entreprise réelle.
+### From Data Quality to Business Decisions
 
-**Documentation complète :** [index des documents en français](docs/INDEX.md).
+**Mission de conseil Data, Analytics & Intelligence Artificielle**
 
-## Livrables et rapports
+**NexaRetail : cas d'étude de transformation data pour une entreprise omnicanale fictive**
 
-> **Rapport disponible :** [**01 — Data Engineering, Data Quality & Business Analytics (PDF)**](rapports/01_Rapport_Data_Engineering_Analytics.pdf)
-> Architecture PostgreSQL RAW → CLEAN → DW, audit de qualité, analyse de l'impact des anomalies sur les indicateurs métier, validation SQL et recommandations.
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![dbt](https://img.shields.io/badge/dbt-Core-FF694B?style=for-the-badge&logo=dbt&logoColor=white)](https://www.getdbt.com/)
+[![Power BI](https://img.shields.io/badge/Power_BI-DAX-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](https://powerbi.microsoft.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
 
-| Livrable | Statut | Accès |
+[**Application interactive**](https://consultai-360.streamlit.app/) | [**Rapport final de conseil**](docs/12_rapport_final_conseil.md) | [**Documentation complète**](docs/INDEX.md) | [**Rapport Data Engineering (PDF)**](rapports/01_Rapport_Data_Engineering_Analytics.pdf)
+
+*Novembre 2026 | Projet de portfolio | Données synthétiques et expériences indépendantes*
+
+</div>
+
+---
+
+## Le projet en 30 secondes
+
+**Comment une entreprise peut-elle prendre de bonnes décisions lorsque ses données sont incomplètes, incohérentes ou difficilement exploitables ?**
+
+ConsultAI 360 reproduit une mission de conseil Data et IA de bout en bout pour **NexaRetail**, un distributeur omnicanal fictif. Le projet part de données transactionnelles générées en Python, introduit des anomalies contrôlées, mesure leur impact dans PostgreSQL, construit une couche analytique avec dbt, puis restitue les résultats dans Power BI et une application Streamlit.
+
+En parallèle, une expérimentation de Machine Learning sur le dataset public **DataCo** étudie la prédiction du risque de retard logistique. Une analyse financière simulée complète le diagnostic et débouche sur une proposition de **pilote de 90 jours**.
+
+> **Positionnement :** démonstration de méthode, de compétences et de raisonnement consultant. NexaRetail n'est pas un client réel. Les résultats DataCo ne sont pas des prédictions sur NexaRetail, et les ROI présentés ne sont pas des gains réalisés.
+
+### Les repères essentiels
+
+|  | Indicateur | Portée |
+|:--|--:|:--|
+| **Données métier** | 10 tables sources | NexaRetail synthétique |
+| **Scénarios** | 4 | ORIGINAL, LOW, MEDIUM, CRITICAL |
+| **Volume RAW total** | 4 107 649 lignes | Somme des quatre scénarios |
+| **Commandes de référence** | 120 000 | Scénario ORIGINAL |
+| **Transformation dbt** | 16 modèles et 37 tests | Dernier build historique : 53/53 PASS |
+| **Reporting** | 7 pages | Power BI |
+| **Tests Python** | 31 réussis | Exécution documentée du 10/11/2026 |
+| **Prédiction** | ROC-AUC 0,7605 | Random Forest évalué sur DataCo |
+
+## Explorer la démonstration
+
+<div align="center">
+
+### [Ouvrir ConsultAI 360 sur Streamlit](https://consultai-360.streamlit.app/)
+
+**Application de démonstration interactive**
+
+[Documentation de l'interface et de l'API](docs/09_documentation_api.md) | [Guide d'installation de l'assistant](docs/guides/installation_assistant_ia.md)
+
+</div>
+
+L'application s'inscrit dans la logique du projet : rendre les indicateurs consultables et fournir une interprétation encadrée. Les fonctions métier calculent les chiffres ; le modèle de langage intervient dans la rédaction de commentaires, avec contrôle du format et mécanisme de repli.
+
+L'adresse publique a été communiquée pour le projet. Sa disponibilité permanente et les connexions de production ne sont pas certifiées par la documentation GitHub.
+
+## Technologies, outils et logiciels
+
+### Stack technique
+
+| Domaine | Technologies | Utilisation dans ConsultAI 360 |
 |---|---|---|
-| **01 — Data Engineering, Data Quality & Business Analytics** | Disponible | [Consulter le rapport PDF](rapports/01_Rapport_Data_Engineering_Analytics.pdf) |
-| 02 — Business Intelligence & Data Visualisation | Documenté | [Documentation Power BI](docs/10_rapport_power_bi.md) |
-| 03 — Machine Learning & évaluation | Documenté | [Rapport ML final](docs/08_rapport_final_prediction.md) |
-| 04 — Synthèse finale de conseil Data & IA | Disponible | [Rapport final](docs/12_rapport_final_conseil.md) |
+| **Programmation et simulation** | Python 3.12, pandas, NumPy | Génération, audit, transformations, calculs et automatisation |
+| **Base de données** | PostgreSQL 18, SQL, psycopg | Stockage, contrôle qualité, modèle dimensionnel et requêtes KPI |
+| **Data Engineering** | dbt Core, dbt-postgres | Staging, transformations intermédiaires, marts et tests |
+| **Business Intelligence** | Microsoft Power BI, Power Query, DAX | Modélisation, mesures, tableaux de bord et analyse des scénarios |
+| **Machine Learning** | scikit-learn, Random Forest | Classification du risque de retard et comparaison de modèles |
+| **Expérimentation ML** | MLflow, analyses de seuils et explicabilité | Traçabilité et analyse des expérimentations documentées |
+| **Application web** | Streamlit, Plotly | Interface de démonstration et visualisation interactive |
+| **API** | FastAPI, Pydantic | Routes HTTP locales, validation et consultation de KPI |
+| **IA générative locale** | Ollama, Llama 3.2 | Commentaires métier contrôlés sur des résultats déterministes |
+| **Qualité logicielle** | pytest | Tests unitaires et tests de comportement |
+| **Environnement** | Docker, Docker Compose | Configuration PostgreSQL et dbt conteneurisée |
+| **Versionnement** | Git, GitHub | Historique, organisation du code et documentation |
 
-Le rapport Data Engineering PDF est conservé dans [`rapports/`](rapports/). Le rapport final de conseil et les documentations de composants sont dans [`docs/`](docs/). Les scripts restent dans leurs dossiers techniques. [Bilan de validation et reproductibilité](docs/11_validation_reproductibilite.md).
+### Environnement de travail
 
-## Résumé exécutif
-
-Le chiffre d'affaires de référence sur les **120 000 commandes originales** est de **72 056 406,60 €**. Les variantes dégradées, à volume de commandes constant, produisent des montants inférieurs :
-
-| Jeu | Commandes | CA des commandes | Écart à l'original | Écart % |
-|---|---:|---:|---:|---:|
-| ORIGINAL | 120 000 | 72 056 406,60 € | — | — |
-| LOW | 120 000 | 71 327 494,22 € | −728 912,38 € | −1,01 % |
-| MEDIUM | 120 000 | 68 448 127,94 € | −3 608 278,66 € | −5,01 % |
-| CRITICAL | 120 000 | 64 901 512,00 € | −7 154 894,60 € | −9,93 % |
-
-**Interprétation :** le scénario CRITICAL sous-estime le **CA mesuré** de 7,15 M€ ; ce n'est **pas** une perte de trésorerie ou de chiffre d'affaires réellement subie. Les scénarios représentent des dégradations simulées, et non une estimation statistique d'un risque réel.
-
-## Architecture et volumes
-
-```text
-Données NexaRetail originales (synthétiques)
-            |
-            v
-Injection d'anomalies -> LOW / MEDIUM / CRITICAL
-            |
-            v
-PostgreSQL raw (4 107 649 lignes, original compris)
-            |
-            v
-Contrôles et préparation -> clean (3 019 182 lignes)
-            |
-            v
-Data Warehouse dimensionnel (dw)
-  dim_customers / dim_products / dim_stores / dim_dates
-  fact_orders / fact_sales / fact_payments
-            |
-            v
-KPI SQL, analyse d'impact, contrôle de qualité
-            |
-            v
-Exploitation BI / recommandations (Power BI, API et Streamlit documentés)
-```
-
-- **RAW :** 1 006 394 lignes ORIGINAL ; 1 011 524 LOW ; 1 032 042 MEDIUM ; 1 057 689 CRITICAL.
-- **CLEAN :** 1 006 394 lignes par scénario, soit 3 019 182.
-- **DW :** 360 000 commandes, 818 859 lignes de vente, 376 503 paiements, 730 dates, 360 003 membres clients, 24 003 produits et 108 magasins.
-- Les jointures respectent le champ `scenario` pour ne jamais croiser les variantes.
-
-## Qualité des données : anomalies préservées et mesurées
-
-| Indicateur | LOW | MEDIUM | CRITICAL | Total |
-|---|---:|---:|---:|---:|
-| Commandes avec client inconnu | 1 200 | 6 000 | 12 000 | 19 200 |
-| Lignes avec produit inconnu | 2 730 | 13 648 | 27 295 | 43 673 |
-| Paiements sans commande correspondante | 1 255 | 6 275 | 12 550 | 20 080 |
-| Commandes sans date | 1 200 | 6 000 | 12 000 | 19 200 |
-
-Les **82 953** anomalies de référence correspondent à des **lignes affectées dans trois tables distinctes**, pas nécessairement à 82 953 transactions uniques. Les dates manquantes sont un autre indicateur et ne doivent pas être ajoutées sans vérifier les recouvrements.
-
-Dans CRITICAL, les paiements non rattachables représentent **6 459 898,61 €** et le CA non attribuable à un client connu **6 478 206,85 €**. Ce sont des **montants non attribuables**, pas des pertes économiques constatées.
-
-### Choix de gouvernance
-
-- Conserver les lignes transactionnelles même lorsque des références sont invalides.
-- Utiliser un membre technique **« Inconnu » par scénario** dans les dimensions clients, produits et magasins.
-- Préserver `order_key IS NULL` pour les paiements non rattachables ; ne pas inventer de commande.
-- Conserver les montants commandes, lignes de vente et paiements dans **des faits distincts**, car leurs granularités diffèrent.
-- Documenter les écarts entre `SUM(order_total)` et `SUM(line_total)` ; ne pas les présenter comme équivalents.
-- La piste de restauration depuis les sources originales a été **explorée mais différée** : le schéma `recovered` est expérimental, sans correction appliquée. En entreprise, une restauration exige une source de vérité vérifiée et une piste d'audit.
-
-## Organisation des scripts
-
-| Dossier | Fonction |
+| Logiciel | Rôle |
 |---|---|
-| `sql/01_setup/` | Préparation et génération de structure RAW |
-| `sql/02_raw/` | Création/import des données RAW |
-| `sql/03_clean/` | Audit, tables typées, import CLEAN et expérimentation RECOVERED |
-| `sql/04_warehouse/` | Inspection, schéma dimensionnel, chargement dimensions/faits |
-| `sql/05_analytics/` | KPI métier, comparaison des scénarios, référence ORIGINAL |
-| `sql/06_optimization/` | Index, statistiques et `EXPLAIN (ANALYZE, BUFFERS)` |
-| `sql/07_tests/` | Contrôles qualité, vérifications DW et tests finaux |
+| **Visual Studio Code** | Développement Python, SQL, fichiers de configuration et Git |
+| **DBeaver** | Exploration et administration de la base PostgreSQL |
+| **Power BI Desktop** | Construction et mise en forme du rapport décisionnel |
+| **Microsoft Excel** | Contrôles exploratoires et travail sur les données tabulaires |
+| **PowerShell / terminal Windows** | Exécution des scripts, tests et commandes de maintenance |
+| **Docker Desktop** | Gestion du moteur Docker local |
 
-**Attention :** le dossier réel est `sql/04_warehouse/`, et non `sql/04_dw/`.
+Les outils cités n'ont pas tous le même niveau de preuve : certains sont au cœur des traitements vérifiés, d'autres interviennent dans la préparation, l'exploration ou une configuration technique documentée.
 
-### Reproduire les travaux
+## Architecture de la mission
 
-1. Préparer PostgreSQL et la base `nexaretail_db`, avec les schémas `raw`, `clean`, `dw` et les dépendances Python nécessaires.
-2. Disposer des fichiers sources et des variantes générées localement ; le dépôt seul ne garantit pas la présence des données ni leur droit de redistribution.
-3. Exécuter les scripts dans l'ordre numérique, en adaptant les chemins, identifiants et paramètres de connexion à son environnement.
-4. Contrôler les volumes RAW, puis charger les fichiers de `data/processed_v2/` dans CLEAN. **Ne pas réutiliser l'ancien traitement V1.**
-5. Exécuter `sql/04_warehouse/02_create_dw_tables.sql`, puis `03_load_dimensions.sql` et `04_load_facts.sql`.
-6. Exécuter les requêtes analytiques et les tests, notamment `sql/07_tests/05_final_dw_tests.sql`.
+~~~mermaid
+flowchart TB
+  subgraph N["NexaRetail : données synthétiques"]
+    A["Python : génération de 10 tables"] --> B["ORIGINAL / LOW / MEDIUM / CRITICAL"]
+    B --> C["PostgreSQL RAW"]
+    C --> D["CLEAN : qualification et contrôles"]
+    D --> E["DW : dimensions et tables de faits"]
+    E --> F["dbt : staging, intermediate, marts"]
+    E --> G["KPI SQL et fonctions métier"]
+  end
+  F --> H["Power BI : 7 pages"]
+  G --> I["Streamlit et API locale"]
+  I --> J["Ollama : commentaires encadrés"]
+  subgraph M["Expérimentation ML indépendante"]
+    K["DataCo : données publiques"] --> L["Préparation par commande"]
+    L --> P["Baseline / Random Forest"]
+    P --> Q["Évaluation et seuil de décision"]
+  end
+  H --> R["Diagnostic et recommandations"]
+  J --> R
+  Q --> R
+  R --> S["Scénarios ROI et pilote de 90 jours"]
+~~~
 
-Les scripts ne constituent **pas** encore un pipeline de déploiement intégralement automatisé. Le script de copie `sql/03_clean/05_copy_clean_to_recovered.sql` a déjà été utilisé pour créer les tables expérimentales : **ne pas le relancer sans vérifier son comportement et l'état des tables**. Ne jamais publier mots de passe, fichiers sensibles ou jeux de données sans vérification des droits.
+**Trois périmètres distincts :** NexaRetail fournit les données métier synthétiques, DataCo fournit la population de l'expérience prédictive, et le ROI utilise des hypothèses financières. Leur réunion dans une présentation ne signifie pas qu'ils proviennent d'une même base de données.
 
-## Transformations et tests avec dbt
+[Schéma relationnel détaillé](docs/modele_donnees/01_schema_relationnel.md) | [Organisation technique](docs/guides/organisation_technique.md) | [Feuille de route](docs/feuille_de_route.md)
 
-La couche analytique dbt complète les travaux PostgreSQL RAW → CLEAN → DW. Elle permet de structurer les transformations, de mesurer les anomalies par scénario, de tester les résultats et de publier un graphe de dépendances (*lineage*).
+## 01. Business understanding : comprendre NexaRetail
 
-**État vérifié (novembre 2026) :** 16 modèles, 37 tests automatisés et 11 sources déclarées ; dernier `dbt build` global : **53/53 PASS**. La documentation dbt a été générée et consultée localement.
+NexaRetail simule un réseau de distribution omnicanal avec **35 magasins**, **120 000 clients**, **8 000 produits** et **450 employés** dans son scénario de référence.
 
-### Organisation
+La mission répond à quatre questions :
 
-| Élément | Rôle |
+1. **Fiabilité :** quelles anomalies perturbent les mesures commerciales et logistiques ?
+2. **Pilotage :** comment construire des KPI comparables et interprétables ?
+3. **Anticipation :** quelles conditions rendent un modèle de risque logistique exploitable ?
+4. **Décision :** quelles initiatives méritent un investissement ou un pilote ?
+
+Le cadrage comprend un diagnostic, une cartographie des processus, un dictionnaire d'indicateurs, une définition du périmètre et une charte de projet.
+
+[Contexte métier](docs/01_contexte_metier.md) | [Diagnostic](docs/02_diagnostic_metier.md) | [Processus](docs/03_processus_metier.md) | [Dictionnaire KPI](docs/04_dictionnaire_indicateurs.md)
+
+## 02. Data generation : quatre scénarios pour tester la robustesse
+
+Les données sont générées artificiellement pour représenter commandes, lignes d'articles, paiements, livraisons, stocks et réclamations. Trois variantes dégradées permettent de tester les contrôles et la résistance des analyses.
+
+| Scénario | Lignes RAW | Fonction |
+|---|---:|---|
+| **ORIGINAL** | 1 006 394 | Référence synthétique |
+| **LOW** | 1 011 524 | Dégradation limitée |
+| **MEDIUM** | 1 032 042 | Dégradation intermédiaire |
+| **CRITICAL** | 1 057 689 | Dégradation plus importante |
+| **TOTAL** | **4 107 649** | Lignes cumulées des dix tables |
+
+Les anomalies incluent notamment des références client ou produit invalides, des paiements non rattachables et des dates manquantes. Leur présence est volontaire : supprimer systématiquement les lignes anormales ferait disparaître une partie du problème à mesurer.
+
+### Exemples de contrôles qualité
+
+| Contrôle | LOW | MEDIUM | CRITICAL |
+|---|---:|---:|---:|
+| Commandes avec client inconnu | 1 200 | 6 000 | 12 000 |
+| Lignes avec produit inconnu | 2 730 | 13 648 | 27 295 |
+| Paiements non rattachables | 1 255 | 6 275 | 12 550 |
+| Commandes sans date | 1 200 | 6 000 | 12 000 |
+
+Ces comptages concernent des **types d'anomalies et des grains différents**. Ils ne doivent pas être additionnés sans contrôler les recouvrements.
+
+[Diagnostic complet](docs/02_diagnostic_metier.md) | [Schéma et cardinalités](docs/modele_donnees/01_schema_relationnel.md)
+
+## 03. Data Engineering : PostgreSQL, qualité et Data Warehouse
+
+Le parcours de données distingue trois couches :
+
+| Couche | Fonction | Principe |
+|---|---|---|
+| **RAW** | Conserver les entrées et les scénarios | Traçabilité des données initiales et dégradées |
+| **CLEAN** | Typer, contrôler et qualifier | Une donnée contrôlée n'est pas forcément corrigée |
+| **DW** | Fournir des faits et dimensions analytiques | Granularités et jointures explicites |
+
+Le modèle dimensionnel sépare les **commandes**, les **lignes de vente**, les **paiements** et les **expéditions**. Cette séparation évite de multiplier artificiellement les montants lorsqu'une commande possède plusieurs articles ou plusieurs opérations associées.
+
+Les membres techniques « Inconnu » permettent de conserver des transactions dont certaines références sont dégradées. Les paiements sans commande identifiable ne sont pas associés arbitrairement à une commande inventée.
+
+### Un résultat métier important : le chiffre d'affaires mesuré
+
+| Scénario | Commandes de référence | CA mesuré | Écart vs ORIGINAL |
+|---|---:|---:|---:|
+| ORIGINAL | 120 000 | 72 056 406,60 € | Référence |
+| LOW | 120 000 | 71 327 494,22 € | -1,01 % |
+| MEDIUM | 120 000 | 68 448 127,94 € | -5,01 % |
+| CRITICAL | 120 000 | 64 901 512,00 € | -9,93 % |
+
+~~~mermaid
+xychart-beta
+    title "CA mesuré selon le scénario (millions EUR)"
+    x-axis ["ORIGINAL", "LOW", "MEDIUM", "CRITICAL"]
+    y-axis "Millions EUR" 0 --> 80
+    bar [72.06, 71.33, 68.45, 64.90]
+~~~
+
+Dans CRITICAL, le CA mesuré est inférieur de **7 154 894,60 €** à la référence. Il s'agit d'une **sous-estimation de l'indicateur liée à la dégradation des données**, pas d'une perte de ventes ou de trésorerie réellement observée.
+
+[Définitions et limites des KPI](docs/04_dictionnaire_indicateurs.md) | [Rapport Data Engineering en PDF](rapports/01_Rapport_Data_Engineering_Analytics.pdf)
+
+## 04. Analytics Engineering : dbt et tests
+
+Le projet dbt organise les transformations selon trois niveaux :
+
+~~~mermaid
+flowchart LR
+ A["Sources PostgreSQL"] --> B["Staging : vues"]
+ B --> C["Intermediate : vues"]
+ C --> D["Marts : tables"]
+ D --> E["Analyses et contrôles"]
+~~~
+
+Les deux marts métier documentés sont :
+
+- **mart_data_quality_summary** : mesure des anomalies et de leur fréquence par scénario.
+- **mart_revenue_impact** : comparaison du CA mesuré avec la référence synthétique.
+
+**Bilan historique : 16 modèles, 37 tests, 11 sources déclarées et 53/53 éléments réussis lors du dernier `dbt build` documenté.** Ce résultat ne signifie pas que 53 tests indépendants ont été exécutés, ni qu'une reconstruction Docker complète vient d'être validée.
+
+[Guide des transformations dbt](dbt_nexaretail/README.md) | [Guide Docker](docker/README.md) | [Registre des preuves](docs/11_validation_reproductibilite.md)
+
+## 05. Business Intelligence : sept pages Power BI
+
+Le rapport adopte une identité visuelle **bleu marine, doré et fond clair**. Chaque page répond à une question métier et distingue les données mesurées des hypothèses.
+
+| Page | Thème | Décision éclairée |
+|---|---|---|
+| **01** | Vue générale | Suivre les indicateurs clés |
+| **02** | Performance commerciale | Comparer magasins et canaux |
+| **03** | Performance logistique | Analyser les livraisons évaluables et les retards |
+| **04** | Qualité des données | Identifier les anomalies et les exclusions |
+| **05** | Analyse IA et prédictions | Présenter les résultats du modèle **DataCo** |
+| **06** | Impact financier et ROI | Comparer trois hypothèses de valeur |
+| **07** | Recommandations stratégiques | Prioriser les actions et préparer le pilote |
+
+Les pages 1 à 4 concernent les données synthétiques NexaRetail. La page 5 restitue l'expérience ML sur DataCo. Les pages 6 et 7 utilisent notamment des hypothèses financières et une proposition de transformation.
+
+Le projet mobilise **Power Query**, la modélisation relationnelle, les **mesures DAX**, les filtres, les visuels de comparaison, la navigation et la conception d'un rapport décisionnel.
+
+[Documentation détaillée du dashboard](docs/10_rapport_power_bi.md)
+
+## 06. Machine Learning : prédire le risque de retard
+
+L'expérience prédictive utilise **DataCo Supply Chain**, une source publique distincte de NexaRetail. L'objectif est d'estimer le risque de livraison tardive sans employer des informations qui ne seraient connues qu'après l'expédition.
+
+| Élément | Valeur documentée |
+|---|---:|
+| Lignes d'articles dans la source | 180 519 |
+| Commandes distinctes | 65 752 |
+| Train | 46 026 commandes |
+| Validation | 9 863 commandes |
+| Test | 9 863 commandes |
+| Cible | `Late_delivery_risk` |
+
+Le protocole prévoit une séparation par commande, la prévention des fuites de données, une baseline, un Random Forest et une analyse des compromis entre fausses alertes et retards non détectés.
+
+### Résultats d'évaluation documentés
+
+| Métrique | Baseline | Random Forest |
+|---|---:|---:|
+| ROC-AUC | 0,729 | **0,7605** |
+| PR-AUC | 0,750 | **0,819** |
+| Précision | **0,802** | 0,6588 |
+| Rappel | 0,587 | **0,7766** |
+| F1 | 0,678 | **0,7129** |
+| Faux négatifs | 2 242 | **1 213** |
+| Faux positifs | **787** | 2 184 |
+
+**Seuil de décision retenu pour le Random Forest : 0,40.**
+
+Le modèle améliore le rappel et le F1 dans l'évaluation rapportée, mais génère davantage de fausses alertes. Le meilleur choix dépendrait du coût opérationnel de chaque type d'erreur.
+
+Les performances sont **propres à DataCo**. Elles ne constituent ni une validation sur NexaRetail ni la preuve d'une baisse réelle des retards.
+
+[Problématique et protocole](docs/07_problematique_prediction.md) | [Rapport ML et limites](docs/08_rapport_final_prediction.md)
+
+## 07. Assistant IA et API : interpréter sans inventer les chiffres
+
+L'assistant suit une séparation stricte des responsabilités :
+
+~~~mermaid
+flowchart LR
+ A["Question métier"] --> B["Fonction KPI autorisée"]
+ B --> C["PostgreSQL en lecture seule"]
+ C --> D["Résultat calculé"]
+ D --> E["Commentaire Ollama"]
+ E --> F["Contrôle de conformité"]
+ F --> G["Réponse ou repli déterministe"]
+~~~
+
+- **Calcul :** fonctions Python et requêtes SQL paramétrées.
+- **Accès aux données :** rôle PostgreSQL à privilèges limités et transaction en lecture seule.
+- **Interprétation :** commentaires générés par un modèle Ollama local.
+- **Contrôle :** validation de structure, restrictions sur les chiffres générés et réponse de repli.
+- **Interface :** Streamlit.
+- **API locale :** FastAPI, avec routes `/health`, `/scenarios` et `/kpis/{scenario}`.
+
+Le LLM **ne génère pas de SQL à exécuter librement**. Le mode démonstration de l'API et l'accès à une base réelle sont deux contextes différents ; le fonctionnement public d'une API de production n'est pas revendiqué.
+
+[Application Streamlit](https://consultai-360.streamlit.app/) | [Documentation API](docs/09_documentation_api.md) | [Installation et sécurité](docs/guides/installation_assistant_ia.md)
+
+## 08. Analyse financière : trois scénarios de ROI
+
+Le modèle financier explore un investissement initial hypothétique de **50 000 €** et des gains annuels supposés.
+
+| Scénario | Gains annuels supposés | Gain net calculé | ROI simulé |
+|---|---:|---:|---:|
+| Prudent | 68 250 € | 18 250 € | **36,5 %** |
+| Central | 105 000 € | 55 000 € | **110 %** |
+| Optimiste | 147 000 € | 97 000 € | **194 %** |
+
+Ces calculs dépendent des hypothèses et du périmètre des coûts retenus. Ils **ne mesurent pas un ROI effectivement obtenu**, ne prouvent aucune causalité et ne remplacent pas un budget de production complet.
+
+### Décision de conseil proposée
+
+~~~mermaid
+flowchart LR
+ A["Fiabiliser les KPI"] --> B["Pilote de 90 jours"]
+ B --> C["Mesurer coûts, usages et résultats"]
+ C --> D{"Valeur démontrée ?"}
+ D -->|Oui| E["Étudier une extension"]
+ D -->|Non| F["Corriger ou arrêter"]
+~~~
+
+**Recommandation : GO pour un pilote instrumenté, NO-GO pour une industrialisation immédiate.**
+
+[Rapport final de conseil](docs/12_rapport_final_conseil.md) | [Feuille de route](docs/feuille_de_route.md)
+
+## Compétences démontrées
+
+| Famille | Compétences mises en pratique |
 |---|---|
-| `dbt_nexaretail/models/staging/` | Préparation des sources PostgreSQL, colonnes explicites et conservation du champ `scenario` |
-| `dbt_nexaretail/models/intermediate/` | Contrôles référentiels sur les clients, produits et paiements ; conservation des lignes anormales |
-| `dbt_nexaretail/models/marts/` | Synthèses exploitables pour l'analyse de la qualité et l'impact financier simulé |
-| `dbt_nexaretail/tests/` | Tests SQL de cohérence métier et des clés |
+| **Conseil Data et stratégie** | Cadrage, diagnostic, définition du périmètre, priorisation, scénarios ROI, recommandation |
+| **Business Analysis** | Cartographie des processus, besoins métier, définition et interprétation des KPI |
+| **Data Quality** | Profilage, complétude, intégrité référentielle, anomalies, règles de contrôle, traçabilité |
+| **Data Engineering** | Génération de données, modélisation relationnelle, pipelines SQL, architecture RAW/CLEAN/DW |
+| **Analytics Engineering** | Modélisation dimensionnelle, transformations dbt, marts, tests et lineage |
+| **Business Intelligence** | Power Query, DAX, datavisualisation, navigation, reporting décisionnel |
+| **Machine Learning** | Préparation, split, prévention des fuites, classification, évaluation, seuils et explicabilité |
+| **IA appliquée** | Intégration d'un LLM local, séparation calcul/interprétation, garde-fous, fallback |
+| **Développement** | Python, API FastAPI, Streamlit, tests automatisés, configuration |
+| **Documentation et qualité** | Git, GitHub, preuves de validation, procédures, limites et reproductibilité |
 
-Deux marts principaux sont documentés :
+### Livrables accessibles
 
-- **`mart_data_quality_summary`** : nombre et taux de références manquantes par scénario et type d'anomalie.
-- **`mart_revenue_impact`** : comparaison du CA observé dans LOW, MEDIUM et CRITICAL au CA de référence ORIGINAL, avec taux de montants absents.
+| Livrable | Accès |
+|---|---|
+| **Rapport Data Engineering, Data Quality & Analytics** | [Rapport PDF](rapports/01_Rapport_Data_Engineering_Analytics.pdf) |
+| **Dashboard Power BI** | [Rapport de conception et d'analyse](docs/10_rapport_power_bi.md) |
+| **Expérimentation Machine Learning** | [Rapport d'évaluation](docs/08_rapport_final_prediction.md) |
+| **Application Streamlit** | [Démonstration interactive](https://consultai-360.streamlit.app/) |
+| **API FastAPI** | [Documentation et routes](docs/09_documentation_api.md) |
+| **Rapport final de conseil** | [Synthèse, ROI et recommandations](docs/12_rapport_final_conseil.md) |
+| **Documentation complète** | [Index des 12 chapitres et guides](docs/INDEX.md) |
+| **Plan initial et bilan d'évolution** | [Feuille de route](docs/feuille_de_route.md) |
+| **Registre de validation** | [Tests et limites](docs/11_validation_reproductibilite.md) |
 
-Les écarts de CA sont des **sous-estimations simulées de l'indicateur observé**, pas des pertes commerciales constatées. Les jointures tiennent compte du scénario pour éviter de mélanger les variantes.
+## Organisation du dépôt
 
-### Préparer l'environnement local (Windows / PowerShell)
+~~~text
+ConsultAI-360/
+├── api/                    # API FastAPI locale
+├── app.py                  # Interface Streamlit
+├── data/                   # Données locales selon disponibilité
+├── dbt_nexaretail/         # Modèles, tests et configuration dbt
+├── docker/                 # Profil de connexion dbt Docker
+├── docs/                   # 12 chapitres, guides, index et archives
+├── rapports/               # Rapport PDF conservé
+├── reports/                # Sorties et artefacts analytiques
+├── sql/                    # Scripts PostgreSQL numérotés
+├── src/
+│   ├── assistant/          # Fonctions KPI et règles IA
+│   └── ml/                 # Préparation et évaluation DataCo
+├── tests/                  # Tests Python
+├── compose.yaml            # Configuration Docker Compose
+├── Dockerfile.dbt          # Image d'exécution dbt
+└── README.md
+~~~
 
-Prérequis : Python 3.12 et PostgreSQL accessible sur `localhost:5432`, avec une base `nexaretail_db` contenant les données `raw` et `clean` préalablement préparées. Le dépôt ne fournit pas automatiquement une base de données prête à l'emploi.
+Cette arborescence est une **vue fonctionnelle simplifiée**. D'autres fichiers, dossiers techniques et artefacts peuvent être présents.
 
-Depuis la racine du dépôt :
+[Guide de l'organisation technique](docs/guides/organisation_technique.md) | [Schéma relationnel](docs/modele_donnees/01_schema_relationnel.md)
 
-```powershell
+## Exécution locale : points d'entrée
+
+Le dépôt n'est pas présenté comme une installation complète en un clic. Les données d'entrée, les secrets, certaines sorties de modèles et les configurations locales peuvent ne pas être versionnés.
+
+### Python et tests
+
+~~~powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-```
+python -m pytest -q tests
+~~~
 
-Pour exécuter les scripts de Machine Learning, installer également les dépendances spécifiques avec `python -m pip install -r requirements-ml.txt`. Les versions déclarées ne garantissent pas à elles seules la reproduction exacte des expériences historiques.
+Pour les modules spécifiques, utiliser également les fichiers de dépendances prévus dans le dépôt, notamment `requirements-ml.txt` et `requirements-assistant.txt`.
 
-Les versions dbt utilisées et testées sont `dbt-core==1.11.0` et `dbt-postgres==1.11.0`. Les mettre à jour nécessite de relancer les validations.
+### PostgreSQL et SQL
 
-Configurer le fichier local `C:\Users\<utilisateur>\.dbt\profiles.yml` en faisant correspondre le **nom du profil** à celui défini dans `dbt_nexaretail/dbt_project.yml`. Exemple de connexion à adapter :
+Les scripts se trouvent dans `sql/`, classés par étapes. La base `nexaretail_db` doit disposer des schémas et des sources attendus. Les chemins locaux et les paramètres d'import sont à adapter.
 
-```yaml
-<nom_du_profil>:
-  target: dev
-  outputs:
-    dev:
-      type: postgres
-      host: localhost
-      port: 5432
-      user: postgres
-      password: "{{ env_var('DBT_POSTGRES_PASSWORD') }}"
-      dbname: nexaretail_db
-      schema: dbt_dev
-      threads: 4
-```
+Ordre de travail recommandé : préparer les sources, importer RAW, qualifier CLEAN, construire DW, puis exécuter les analyses et contrôles.
 
-Ne jamais committer le fichier local `profiles.yml` avec des identifiants sensibles, ni le mot de passe PostgreSQL. Dans chaque nouvelle session PowerShell :
+### dbt avec Docker Compose
 
-```powershell
-$securePassword = Read-Host "Mot de passe PostgreSQL" -AsSecureString
-$env:DBT_POSTGRES_PASSWORD = [System.Net.NetworkCredential]::new("", $securePassword).Password
-Remove-Variable securePassword
-```
+~~~powershell
+# Nécessite Docker Desktop, les sources et la variable
+# DOCKER_POSTGRES_PASSWORD configurée localement.
+docker compose up -d postgres
+docker compose build dbt
+docker compose run --rm dbt debug
+docker compose run --rm dbt build
+~~~
 
-### Exécuter et contrôler
+Dans le réseau Compose, dbt contacte PostgreSQL via `postgres:5432`. Le port hôte configuré est `127.0.0.1:5433`. Les deux contextes ne doivent pas être confondus.
 
-```powershell
-dbt debug --project-dir .\dbt_nexaretail
-dbt build --project-dir .\dbt_nexaretail
-dbt docs generate --project-dir .\dbt_nexaretail
-dbt docs serve --project-dir .\dbt_nexaretail --port 8080
-```
+**Ne pas utiliser `docker compose down -v` sans décision explicite :** cette option peut supprimer le volume de données PostgreSQL.
 
-`dbt build` construit les modèles et exécute les tests. `dbt docs serve` démarre un serveur local de documentation sur le port 8080 ; arrêter ce serveur avec `Ctrl+C` dans son terminal.
+[Guide dbt](dbt_nexaretail/README.md) | [Guide Docker](docker/README.md) | [Guide assistant IA](docs/guides/installation_assistant_ia.md)
 
-**Reproductibilité :** ces commandes ont été validées sur l'environnement local du projet. Elles supposent que les données sources, les schémas PostgreSQL et les droits d'accès existent déjà. La reconstruction complète depuis un ordinateur vierge n'est pas encore automatisée ni vérifiée. Une configuration Docker Compose est versionnée (`compose.yaml` et `Dockerfile.dbt`), mais son fonctionnement de bout en bout n'a pas été revalidé pendant cet audit.
+## Tests, validation et limites
 
-## Validation et performance
+Les preuves sont classées selon leur nature et leur date.
 
-- **9/9** contrôles de volumes CLEAN → DW : PASS.
-- **9/9** contrôles de sommes CLEAN → DW : PASS.
-- **5/5** relations de scénarios : 0 mélange.
-- **10/10** tests finaux automatisés : PASS, y compris les anomalies connues attendues.
-- Trois plans `EXPLAIN ANALYZE` : **174,65 ms** (CA mensuel), **344,92 ms** (CA catégorie), **93,98 ms** (commandes CRITICAL datées).
-- Ces mesures ont été faites **après** indexation ; **aucun gain avant/après n'est démontré**. Les `Parallel Seq Scan` et `Hash Join` sont cohérents avec des requêtes parcourant une grande part des données.
+| Domaine | Dernière preuve documentée | Ce qu'elle ne démontre pas |
+|---|---|---|
+| Python, API et assistant | **31 tests réussis le 10/11/2026** | Connexion PostgreSQL réelle pour tous les tests |
+| dbt | **53/53 PASS**, bilan historique | Nouveau build exécuté aujourd'hui |
+| SQL et DW | Contrôles historiques de volumes, sommes et scénarios | Reconstitution intégrale sur un ordinateur vierge |
+| Power BI | Rapport à sept pages documenté | Recalcul visuel et DAX effectué pendant cette publication |
+| ML DataCo | Évaluation finale documentée | Généralisation du modèle à NexaRetail |
+| Streamlit | URL de démonstration communiquée | Disponibilité permanente ou architecture cloud certifiée |
+| Docker | Configuration versionnée | Reconstruction de bout en bout récemment validée |
+| ROI | Trois scénarios calculés | Économies réelles ou rendement constaté |
 
-## Limites et prochaines étapes
+**Limites structurantes :** données NexaRetail synthétiques ; DataCo indépendant ; anomalies volontairement conservées ; certains fichiers locaux non distribués ; résultats historiques non systématiquement rejoués ; absence de preuve de déploiement industriel et de reconstruction complète sur machine vierge.
 
-- Les résultats sont propres à des données et corruptions **synthétiques**.
-- Les anomalies de références et dates demeurent volontairement présentes ; CLEAN signifie ici **typé, contrôlé et exploitable**, non exempt d'erreurs.
-- La dimension date ne couvre que les dates présentes ; 19 200 commandes sans date sont exclues des regroupements temporels classiques, mais conservées dans le CA global.
-- Les tests de volumes ne suffisent pas à valider la justesse métier de chaque enregistrement.
-- Les analyses par client, produit ou mois doivent afficher le taux de couverture et les lignes non attribuables.
-- Les performances ne sont pas comparées à un benchmark préalable.
-- Les travaux BI, ML, ROI et recommandations sont documentés dans les livrables ultérieurs ; les validations et limites sont détaillées dans les rapports correspondants. La documentation métier des deux marts dbt est disponible.
+[Lire le registre complet des validations](docs/11_validation_reproductibilite.md)
 
-## Choix méthodologiques — Données textuelles
+## Documentation : choisir son parcours
 
-### Architecture à deux sources
+| Profil | Parcours conseillé |
+|---|---|
+| **Recruteur ou jury** | [Rapport final](docs/12_rapport_final_conseil.md) puis [Power BI](docs/10_rapport_power_bi.md) |
+| **Consultant / Business Analyst** | [Contexte](docs/01_contexte_metier.md), [diagnostic](docs/02_diagnostic_metier.md), [KPI](docs/04_dictionnaire_indicateurs.md) |
+| **Data Engineer / Analytics Engineer** | [Schéma](docs/modele_donnees/01_schema_relationnel.md), [dbt](dbt_nexaretail/README.md), [validation](docs/11_validation_reproductibilite.md) |
+| **Data Scientist** | [Problématique ML](docs/07_problematique_prediction.md), [rapport ML](docs/08_rapport_final_prediction.md) |
+| **Développeur IA** | [API](docs/09_documentation_api.md), [assistant](docs/guides/installation_assistant_ia.md) |
 
-**1. NexaRetail — données transactionnelles synthétiques.** Clients, commandes, produits, paiements, livraisons, stocks et réclamations sont générés artificiellement afin de tester la qualité et la robustesse des analyses.
+Le **[centre de documentation](docs/INDEX.md)** regroupe les douze chapitres, les guides techniques, les archives et plusieurs parcours de lecture.
 
-**2. Corpus d'avis clients — données textuelles réelles.** `SetFit/amazon_reviews_multi_fr` est une source **indépendante**, destinée à de futures analyses NLP. Ces avis **ne proviennent pas de NexaRetail** et ne sont pas associés à ses clients ni à ses commandes.
+## Ce que le projet apporte
 
-### Expérimentation abandonnée : enrichissement des réclamations
+ConsultAI 360 ne se limite pas à entraîner un modèle ou à produire un dashboard. Il montre comment relier une anomalie de données à une mesure, une mesure à une décision, et une décision à un protocole de validation.
 
-| Version | Textes associés | Couverture |
-|---|---:|---:|
-| V1 | 3 580 | 40,28 % |
-| V2 | 1 644 | 18,50 % |
-| V2.1 | 902 | 10,15 % |
+Le principe directeur est simple : **des calculs vérifiables, des limites explicites et des recommandations proportionnées aux preuves disponibles**.
 
-Des incohérences entre avis réels et produits synthétiques ont été détectées. Les filtres ont réduit les associations problématiques détectables sans garantir leur cohérence sémantique. **Décision : conserver les deux sources séparées**, plutôt que présenter des liens artificiels comme authentiques.
+---
 
-Les **8 888 réclamations** NexaRetail conservent leur structure synthétique. Les scripts d'expérimentation peuvent être conservés pour audit ; les avis réels ne doivent pas être redistribués sans vérification des droits. Toute classification supervisée doit tenir compte des biais d'étiquetage.
+<div align="center">
 
-## Ce que démontre le projet
+### CONSULTAI 360
 
-Un consultant Data/IA doit relier **architecture**, **contrôles**, **impact chiffré**, **limites** et **décisions**. ConsultAI 360 illustre cette démarche sur un environnement simulé, avec conservation des erreurs observables plutôt que correction arbitraire des données.
+**Data Quality | Analytics Engineering | Business Intelligence | Machine Learning | AI Applications | Data Strategy**
 
-Pour l'exécution conteneurisée, consulter le [guide Docker](docker/README.md). Pour les dépendances et les conventions de classement, consulter le [guide d'organisation technique](docs/guides/organisation_technique.md).
+[Application Streamlit](https://consultai-360.streamlit.app/) | [Documentation](docs/INDEX.md) | [Rapport final](docs/12_rapport_final_conseil.md) | [Bilan de validation](docs/11_validation_reproductibilite.md)
+
+*Portfolio technique et conseil, NexaRetail (entreprise fictive), novembre 2026.*
+
+</div>
