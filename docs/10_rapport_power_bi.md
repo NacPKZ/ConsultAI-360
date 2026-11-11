@@ -1,4 +1,4 @@
-# ConsultAI 360 - Étape 10 : Dashboard Power BI
+# 10 : Power BI, lecture métier et conception du dashboard
 
 ## 1. Objectif
 
@@ -113,3 +113,32 @@ Les données NexaRetail sont synthétiques. Les performances du modèle DataCo n
 ## 8. Conclusion
 
 Cette étape transforme les résultats analytiques du projet en un support d'aide à la décision. Elle associe reporting opérationnel, évaluation de modèle prédictif, simulation financière et plan d'action, tout en distinguant les résultats mesurés des hypothèses.
+
+---
+
+## Consulter les livrables
+
+- [Application ConsultAI 360 sur Streamlit](https://consultai-360.streamlit.app/) : interface complémentaire, distincte du rapport Power BI.
+- [Rapport de conseil](12_rapport_final_conseil.md) : interprétation métier et décisions proposées.
+- [Dictionnaire KPI](04_dictionnaire_indicateurs.md) : périmètres, dénominateurs et limites.
+- [Bilan de validation](11_validation_reproductibilite.md) : ce qui a été vérifié et ce qui reste à confirmer.
+
+### Guide de lecture des sept pages
+
+| Page | Question à laquelle répondre | Point de contrôle |
+|---|---|---|
+| 1. Vue générale | Quelle est la situation d'ensemble ? | Scénario et définition des cartes |
+| 2. Ventes | Où se concentre l'activité ? | Attribution magasin et canal |
+| 3. Logistique | Où les retards sont-ils les plus fréquents ? | Population des expéditions évaluables |
+| 4. Qualité | Quels indicateurs sont fragilisés ? | Nature et unité des anomalies |
+| 5. ML | Quel signal prédictif DataCo fournit-il ? | Population indépendante et seuil 0,40 |
+| 6. ROI | Quels gains hypothétiques justifieraient un pilote ? | Coûts inclus et exclusions |
+| 7. Stratégie | Que tester en premier ? | Mesures avant/après et critères d'arrêt |
+
+### Choix de conception visuelle
+
+Le rapport suit une identité **bleu marine, doré et fond clair**, avec navigation latérale et organisation cohérente des indicateurs. La présentation ne doit toutefois jamais masquer les limites des données. La cohérence graphique est un objectif de restitution, pas une preuve de validité des calculs.
+
+### Vérifications à réaliser lors d'une prochaine ouverture du PBIX
+
+Confirmer les sources actives, le modèle de relations, les mesures DAX, les filtres de scénario et la concordance des exports ML. Ces contrôles sont proposés comme **checklist documentaire**, sans prétendre qu'ils ont été réexécutés aujourd'hui.
