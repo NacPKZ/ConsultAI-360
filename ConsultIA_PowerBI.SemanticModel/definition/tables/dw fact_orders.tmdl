@@ -25,7 +25,7 @@ table 'dw fact_orders'
 			    [Nombre commandes],
 			    0
 			)
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: 0.00%
 		lineageTag: c0d00d56-786b-440d-a71a-0f9d8a33aeaf
 
 	measure 'CA disponible' =
@@ -54,13 +54,13 @@ table 'dw fact_orders'
 			    [CA référence],
 			    0
 			)
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: 0.00%
 		lineageTag: 327e1543-33e7-4d6d-948b-138eabc8d213
 
 	measure 'Taux complétude montants' =
 			
 			1 - [Taux montants manquants]
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: 0.00%
 		lineageTag: 52a70e72-fbf2-4018-9f28-957178096c94
 
 	measure 'Panier moyen commercial' =
@@ -110,7 +110,7 @@ table 'dw fact_orders'
 			        REMOVEFILTERS('dw fact_orders'[sales_channel])
 			    )
 			)
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: 0.00%
 		lineageTag: cccafe29-1511-4a0b-b6f7-8e3d88cadefc
 
 	measure 'CA commercial catégorie' =
@@ -185,7 +185,7 @@ table 'dw fact_orders'
 			    ),
 			    0
 			)
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: 0.00%
 		lineageTag: 55e45aef-bee3-4385-bec4-355816538976
 
 	column order_key
