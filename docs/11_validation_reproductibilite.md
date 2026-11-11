@@ -169,6 +169,43 @@ Ce protocole **n'a pas été exécuté** dans le cadre de cette mise à jour des
 
 
 
+## Reproductibilité : cinq niveaux distincts
+
+| Niveau | Ce qu'il faut reproduire | Exemple de preuve |
+|---|---|---|
+| Données | Fichiers d'entrée et volumes | Empreintes et comptages |
+| Transformations | SQL, dbt et règles de nettoyage | Logs de build et tests |
+| Modèle analytique | Tables et relations | Requêtes de rapprochement |
+| Applications | API, Streamlit et accès | Tests de démarrage et requêtes |
+| Résultats | KPI, graphiques et ML | Valeurs attendues et écarts |
+
+Un résultat obtenu sur une machine ne prouve pas automatiquement la reproductibilité des cinq niveaux sur une autre machine.
+
+## Procédure de revue indépendante proposée
+
+**Étape 1 : identifier la version.** Noter le commit Git, la version de Python, PostgreSQL, dbt et les dépendances.
+
+**Étape 2 : vérifier les entrées.** Confirmer l'existence des fichiers attendus et leurs volumes. Si un jeu n'est pas versionné, documenter comment le régénérer.
+
+**Étape 3 : reconstruire les transformations.** Exécuter les scripts dans l'ordre prévu, puis conserver les sorties de tests et les erreurs.
+
+**Étape 4 : rapprocher les KPI.** Comparer quelques indicateurs de référence à des résultats SQL indépendants.
+
+**Étape 5 : tester les interfaces.** Vérifier les routes locales, les modes de démonstration et les sources réellement utilisées.
+
+**Étape 6 : consigner les limites.** Documenter toute dépendance à une configuration locale, tout composant non testé et tout résultat impossible à reproduire.
+
+## Exemple de registre de contrôle
+
+| Contrôle | Résultat | Date | Environnement | Preuve |
+|---|---|---|---|---|
+| Tests Python | 31 réussites | 10/11/2026 | Environnement historique | Sortie de tests documentée |
+| Build dbt | 53 contrôles réussis | Historique | Environnement de développement | Bilan conservé |
+| Reconstruction complète | Non démontrée | Non applicable | Machine vierge | Aucune preuve revendiquée |
+| Hébergement Streamlit | URL fournie | 11/11/2026 | Service externe | Disponibilité non certifiée |
+
+Ce tableau sépare explicitement une observation, une déclaration historique et une absence de preuve.
+
 ## Carte des preuves
 
 ```mermaid
