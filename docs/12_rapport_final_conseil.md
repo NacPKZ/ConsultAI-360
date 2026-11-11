@@ -1,4 +1,13 @@
 # 12 : Rapport final de conseil Data & IA
+
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
 **Client fictif : NexaRetail | Version de synthèse : novembre 2026**
 
 > Cas d'étude de conseil sur données synthétiques. Les performances ML proviennent du jeu public distinct DataCo. Les gains financiers sont des hypothèses, non des résultats observés.
@@ -146,3 +155,39 @@ ConsultAI 360 relie Data Engineering, Data Quality, Analytics, BI, Machine Learn
 ## Ce que cette mission ne démontre pas
 
 La mission ne démontre ni récupération effective de revenus, ni baisse causale des retards, ni performances du modèle DataCo sur NexaRetail, ni exploitation sécurisée d'une API publique. Ces limites font partie intégrante de la recommandation de conseil.
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : ROI simulé et ROI observé**
+> Un ROI construit sur des gains supposés permet d'explorer des décisions. Un ROI observé exige des coûts supportés, des effets mesurés et une comparaison pertinente.
+
+> [!TIP]
+> **Exercice pratique**
+> Définir pour le pilote un état initial, un groupe de référence pertinent et le coût des interventions.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Transformer les 110 % du scénario central en promesse de rentabilité.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> Un pilote peut être recommandé même lorsque la production immédiate est déconseillée.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Chapitre précédent](11_validation_reproductibilite.md) | **12 / 12 : Rapport de conseil** | [Sommaire](INDEX.md)
+
+[Retour au sommaire documentaire](INDEX.md)
