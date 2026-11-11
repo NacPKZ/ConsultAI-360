@@ -52,6 +52,45 @@ NexaRetail est une **entreprise française fictive de distribution omnicanale**.
 
 
 
+## Le modèle économique étudié
+
+NexaRetail représente une enseigne omnicanale fictive. Son activité combine ventes en magasin et commandes en ligne. Ce choix est important : les mêmes produits et clients peuvent apparaître dans plusieurs parcours, alors que les données opérationnelles ne sont pas collectées aux mêmes moments.
+
+| Parcours | Événement central | Information attendue | Question de direction |
+|---|---|---|---|
+| Magasin | Passage en caisse | Magasin, articles, paiement | Quels magasins contribuent aux ventes ? |
+| E-commerce | Commande en ligne | Canal, client, articles, expédition éventuelle | Quelle part de l'activité est numérique ? |
+| Logistique | Expédition et livraison | Dates, mode, statut | Quelle proportion des livraisons évaluables est en retard ? |
+| Après-vente | Réclamation | Commande concernée, motif | Quels incidents méritent une analyse ? |
+
+### Les chiffres ne parlent pas tous de la même chose
+
+Le jeu ORIGINAL compte **120 000 commandes**. Les scénarios LOW, MEDIUM et CRITICAL introduisent des perturbations pour analyser les conséquences des anomalies. Les variations de montants entre scénarios peuvent traduire des **données devenues inexploitables**, pas une baisse réelle des ventes.
+
+Le projet comprend aussi une expérience ML sur DataCo. Cette base publique est distincte de NexaRetail. Le modèle ne fournit donc pas de prévisions opérationnelles validées pour l'enseigne fictive.
+
+## Les décisions que les données doivent éclairer
+
+**Décision 1 : fiabiliser avant d'accélérer.** Il faut savoir quelles commandes sont complètes, quelles références sont manquantes et quelles sommes ne peuvent pas être ventilées.
+
+**Décision 2 : partager un langage commun.** Les définitions de chiffre d'affaires, de panier moyen et de retard doivent être écrites, testables et identiques entre SQL et Power BI lorsque leurs périmètres coïncident.
+
+**Décision 3 : expérimenter avant de déployer.** Les résultats ML, les commentaires IA et les hypothèses financières doivent être examinés séparément avant de recommander un pilote.
+
+## Exemple de situation de direction
+
+Une carte affiche un CA inférieur dans le scénario CRITICAL. Trois explications sont possibles : activité moindre, règles de mesure différentes ou montants manquants. Dans cette simulation, les anomalies introduites peuvent modifier la couverture de l'indicateur. La démarche consiste donc à comparer les **volumes de commandes**, les **montants renseignés**, les **montants exclus** et la **définition du KPI** avant d'émettre un jugement commercial.
+
+## Ce qui serait demandé à un client réel
+
+1. Une liste des décisions prises à partir des rapports existants.
+2. Les définitions officielles des indicateurs financiers et logistiques.
+3. Un inventaire des sources, des propriétaires et des droits d'accès.
+4. Les coûts des incidents et des interventions.
+5. Un processus de validation des corrections et des recommandations.
+
+Ces éléments n'existent pas sous forme de preuves client dans cette étude fictive.
+
 ## Lecture de la situation
 
 ```mermaid
