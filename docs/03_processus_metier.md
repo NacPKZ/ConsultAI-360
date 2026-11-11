@@ -1,106 +1,132 @@
-# NexaRetail : Cartographie des processus métier
+# 03 · Cartographie des processus — Du panier à la résolution
 
-**Projet :** ConsultAI 360
+> **CONSULTAI 360 / PROCESSUS OPÉRATIONNELS**  
+> **Périmètre :** parcours omnicanal simulé · **Objectif :** relier opérations, tables de données, contrôles et décisions.
 
-**Entreprise :** NexaRetail
+[← Diagnostic](02_diagnostic_metier.md) · [Index](INDEX.md) · [KPI →](04_dictionnaire_indicateurs.md)
 
-**Document :** Analyse des processus opérationnels
+---
 
-## 1. Objectif
+## Vue d'ensemble du parcours
 
-Cette cartographie vise à représenter les principales étapes du parcours d'une commande chez NexaRetail.
+```mermaid
+flowchart LR
+    A["Achat magasin / web"] --> B["Commande"]
+    B --> C{"Paiement accepté ?"}
+    C -->|Oui| D["Préparation"]
+    C -->|Non| X["Traitement de l'incident"]
+    D --> E["Expédition"]
+    E --> F["Livraison"]
+    F --> G{"Réclamation ?"}
+    G -->|Oui| H["Service client"]
+    G -->|Non| I["Parcours terminé"]
+    H --> J["Résolution / suivi"]
+```
 
-Elle permet d'identifier les départements impliqués, les données produites et les risques opérationnels susceptibles d'affecter la performance de l'entreprise.
+> [!IMPORTANT]
+> Ce diagramme est une **cartographie métier conceptuelle**, pas un moteur de workflow implémenté. Le parcours en magasin peut différer du parcours e-commerce : toutes les commandes ne nécessitent pas une expédition.
 
-## 2. Processus de gestion des commandes
+## 1. Parcours de bout en bout
 
-Le processus étudié comprend six étapes principales.
+| Étape | Déclencheur / activité | Données associées | Contrôle essentiel | KPI / décision |
+|:--|:--|:--|:--|:--|
+| **01 · Vente** | Client passe commande | `orders`, `order_items`, `customers` | Identifiants, quantités, montants | Commandes, panier moyen |
+| **02 · Paiement** | Paiement enregistré | `payments` | Référence commande, statut, montant | Couverture et rapprochement |
+| **03 · Préparation** | Articles à préparer | `orders`, `inventory`, `products` | Disponibilité et cohérence produit | Incidents de préparation, si données disponibles |
+| **04 · Expédition** | Colis pris en charge | `shipments` | Référence commande, mode, dates | Expéditions évaluables |
+| **05 · Livraison** | Livraison constatée | `shipments` | Date réelle vs date prévue | Taux de retard, délai |
+| **06 · Après-vente** | Incident ou réclamation | `complaints` | Référence, motif, statut | Réclamations, résolution si dates disponibles |
 
-### 2.1. Création de la commande
+Les noms de tables correspondent au **modèle de données synthétiques** ; ils ne signifient pas que chaque étape possède une application opérationnelle complète.
 
-Le client sélectionne des produits sur la plateforme e-commerce ou effectue un achat en magasin.
+## 2. Description des six étapes
 
-Le système enregistre les informations relatives à la commande.
+### 01 — Enregistrer la vente
 
-**Données :** identifiant client, identifiant commande, produits, quantités, prix et date.
+**Entrées :** client, canal, produits, quantités et prix.  
+**Sorties :** commande et lignes associées.  
+**Point de rupture :** une référence client ou produit absente peut empêcher une ventilation correcte, même si la transaction est conservée.
 
-### 2.2. Validation du paiement
+**Contrôle recommandé :** distinguer commandes comptées, montants renseignés et commandes attribuables.
 
-Le système vérifie le paiement associé à la commande.
+### 02 — Enregistrer et rapprocher le paiement
 
-Un paiement accepté permet de poursuivre le traitement. Un paiement refusé nécessite un traitement spécifique.
+Une commande et un paiement ne sont pas la même unité d'analyse. Une commande peut donner lieu à plusieurs événements de paiement ; une référence invalide peut rendre un paiement non rattachable.
 
-**Données :** montant, moyen de paiement, date et statut.
+**Contrôle recommandé :** vérifier l'intégrité référentielle et analyser les paiements non rapprochés **sans inventer de commande de substitution**.
 
-### 2.3. Préparation de la commande
+### 03 — Préparer les articles
 
-Les équipes concernées organisent la préparation des produits commandés.
+La préparation relie le contenu de la commande aux produits et aux stocks disponibles. Les données de stock constituent un support d'analyse ; elles ne prouvent pas qu'un système complet de gestion d'entrepôt a été développé.
 
-Cette étape comprend la vérification des articles et leur préparation pour l'expédition.
+**Contrôle recommandé :** cohérence produit–quantité et documentation des cas non évaluables.
 
-**Données :** produits, quantités, statut de préparation et dates.
+### 04 — Expédier
 
-### 2.4. Expédition et transport
+Le processus d'expédition produit des informations sur le mode d'envoi, les dates et le suivi. Il faut éviter d'assimiler **nombre d'expéditions** et **nombre de commandes**, puisque les granularités peuvent différer.
 
-La commande est confiée à un transporteur chargé de son acheminement.
+**Contrôle recommandé :** définir la population éligible à chaque analyse.
 
-Les informations de suivi permettent de contrôler son avancement.
+### 05 — Mesurer la livraison
 
-**Données :** transporteur, date d'expédition, date prévue de livraison et statut.
+Un retard suppose une règle métier, par exemple **date réelle postérieure à la date prévue**, et la présence des deux dates pertinentes. Une date manquante doit être classée « non évaluable », pas automatiquement « à temps ».
 
-### 2.5. Livraison
+**Contrôle recommandé :** publier le numérateur, le dénominateur et la couverture des données.
 
-La commande est remise au client.
+### 06 — Traiter la réclamation
 
-L'entreprise peut comparer la date réelle de livraison à la date initialement prévue.
+Une réclamation peut concerner un retard, un produit ou un paiement. Le nombre de réclamations ne se confond pas avec le nombre de commandes ayant au moins une réclamation.
 
-**Données :** date de livraison réelle, délai de livraison et retard éventuel.
+**Contrôle recommandé :** compter distinctement les tickets et les commandes concernées selon la question métier.
 
-### 2.6. Service après-vente
+## 3. Matrice de responsabilité simulée
 
-En cas de problème, le client peut contacter le service client.
+| Activité | Commercial | Finance | Logistique | Service client | Équipe Data |
+|:--|:--:|:--:|:--:|:--:|:--:|
+| Commande et canal | **Pilote** | Consulte | Consulte | Consulte | Contrôle |
+| Paiement et rapprochement | Consulte | **Pilote** | — | Consulte | Contrôle |
+| Préparation / livraison | — | Consulte | **Pilote** | Consulte | Contrôle |
+| Réclamations | Consulte | Consulte | Consulte | **Pilote** | Contrôle |
+| Définition des KPI | Contribue | Contribue | Contribue | Contribue | **Formalise** |
 
-Les réclamations peuvent concerner les retards, les produits ou les paiements.
+**Pilote** désigne une responsabilité métier fictive. Cette matrice ne constitue pas un organigramme validé par un client.
 
-**Données :** identifiant de réclamation, motif, date de création, statut et date de résolution.
+## 4. Risques de rupture de la chaîne de données
 
-## 3. Départements impliqués
+| Rupture | Effet analytique | Réponse de gouvernance |
+|:--|:--|:--|
+| Client inconnu | CA non attribuable à un segment | Membre technique « Inconnu » et mesure de couverture |
+| Produit inconnu | Ventilation produit incomplète | Conserver la ligne et tracer l'anomalie |
+| Paiement sans commande | Rapprochement incomplet | Conserver le paiement sans rattachement artificiel |
+| Date de commande absente | Série temporelle incomplète | Publier le volume exclu des analyses datées |
+| Date de livraison non exploitable | Retard non calculable | Catégorie « non évaluable » |
+| Réclamation sans contexte fiable | Analyse des causes fragilisée | Éviter toute attribution causale non démontrée |
 
-| Processus | Département principal | Données produites |
-|---|---|---|
-| Création de commande | Commercial | Commandes, produits |
-| Validation du paiement | Finance | Paiements |
-| Préparation | Logistique | Statuts, dates |
-| Expédition | Logistique | Transporteurs, expéditions |
-| Livraison | Logistique | Délais, retards |
-| Réclamations | Service client | Tickets, résolutions |
+## 5. Architecture analytique associée
 
-## 4. Risques opérationnels
+```mermaid
+flowchart TD
+    A["Données NexaRetail synthétiques"] --> B["RAW · conservation"]
+    B --> C["CLEAN · typage et contrôles"]
+    C --> D["DW · dimensions et faits"]
+    D --> E["Power BI · analyse"]
+    D --> F["KPI SQL / Python"]
+    F --> G["Assistant IA · interprétation"]
+    H["DataCo · dataset public distinct"] --> I["ML · risque de retard"]
+```
 
-Plusieurs risques peuvent affecter le processus :
+La branche **DataCo** est indépendante de la chaîne transactionnelle NexaRetail.
 
-- Commandes enregistrées avec des informations incorrectes.
-- Paiements présentant des incohérences.
-- Retards dans la préparation des commandes.
-- Difficultés de suivi des expéditions.
-- Livraisons réalisées après la date prévue.
-- Réclamations non résolues dans les délais attendus.
+## 6. Cas d'usage décisionnels
 
-Ces risques constituent des hypothèses qui seront étudiées lors des analyses de données.
+- **Direction commerciale :** comparer les canaux sans ignorer les ventes non attribuables.
+- **Finance :** expliquer pourquoi les montants de commandes, ventes et paiements ne coïncident pas nécessairement.
+- **Logistique :** comparer les retards par mode uniquement sur les livraisons évaluables.
+- **Service client :** rapprocher les réclamations des événements disponibles, sans présumer leur cause.
+- **Direction générale :** prioriser les initiatives sur la base d'une valeur estimée, de risques identifiés et d'un pilote mesurable.
 
-## 5. Opportunités d'amélioration
+## 7. Limites et suite
 
-L'exploitation des données pourrait permettre :
+La cartographie représente un **processus cible simplifié**. Elle ne documente ni procédures internes réelles, ni SLA contractuels, ni intégrations ERP ou transporteurs opérationnelles.
 
-1. D'automatiser certains contrôles de qualité.
-2. De centraliser les informations commerciales et logistiques.
-3. De suivre les délais de livraison dans Power BI.
-4. D'identifier les facteurs associés aux retards.
-5. D'améliorer le suivi des réclamations.
-6. De faciliter l'interprétation des indicateurs grâce à un assistant IA.
-
-## 6. Conclusion
-
-La cartographie met en évidence les interactions entre les activités commerciales, financières, logistiques et le service client.
-
-Elle constitue une base pour définir les indicateurs de performance, structurer les données et identifier les processus pouvant bénéficier des solutions développées dans ConsultAI 360.
+**Suite :** [04 · Dictionnaire des KPI](04_dictionnaire_indicateurs.md) · [05 · Périmètre du projet](05_perimetre_projet.md) · [Rapport Power BI](10_rapport_power_bi.md)
