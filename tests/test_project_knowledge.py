@@ -14,7 +14,7 @@ class ProjectKnowledgeTests(unittest.TestCase):
         self.assertEqual(project_answer(corrected)['topic'],'Profil')
     def test_navigation(self):
         self.assertIn('Observatoire',project_answer('ou sont les graphiques')['text'])
-        self.assertIn('Decision Gate',project_answer('ou se trouve decision gate')['text'])
+        self.assertIn('Porte de décision',project_answer('ou se trouve decision gate')['text'])
     def test_project(self):
         self.assertEqual(project_answer('comment fonctionne le projet')['topic'],'Architecture')
         self.assertEqual(project_answer('qui es tu')['topic'],'Identité')
