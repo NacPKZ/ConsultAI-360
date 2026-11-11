@@ -1,12 +1,32 @@
-# 01 · NexaRetail : Contexte et ambition de transformation
+# 01 : NexaRetail : Contexte et ambition de transformation
 
 > **CONSULTAI 360 / DOSSIER DE CADRAGE**  
-> **Statut :** contexte métier fictif et hypothèses initiales, enrichis par les réalisations documentées · **Secteur :** distribution omnicanale · **Périmètre :** étude de cas, aucune entreprise cliente réelle.
+> **Statut :** contexte métier fictif et hypothèses initiales, enrichis par les réalisations documentées | **Secteur :** distribution omnicanale | **Périmètre :** étude de cas, aucune entreprise cliente réelle.
 
-[← Index documentaire](INDEX.md) · [Diagnostic →](02_diagnostic_metier.md) · [Rapport final](12_rapport_final_conseil.md)
+[← Index documentaire](INDEX.md) | [Diagnostic →](02_diagnostic_metier.md) | [Rapport final](12_rapport_final_conseil.md)
+
+## Regard consultant : ce que la direction doit retenir
+
+La modernisation analytique ne commence pas par le choix d'un outil. Elle commence par un **accord sur la signification des données**. Une direction peut disposer de tableaux très soignés et prendre de mauvaises décisions si les montants non attribuables ou les exclusions sont invisibles.
+
+### Trois décisions structurantes
+
+| Décision | Option à éviter | Option retenue dans l'étude |
+|:--|:--|:--|
+| Traitement des anomalies | Supprimer toute ligne imparfaite | Préserver les événements et qualifier leur fiabilité |
+| Développement de l'IA | Confier les calculs au modèle génératif | Séparer calcul déterministe et commentaire |
+| Passage à l'échelle | Généraliser sur la base d'une démonstration | Préparer un pilote limité, mesurable et réversible |
+
+### Questions ouvertes pour une mission réelle
+
+- Quelles sources sont juridiquement et opérationnellement reconnues comme référentielles ?
+- Qui arbitre un désaccord entre Finance, Commerce et Logistique sur la définition d'un KPI ?
+- Quel niveau de couverture est acceptable pour décider, selon le risque associé ?
+- Quels usages de l'IA justifient une intervention humaine systématique ?
+
+Ces questions ne peuvent pas être résolues par les données synthétiques seules.
 
 ---
-
 ## L'essentiel en 30 secondes
 
 NexaRetail est une **entreprise française fictive de distribution omnicanale**. Sa problématique n'est pas seulement de produire davantage de tableaux de bord : elle doit rendre ses données **traçables, comparables et utilisables pour décider**, tout en évitant de confondre expérimentation IA et déploiement industriel.
@@ -47,25 +67,25 @@ Trois questions structurent la mission :
 
 ## 2. Cinq enjeux de transformation
 
-### 01 — Qualité et gouvernance des données
+### 01 : Qualité et gouvernance des données
 
 Les données simulées sont dégradées volontairement selon des scénarios **ORIGINAL, LOW, MEDIUM et CRITICAL**. L'objectif est de mesurer l'effet d'erreurs observables, sans effacer artificiellement les transactions problématiques.
 
 **Décision de conception :** distinguer une donnée *techniquement exploitable* d'une donnée *métier complète*. Une ligne sans référence valide reste visible et son absence d'attribution doit être mesurée.
 
-### 02 — Reporting fragmenté
+### 02 : Reporting fragmenté
 
 Le contexte initial suppose des extractions et fichiers Excel dispersés. La réponse proposée consiste à établir une chaîne **PostgreSQL → transformations et contrôles → Data Warehouse → Power BI**, avec des définitions de KPI explicites.
 
-### 03 — Performance logistique
+### 03 : Performance logistique
 
 Le pilotage doit distinguer les livraisons **à temps**, **en retard** et **non évaluables**. Le dénominateur d'un taux de retard est aussi important que le numérateur ; une date absente ne doit pas être traitée silencieusement comme une livraison ponctuelle.
 
-### 04 — Exploitation analytique
+### 04 : Exploitation analytique
 
 Le modèle décisionnel vise à rapprocher performances commerciales, qualité de données et indicateurs opérationnels sans confondre les granularités **commande**, **ligne de vente**, **paiement** et **expédition**.
 
-### 05 — IA et allocation du capital
+### 05 : IA et allocation du capital
 
 Un assistant peut expliquer des KPI calculés, mais ne doit pas inventer les résultats. Une expérience de prédiction peut démontrer une méthode sans prouver sa transférabilité à NexaRetail. Enfin, un ROI modélisé reste **hypothétique** tant qu'un pilote n'a pas mesuré les gains.
 
@@ -83,12 +103,12 @@ Un assistant peut expliquer des KPI calculés, mais ne doit pas inventer les ré
 | IA analytique | Application Streamlit et assistant à calculs contrôlés | [Périmètre](05_perimetre_projet.md) |
 | Conseil | Scénarios ROI et recommandations de transformation | [Rapport final](12_rapport_final_conseil.md) |
 
-## 4. Deux univers de données — une séparation indispensable
+## 4. Deux univers de données : une séparation indispensable
 
 ```text
 NEXARETAIL (synthétique)                 DATACO (public, indépendant)
-Clients · ventes · paiements            Données logistiques DataCo
-Livraisons · stocks · réclamations       |
+Clients | ventes | paiements            Données logistiques DataCo
+Livraisons | stocks | réclamations       |
         |                                v
         v                           Expérience de prédiction
 PostgreSQL / dbt / Power BI               |
@@ -112,4 +132,4 @@ La réussite de cette étude de cas repose sur cinq exigences : **définitions s
 
 ---
 
-**À suivre :** [02 · Diagnostic métier](02_diagnostic_metier.md) · [03 · Cartographie des processus](03_processus_metier.md) · [04 · Dictionnaire des KPI](04_dictionnaire_indicateurs.md)
+**À suivre :** [02 | Diagnostic métier](02_diagnostic_metier.md) | [03 | Cartographie des processus](03_processus_metier.md) | [04 | Dictionnaire des KPI](04_dictionnaire_indicateurs.md)
