@@ -55,8 +55,7 @@ Le risque majeur pour NexaRetail n'est pas uniquement la présence d'erreurs : c
 
 
 
-> [!CAUTION]
-> Les causes ci-dessus ne sont **pas établies par une enquête de terrain**. Elles constituent des pistes de diagnostic à vérifier dans une mission réelle.
+**Limite d'interprétation :** Les causes ci-dessus ne sont **pas établies par une enquête de terrain**. Elles constituent des pistes de diagnostic à vérifier dans une mission réelle.
 
 ## 4. Priorisation et dépendances
 
