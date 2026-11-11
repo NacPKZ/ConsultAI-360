@@ -421,32 +421,169 @@ Dans le réseau Compose, dbt contacte PostgreSQL via `postgres:5432`. Le port h�
 
 [Guide dbt](dbt_nexaretail/README.md) | [Guide Docker](docker/README.md) | [Guide assistant IA](docs/guides/installation_assistant_ia.md)
 
-## Reproductibilité : que peut-on refaire avec ce dépôt ?
+## Installer le projet en local : PostgreSQL, dbt et Streamlit
 
-**La reproductibilité signifie qu'une autre personne peut récupérer le projet, exécuter les traitements et retrouver les résultats annoncés.** Le dépôt fournit le code, les configurations et les explications, mais pas nécessairement toutes les données locales ni un environnement déjà prêt.
+Cette section s'adresse à une personne qui **clone le dépôt et veut faire fonctionner le projet sur son propre ordinateur**, notamment connecter PostgreSQL à dbt et à l'assistant IA. Les commandes ci-dessous sont prévues pour **Windows et PowerShell**, depuis la racine du dépôt.
 
-| Ce que l'on veut refaire | Situation actuelle | Ce qu'il faut en plus |
+**À savoir avant de commencer :** cloner le dépôt récupère le code et les configurations, mais **ne récupère pas automatiquement les données de ta base PostgreSQL personnelle**. Le serveur peut donc démarrer correctement tout en contenant une base vide. Il faut ensuite générer ou importer les données NexaRetail, puis construire les tables analytiques.
+
+### Étape 1 : récupérer le dépôt et installer les outils
+
+Prérequis : **Git**, **Python**, **Docker Desktop** (moteur démarré) et, pour consulter la base, **DBeaver** ou un autre client PostgreSQL. **Power BI Desktop** et **Ollama** sont facultatifs pour la seule connexion PostgreSQL.
+
+~~~powershell
+git clone https://github.com/NacPKZ/ConsultAI-360.git
+cd ConsultAI-360
+
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+~~~
+
+Si PowerShell bloque l'activation de l'environnement virtuel, utiliser directement `.\.venv\Scripts\python.exe` pour exécuter Python, sans modifier les règles de sécurité de Windows.
+
+### Étape 2 : lancer PostgreSQL avec Docker
+
+Le fichier `compose.yaml` définit une base PostgreSQL 18 nommée `nexaretail_db`. **Choisir son propre mot de passe**, puis le transmettre à Docker dans la session PowerShell :
+
+~~~powershell
+$env:DOCKER_POSTGRES_PASSWORD = Read-Host "Mot de passe PostgreSQL"
+
+docker compose up -d postgres
+docker compose ps
+~~~
+
+Pour confirmer que PostgreSQL répond :
+
+~~~powershell
+docker compose exec postgres pg_isready -U postgres -d nexaretail_db
+~~~
+
+Résultat attendu : le serveur indique qu'il accepte les connexions. **Cela ne signifie pas encore que les tables NexaRetail sont présentes.**
+
+### Étape 3 : connecter DBeaver à PostgreSQL
+
+Créer une nouvelle connexion **PostgreSQL** avec les paramètres suivants :
+
+| Paramètre DBeaver | Valeur |
+|---|---|
+| Hôte | `127.0.0.1` |
+| Port | `5433` |
+| Base de données | `nexaretail_db` |
+| Utilisateur | `postgres` |
+| Mot de passe | Celui choisi à l'étape 2 |
+
+Cliquer sur **Tester la connexion**. Si DBeaver propose de télécharger le pilote PostgreSQL, accepter.
+
+**Pourquoi 5433 et non 5432 ?** Le conteneur écoute sur `5432` en interne, mais `compose.yaml` expose le port **5433 sur ton ordinateur**. À l'intérieur du réseau Docker, dbt utilise `postgres:5432`. Ces deux adresses ne sont pas interchangeables.
+
+### Étape 4 : créer et alimenter les tables NexaRetail
+
+La base créée par Docker est initialement vide. Pour obtenir les mêmes analyses, il faut disposer des **dix tables sources** et respecter l'ordre des traitements :
+
+1. Préparer ou générer les données synthétiques des quatre scénarios.
+2. Exécuter les scripts d'import dans le schéma **RAW**.
+3. Appliquer les contrôles et traitements **CLEAN**.
+4. Construire les dimensions et tables de faits **DW**.
+5. Vérifier les volumes, les clés, les scénarios et les KPI avant de lancer dbt.
+
+Les scripts sont classés dans [`sql/`](sql/) et leur organisation est détaillée dans le [guide technique](docs/guides/organisation_technique.md). Les chemins d'import, les données disponibles et les dépendances doivent être adaptés à l'ordinateur utilisé.
+
+**Point bloquant possible :** si les CSV ou autres données d'entrée nécessaires ne sont pas fournis dans le dépôt, il faut les régénérer à partir des scripts disponibles ou obtenir les fichiers attendus. **Ne pas considérer une base vide comme un échec de connexion.**
+
+### Étape 5 : connecter dbt à cette même base
+
+Le profil `docker/dbt/profiles.yml` utilise déjà :
+
+- Hôte : `postgres`
+- Port : `5432`
+- Base : `nexaretail_db`
+- Mot de passe : variable `DBT_POSTGRES_PASSWORD`, alimentée par Compose à partir de `DOCKER_POSTGRES_PASSWORD`
+
+Dans **la même session PowerShell** que l'étape 2 :
+
+~~~powershell
+docker compose build dbt
+docker compose --profile tools run --rm dbt debug
+docker compose --profile tools run --rm dbt build
+~~~
+
+**`dbt debug`** vérifie la configuration et la connexion. **`dbt build`** exécute les modèles et tests, mais peut échouer si les schémas et tables sources ne sont pas encore chargés. Les 53 éléments réussis rapportés dans la documentation sont un **résultat historique**, pas une garantie sur une nouvelle installation.
+
+### Étape 6 : connecter l'assistant IA à PostgreSQL
+
+Le code de l'assistant lit la variable d'environnement **`ASSISTANT_DATABASE_URL`**. Il interroge notamment `dw.fact_orders` et `dw.fact_shipments`. Pour limiter les risques, créer un utilisateur PostgreSQL **en lecture seule** une fois le DW disponible.
+
+Depuis DBeaver, avec le compte administrateur, exécuter en remplaçant le mot de passe d'exemple :
+
+~~~sql
+CREATE ROLE assistant_ro LOGIN PASSWORD 'CHOISIR_UN_MOT_DE_PASSE_DISTINCT';
+GRANT CONNECT ON DATABASE nexaretail_db TO assistant_ro;
+GRANT USAGE ON SCHEMA dw TO assistant_ro;
+GRANT SELECT ON dw.fact_orders, dw.fact_shipments TO assistant_ro;
+~~~
+
+Ne pas recréer le rôle s'il existe déjà. Ne pas utiliser le compte administrateur dans une application exposée au public.
+
+Créer ensuite un fichier local **`.env`**, exclu de Git, à la racine du dépôt :
+
+~~~dotenv
+ASSISTANT_DATABASE_URL=postgresql://assistant_ro:VOTRE_MOT_DE_PASSE@127.0.0.1:5433/nexaretail_db
+~~~
+
+Si le mot de passe contient des caractères spéciaux, les encoder correctement dans l'URL. **Ne jamais publier ce fichier, un vrai mot de passe ou une capture qui le montre.**
+
+Installer les dépendances de l'assistant et tester sa connexion :
+
+~~~powershell
+python -m pip install -r requirements-assistant.txt
+python -m src.assistant.check_connection
+~~~
+
+Le contrôle affiche des KPI issus de la base locale. Si une table `dw` manque, il faut d'abord terminer l'étape 4, et non modifier arbitrairement le code Python.
+
+### Étape 7 : démarrer Streamlit et, si nécessaire, Ollama
+
+~~~powershell
+streamlit run app.py
+~~~
+
+L'application locale est normalement accessible sur **http://localhost:8501**. Certaines fonctionnalités peuvent nécessiter des dépendances ou une configuration supplémentaires.
+
+Pour les commentaires générés localement, installer et démarrer **Ollama**, puis télécharger le modèle utilisé dans le projet :
+
+~~~powershell
+ollama pull llama3.2:1b
+~~~
+
+La présence d'Ollama n'est pas nécessaire pour simplement vérifier que PostgreSQL répond. L'application publique [ConsultAI 360](https://consultai-360.streamlit.app/) est une démonstration distincte de cet environnement local.
+
+### Problèmes fréquents
+
+| Symptôme | Cause probable | Vérification utile |
 |---|---|---|
-| **Lire le code et la documentation** | Accessible directement sur GitHub | Rien |
-| **Lancer les tests Python** | 31 tests réussis le 10/11/2026 | Python et dépendances installées |
-| **Reconstruire PostgreSQL et dbt** | Scripts et configuration disponibles ; 53/53 éléments dbt réussis historiquement | Sources, base, identifiants et environnement opérationnel |
-| **Reproduire les résultats ML** | Code, protocole et métriques documentés | Dataset DataCo, artefacts et versions compatibles |
-| **Ouvrir et actualiser Power BI** | Rapport à sept pages documenté | Fichier complet, connexions et sources disponibles |
-| **Utiliser Streamlit et l'assistant** | Code et URL de démonstration fournis | Services et paramètres adaptés au mode choisi |
-| **Tout reconstruire sur un PC neuf** | **Pas encore validé de bout en bout** | Procédure intégrale testée et entrées disponibles |
+| `DOCKER_POSTGRES_PASSWORD` manquant | Variable non définie dans cette session | Refaire l'étape 2 dans le terminal actif |
+| Docker ne démarre pas | Docker Desktop ou son moteur est arrêté | Démarrer Docker Desktop, puis `docker compose ps` |
+| DBeaver refuse la connexion | Mauvais port, mot de passe ou conteneur arrêté | Utiliser `127.0.0.1:5433`, vérifier `docker compose ps` |
+| `dbt debug` échoue | Profil, réseau Docker ou authentification | Vérifier `docker/dbt/profiles.yml` et la variable |
+| `dbt build` signale une source absente | Données RAW/CLEAN non importées | Terminer l'étape 4 |
+| `ASSISTANT_DATABASE_URL manquant` | Fichier `.env` absent ou non chargé | Vérifier le fichier local et le lancement via `check_connection` |
+| `relation dw.fact_orders does not exist` | Data Warehouse non construit | Exécuter les scripts DW |
+| Streamlit affiche des KPI vides | Base vide ou scénario non chargé | Vérifier les données dans DBeaver |
 
-### En pratique
+Pour arrêter sans effacer volontairement le volume de données :
 
-1. **Récupérer le dépôt** et installer les dépendances du composant à tester.
-2. **Préparer les données et la configuration locale** sans publier de mots de passe.
-3. **Exécuter les scripts et les tests** en respectant l'ordre des étapes.
-4. **Comparer les résultats** aux valeurs de référence et documenter les écarts.
+~~~powershell
+docker compose down
+~~~
 
-**Important :** un test Python réussi ne prouve pas que Power BI, PostgreSQL, Docker et Ollama fonctionnent ensemble. De même, une URL Streamlit ne garantit pas que tous les services locaux sont disponibles dans le cloud.
+**Attention :** `docker compose down -v` supprime les volumes associés et peut détruire la base PostgreSQL locale.
 
-Les chiffres NexaRetail proviennent de simulations, les métriques ML de DataCo et les ROI d'hypothèses. Ces trois périmètres doivent rester séparés.
+### Ce qui est reproductible, et ce qui reste à vérifier
 
-[Guide complet de validation et reproductibilité](docs/11_validation_reproductibilite.md) | [Installation technique](docs/guides/organisation_technique.md) | [Guide Docker](docker/README.md)
+Le dépôt fournit **une procédure de démarrage et des composants documentés**, mais **l'installation intégrale sur un ordinateur neuf n'a pas encore été testée de bout en bout**. Les scripts d'import, les données requises, les secrets et certaines dépendances doivent être vérifiés avant de promettre un résultat identique. Les tests Python et dbt déjà publiés restent des preuves **historiques**.
+
+[Guide Docker détaillé](docker/README.md) | [Guide dbt](dbt_nexaretail/README.md) | [Installation de l'assistant](docs/guides/installation_assistant_ia.md) | [Validation et limites](docs/11_validation_reproductibilite.md)
 
 ## Documentation : choisir son parcours
 
