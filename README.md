@@ -185,7 +185,7 @@ dbt docs serve --project-dir .\dbt_nexaretail --port 8080
 
 `dbt build` construit les modèles et exécute les tests. `dbt docs serve` démarre un serveur local de documentation sur le port 8080 ; arrêter ce serveur avec `Ctrl+C` dans son terminal.
 
-**Reproductibilité :** ces commandes ont été validées sur l'environnement local du projet. Elles supposent que les données sources, les schémas PostgreSQL et les droits d'accès existent déjà. La reconstruction complète depuis un ordinateur vierge n'est pas encore automatisée ni vérifiée ; Docker Compose reste une piste de travail, non un livrable réalisé.
+**Reproductibilité :** ces commandes ont été validées sur l'environnement local du projet. Elles supposent que les données sources, les schémas PostgreSQL et les droits d'accès existent déjà. La reconstruction complète depuis un ordinateur vierge n'est pas encore automatisée ni vérifiée. Une configuration Docker Compose est versionnée (`compose.yaml` et `Dockerfile.dbt`), mais son fonctionnement de bout en bout n'a pas été revalidé pendant cet audit.
 
 ## Validation et performance
 
