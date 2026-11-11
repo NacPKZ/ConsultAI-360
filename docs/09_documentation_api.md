@@ -81,6 +81,46 @@ Authentification, limitation de débit, schéma de réponse commun, journalisati
 
 
 
+## Architecture applicative et responsabilités
+
+| Composant | Rôle | Limite |
+|---|---|---|
+| Streamlit | Présenter les analyses et les interactions | Ne garantit pas la disponibilité des sources |
+| Fonctions KPI | Calculer des valeurs autorisées | Dépendent de la qualité des données |
+| PostgreSQL | Fournir les données et agrégats | Nécessite connexion, droits et schéma adaptés |
+| Ollama | Générer une interprétation textuelle locale | Peut produire des formulations erronées |
+| FastAPI | Exposer des routes structurées | N'est pas nécessairement publié sur Internet |
+
+### Deux chemins de consultation
+
+```mermaid
+flowchart LR
+ A["Navigateur"] --> B["Streamlit"]
+ B --> C["KPI calculés"]
+ C --> D["Commentaires contrôlés"]
+ E["Client HTTP local"] --> F["FastAPI"]
+ F --> C
+```
+
+**Point d'architecture :** ce schéma illustre les responsabilités, pas une preuve que chaque appel traverse systématiquement les mêmes services.
+
+## Vérifier une réponse API
+
+Une réponse exploitable doit permettre d'identifier la **source**, le **scénario**, les **indicateurs** et, idéalement, les limites de couverture. En cas de données de démonstration, cette provenance doit rester explicite.
+
+| Vérification | Question |
+|---|---|
+| Statut HTTP | La requête a-t-elle été traitée ? |
+| Scénario | Le nom demandé est-il reconnu ? |
+| Provenance | PostgreSQL ou données de démonstration ? |
+| Typage | Les valeurs numériques sont-elles réellement numériques ? |
+| Cohérence | Les KPI concordent-ils avec la source de référence ? |
+| Sécurité | Aucune donnée sensible ni secret n'est-il exposé ? |
+
+## Risques de mise en ligne
+
+Le déploiement d'une interface ne remplace pas les contrôles nécessaires à une API publique : authentification, quotas, journalisation, isolation des secrets, contrôle des accès à la base, supervision et stratégie de reprise. Ces exigences sont des recommandations d'architecture et ne sont pas présentées comme déjà implémentées.
+
 ## Architecture des accès
 
 ```mermaid
