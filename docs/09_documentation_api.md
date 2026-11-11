@@ -1,4 +1,4 @@
-# Documentation de l'API FastAPI — ConsultAI 360
+# 09 : Guide de l'API FastAPI et de la démonstration
 
 ## Objectif
 
@@ -32,3 +32,40 @@ Le nom de scénario est normalisé en minuscules. Un scénario inconnu renvoie H
 ## Validation
 
 Les tests existants se trouvent notamment dans `tests/test_api_step9.py` et `tests/test_api_postgres_step9.py`. Le bilan consolidé de l'étape 11 est dans [la validation et reproductibilité](11_validation_reproductibilite.md). La mise à jour de ce document n'a pas réexécuté les tests.
+
+---
+
+## Accès à la démonstration Streamlit
+
+**Application publique communiquée par le porteur du projet :** [Ouvrir ConsultAI 360 sur Streamlit](https://consultai-360.streamlit.app/).
+
+Ce lien concerne **l'interface Streamlit** et ne constitue pas une URL publique de l'API FastAPI. La disponibilité instantanée de l'application, sa configuration d'hébergement et son accès éventuel à PostgreSQL n'ont pas été vérifiés dans cette mise à jour documentaire.
+
+## Exemple de parcours d'utilisation de l'API locale
+
+```bash
+# Vérifier que le service local répond
+curl http://127.0.0.1:8000/health
+
+# Consulter les scénarios pris en charge
+curl http://127.0.0.1:8000/scenarios
+
+# Consulter les KPI du scénario medium
+curl http://127.0.0.1:8000/kpis/medium
+```
+
+Ces exemples supposent que l'API est **déjà lancée localement sur le port 8000**. Ils ne démarrent pas le service.
+
+### Contrat de réponse et erreurs
+
+| Situation | Comportement documenté |
+|---|---|
+| `GET /health` | Réponse de santé `{"status":"ok"}` |
+| Scénario inconnu | HTTP 404 |
+| PostgreSQL indisponible hors mode démo | HTTP 503 possible |
+| Mode démo activé | Données illustratives avec `source="demo"` |
+| Mode PostgreSQL | Indicateurs issus de la couche KPI avec `source="postgresql"` |
+
+### Points de vigilance pour un futur service public
+
+Authentification, limitation de débit, schéma de réponse commun, journalisation contrôlée, gestion des secrets, observabilité et tests d'intégration réels restent nécessaires. **La présence d'une application Streamlit en ligne ne prouve pas que l'API est exposée ou sécurisée.**
