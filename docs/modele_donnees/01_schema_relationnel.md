@@ -213,3 +213,96 @@ Les données sont entièrement synthétiques.
 Les comportements simulés ne constituent pas des observations réelles sur NexaRetail.
 
 Les analyses et recommandations qui en découleront devront être interprétées dans le cadre de cette simulation.
+
+---
+
+## 9. Carte des relations du modèle initial
+
+```mermaid
+erDiagram
+  CUSTOMERS ||--o{ ORDERS : passe
+  STORES o|--o{ ORDERS : rattache
+  STORES o|--o{ EMPLOYEES : emploie
+  ORDERS ||--|{ ORDER_ITEMS : contient
+  PRODUCTS ||--o{ ORDER_ITEMS : concerne
+  ORDERS ||--o{ PAYMENTS : recoit
+  ORDERS ||--o{ SHIPMENTS : expedie
+  ORDERS ||--o{ COMPLAINTS : concerne
+  STORES ||--o{ INVENTORY : stocke
+  PRODUCTS ||--o{ INVENTORY : est_stocke
+```
+
+Le diagramme décrit les **règles prévues pour la génération initiale**, et non les contraintes réellement actives dans chaque scénario dégradé. Une clé cassée volontairement peut rendre une relation non résoluble après injection d'anomalies.
+
+## 10. Granularité et risques de duplication
+
+| Table | Une ligne représente | Conséquence analytique |
+|---|---|---|
+| `orders` | Une commande | Base du nombre de commandes |
+| `order_items` | Une ligne d'article | Plusieurs lignes pour une commande |
+| `payments` | Une opération de paiement ou remboursement | Plusieurs opérations possibles |
+| `shipments` | Un événement d'expédition | Toutes les commandes ne sont pas expédiées |
+| `complaints` | Une réclamation | Plusieurs réclamations possibles |
+| `inventory` | Un état de stock magasin-produit | Ne constitue pas une vente |
+
+Une jointure simultanée entre commandes, articles et paiements peut multiplier les lignes. Avant de sommer un montant, il faut choisir le grain de sortie et, si nécessaire, agréger séparément chaque table fille.
+
+### Exemple de contrôle des cardinalités
+
+```sql
+-- Exemple sur les noms logiques du modèle initial.
+SELECT order_id, COUNT(*) AS nb_lignes
+FROM order_items
+GROUP BY order_id
+HAVING COUNT(*) > 1
+ORDER BY nb_lignes DESC;
+```
+
+Ce résultat n'est **pas une liste de doublons** : plusieurs articles par commande sont normaux. Pour identifier de vrais doublons, il faut définir une clé et une règle de comparaison adaptées.
+
+## 11. Références chiffrées après génération
+
+Les volumes du tableau initial sont des **objectifs de simulation**. Les volumes RAW du scénario ORIGINAL documentés ensuite sont :
+
+| Table | Volume documenté |
+|---|---:|
+| customers | 120 000 |
+| stores | 35 |
+| employees | 450 |
+| products | 8 000 |
+| orders | 120 000 |
+| order_items | 272 953 |
+| payments | 125 501 |
+| shipments | 70 567 |
+| complaints | 8 888 |
+| inventory | 280 000 |
+| **Total** | **1 006 394** |
+
+La somme porte sur des **lignes de tables différentes**, pas sur un nombre de commandes ni de personnes. Les autres scénarios possèdent leurs propres volumes et anomalies.
+
+## 12. Du modèle transactionnel au modèle analytique
+
+```mermaid
+flowchart LR
+ A["Données synthétiques"] --> B["RAW : conservation"]
+ B --> C["CLEAN : qualification"]
+ C --> D["DW : faits et dimensions"]
+ D --> E["Power BI et fonctions KPI"]
+```
+
+Le schéma relationnel décrit les sources métier. Les tables `fact_orders`, `fact_sales` et `fact_shipments` du Data Warehouse répondent à des besoins d'analyse différents. Elles ne doivent pas être assimilées à des copies interchangeables des tables transactionnelles.
+
+## 13. Contrôles à conserver
+
+| Contrôle | Intention | Si le contrôle échoue |
+|---|---|---|
+| Unicité de clé primaire | Identifier une ligne sans ambiguïté | Isoler les collisions, sans supprimer aveuglément |
+| Référence valide | Relier les événements | Conserver les lignes orphelines et mesurer leur impact |
+| Montants cohérents | Réconcilier lignes et commandes | Vérifier remises, remboursements et nulls |
+| Dates plausibles | Évaluer les délais | Exclure des ratios les dates non évaluables |
+| Stocks cohérents | Interpréter l'inventaire | Vérifier période et grain magasin-produit |
+| Scénario isolé | Comparer sans contamination | Inclure le scénario dans les jointures pertinentes |
+
+## 14. Références de lecture
+
+[Diagnostic des anomalies](../02_diagnostic_metier.md) | [Processus métier](../03_processus_metier.md) | [Dictionnaire KPI](../04_dictionnaire_indicateurs.md) | [Guide technique](../guides/organisation_technique.md) | [Sommaire](../INDEX.md)
