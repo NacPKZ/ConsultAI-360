@@ -1,142 +1,108 @@
-# NexaRetail : Définition du périmètre
+# 05 · Périmètre de mission — Inclus, exclus, conditions
 
-**Projet :** ConsultAI 360
+> **CONSULTAI 360 / PROJECT SCOPE**  
+> **Statut :** cadrage initial (180 h prévisionnelles) enrichi d'une lecture des livrables documentés.  
+> **Principe :** distinguer **intention**, **prototype réalisé** et **solution déployée**.
 
-**Mission :** Transformation Data & Intelligence artificielle
+[← Dictionnaire KPI](04_dictionnaire_indicateurs.md) · [Index](INDEX.md) · [Charte →](06_charte_projet.md)
 
-**Document :** Project Scope : Version 1.0
+---
 
-## 1. Objectif du projet
+## 1. Mandat
 
-ConsultAI 360 vise à concevoir une solution intégrée de traitement, d'analyse et d'exploitation des données pour NexaRetail, une entreprise fictive de commerce omnicanal.
+ConsultAI 360 simule une mission de conseil Data & IA pour NexaRetail, distributeur omnicanal fictif. La mission vise à montrer comment des données imparfaites peuvent être structurées, contrôlées, analysées et utilisées pour préparer une décision d'investissement.
 
-Le projet simule une mission de conseil couvrant l'ensemble du cycle de valorisation des données, depuis leur génération jusqu'à la formulation de recommandations stratégiques.
+**Ce que la mission produit :** des artefacts de démonstration, des mesures, des analyses et des recommandations.  
+**Ce qu'elle ne produit pas :** un système opérationnel exploité par une entreprise réelle.
 
-La durée prévisionnelle de réalisation est fixée à 180 heures.
+## 2. Les quatre centres de capacité
 
-## 2. Fonctionnalités incluses
+| Centre | Objectif métier | Livrables documentés | Limite principale |
+|:--|:--|:--|:--|
+| **01 · Data Quality** | Rendre les erreurs visibles et quantifiables | Génération synthétique, scénarios d'anomalies, audits Python/SQL | CLEAN n'est pas « sans anomalie » |
+| **02 · BI & Data Engineering** | Consolider une lecture commune | PostgreSQL RAW/CLEAN/DW, dbt, Power BI à **7 pages** | Reconstruction intégrale non démontrée sur machine vierge |
+| **03 · Predictive Analytics** | Tester une méthode d'alerte logistique | Random Forest évalué sur **DataCo** | Aucun transfert validé vers NexaRetail |
+| **04 · AI Consulting** | Faciliter l'interprétation de KPI calculés | Streamlit, assistant local Ollama, API FastAPI documentée | Pas d'autonomie décisionnelle ni de garantie de vérité des commentaires |
 
-### 2.1. Data Quality Center
+### Extension : conseil financier et stratégie
 
-Ce module permettra de :
+Trois scénarios ROI **hypothétiques**, une priorisation des initiatives, des recommandations et une trajectoire de pilote complètent les quatre centres. Le [rapport final](12_rapport_final_conseil.md) explicite les hypothèses et les réserves.
 
-- Générer des données synthétiques cohérentes.
-- Injecter volontairement des anomalies.
-- Détecter les erreurs avec Python et SQL.
-- Appliquer des règles de correction.
-- Mesurer les performances du nettoyage.
-- Documenter les anomalies et les corrections.
+## 3. Périmètre des données
 
-**Livrable :** pipeline de qualité des données accompagné d'un rapport d'évaluation.
+```text
+NexaRetail (fictif)                  DataCo (public, distinct)
+ORIGINAL / LOW / MEDIUM / CRITICAL   Prédiction de retard
+          |                                  |
+          v                                  v
+Qualité → PostgreSQL → dbt → DW       Entraînement / évaluation
+          |                                  |
+          v                                  v
+     Power BI / KPI                    Rapport ML séparé
+          |
+          v
+   Assistant / Conseil / ROI
+```
 
-### 2.2. Business Intelligence Center
+**Règle de séparation :** aucun résultat DataCo n'est présenté comme une prédiction validée sur les commandes NexaRetail. Les données publiques d'avis clients explorées séparément ne deviennent pas des avis authentiques de clients NexaRetail.
 
-Ce module comprendra :
+## 4. Évolution du périmètre
 
-- La centralisation des données dans PostgreSQL.
-- La création d'un Data Warehouse.
-- Les transformations et tests avec dbt.
-- Le calcul des indicateurs de performance.
-- La création d'un rapport Power BI interactif.
+| Dimension | Cadrage initial | État documenté |
+|:--|:--|:--|
+| Dashboard | **4 pages** envisagées | **7 pages** décrites dans le rapport Power BI |
+| ML | Jeu public à sélectionner | **DataCo**, problème de retard de livraison |
+| Assistant | Interface et diagnostics | **Streamlit + Ollama** avec contrôles de commentaires |
+| API | Technologie optionnelle | **FastAPI** documentée, sans prétention de service de production |
+| dbt | Transformations et tests | **16 modèles, 37 tests**, dernier bilan historique **53/53 PASS** |
+| ROI | Trois scénarios à construire | Scénarios prudent, central, optimiste documentés |
+| Restitution | Rapport et présentation | Rapport final et présentation de direction |
 
-Le rapport comportera quatre pages consacrées aux performances générales, aux ventes, à la logistique et à la qualité des données.
+Ces éléments sont des **réalisations ou états documentés**, pas une certification d'intégration complète. Voir [validation et reproductibilité](11_validation_reproductibilite.md).
 
-**Livrable :** rapport Power BI et modèle analytique documenté.
+## 5. Hors périmètre
 
-### 2.3. Predictive Analytics Center
-
-Ce module visera à :
-
-- Sélectionner un jeu de données public adapté.
-- Réaliser une analyse exploratoire.
-- Préparer les variables.
-- Comparer plusieurs modèles prédictifs.
-- Évaluer leurs performances.
-- Interpréter les résultats et leurs limites.
-
-Les résultats issus du jeu de données public seront distingués des données simulées de NexaRetail.
-
-**Livrable :** modèle de Machine Learning évalué et notebook documenté.
-
-### 2.4. AI Consulting Center
-
-Ce module permettra de :
-
-- Développer une application Streamlit.
-- Consulter les principaux KPI.
-- Interroger un assistant IA.
-- Générer des diagnostics à partir de résultats calculés.
-- Proposer des recommandations métier.
-- Tester la fiabilité des réponses.
-
-Les calculs seront effectués par Python ou SQL. L'intelligence artificielle interviendra principalement dans l'interprétation des résultats.
-
-**Livrable :** application interactive et rapport d'évaluation de l'assistant.
-
-## 3. Analyse financière et stratégique
-
-Le projet comprendra également :
-
-- Une estimation des coûts de développement et d'exploitation.
-- Une évaluation des bénéfices potentiels.
-- Trois scénarios financiers.
-- Une analyse de sensibilité.
-- Une estimation du retour sur investissement.
-- Une matrice de priorisation des initiatives.
-- Une feuille de route de transformation à 3, 6 et 12 mois.
-
-Les résultats financiers correspondront à des simulations et non à des gains réellement observés.
-
-## 4. Éléments exclus du périmètre
-
-Les fonctionnalités suivantes ne seront pas développées :
-
-- Plateforme e-commerce opérationnelle.
-- Système de paiement réel.
-- Application mobile.
-- Infrastructure cloud de production.
-- Système complet de gestion des stocks.
-- Déploiement dans une entreprise réelle.
+- Plateforme e-commerce et système de paiement réels.
+- Application mobile et système ERP/WMS complet.
+- Infrastructure cloud de production, haute disponibilité et supervision 24/7.
+- Déploiement du modèle ML sur des données opérationnelles NexaRetail.
 - Entraînement d'un grand modèle de langage.
-- Automatisation complète des décisions stratégiques.
+- Décisions stratégiques ou corrections de données exécutées automatiquement par l'IA.
+- Évaluation causale d'un gain financier réel.
+- Garantie de conformité réglementaire ou d'industrialisation de bout en bout.
 
-Certaines technologies complémentaires, comme Docker, FastAPI ou MLflow, pourront être étudiées si le temps disponible le permet.
+## 6. Hypothèses, dépendances et contraintes
 
-## 5. Contraintes du projet
+| Sujet | Hypothèse / contrainte | Conséquence |
+|:--|:--|:--|
+| Temps | **180 h prévisionnelles** au cadrage | Ce chiffre n'est pas un relevé du temps réellement passé |
+| Données | Jeux internes synthétiques ; sources publiques distinctes | Les conclusions ne sont pas généralisables sans validation |
+| Environnement | PostgreSQL, Python, dbt, Power BI et outils locaux | Dépendances et configurations nécessaires |
+| Sécurité | Aucun secret ni donnée sensible à publier | Variables d'environnement et accès contrôlés |
+| Reproductibilité | Résultats et commandes documentés | Pas de promesse de reconstruction « un clic » |
+| IA | Commentaires encadrés par des calculs vérifiés | Revue humaine indispensable |
 
-Le projet devra respecter plusieurs contraintes :
+## 7. Critères d'acceptation
 
-**Temps :** budget prévisionnel de 180 heures.
+| Critère | Preuve attendue | Référence |
+|:--|:--|:--|
+| Jeux et anomalies compréhensibles | Schéma, scénarios, audit | [Modèle de données](modele_donnees/01_schema_relationnel.md) |
+| Calculs de référence traçables | SQL, définitions KPI | [Dictionnaire](04_dictionnaire_indicateurs.md) |
+| Transformations testées | Résultats de tests datés | [Bilan de validation](11_validation_reproductibilite.md) |
+| Dashboard explicable | Pages, sources, limites | [Rapport BI](10_rapport_power_bi.md) |
+| ML évalué sans fuite de cible | Protocole, métriques, limites | [Rapport ML](08_rapport_final_prediction.md) |
+| Assistant maîtrisé | Contrôles, API et limites | [Documentation API](09_documentation_api.md) |
+| ROI prudent | Hypothèses et scénarios | [Rapport de conseil](12_rapport_final_conseil.md) |
+| Décision explicite | Conditions d'un pilote | [Rapport de conseil](12_rapport_final_conseil.md) |
 
-**Données :** utilisation de données internes synthétiques et de données publiques documentées.
+## 8. Critères de changement de périmètre
 
-**Technologies :** priorité aux outils définis dans le cahier des charges.
+Toute extension doit répondre à quatre questions : **quelle valeur métier ? quelle preuve de faisabilité ? quel coût de maintenance ? quel risque supplémentaire ?** Une fonction séduisante mais non vérifiable reste un prototype, pas un livrable de production.
 
-**Qualité :** validation des résultats et reproductibilité des analyses.
+## 9. Conclusion
 
-**Documentation :** conservation des scripts, tests, hypothèses et décisions techniques.
+Le périmètre est volontairement **large en démonstration de compétences** et **limité en prétention opérationnelle**. La valeur du projet réside dans la cohérence entre qualité, architecture, analyse, IA et recommandation, ainsi que dans la capacité à expliquer les limites.
 
-**Confidentialité :** aucune donnée personnelle réelle ni clé API ne devra être publiée.
+---
 
-## 6. Critères de réussite
-
-Le projet sera considéré comme abouti lorsque :
-
-1. Les données synthétiques pourront être reproduites.
-2. Les anomalies seront détectées et mesurées.
-3. Le Data Warehouse sera fonctionnel.
-4. Les KPI Power BI seront vérifiés.
-5. Le modèle prédictif sera évalué.
-6. L'assistant IA sera testé sur 20 questions.
-7. Les scénarios financiers seront documentés.
-8. Les recommandations seront justifiées.
-9. Le dépôt GitHub permettra de comprendre et de reproduire les principales analyses.
-10. Les livrables universitaires et professionnels seront finalisés.
-
-## 7. Conclusion
-
-Le périmètre retenu vise à concilier ambition technique, cohérence métier et faisabilité.
-
-ConsultAI 360 doit démontrer une démarche complète de transformation Data & IA sans chercher à reproduire l'ensemble des systèmes informatiques d'une entreprise réelle.
-
-La priorité sera accordée à la fiabilité des résultats, à la qualité des livrables et à la capacité de justifier les choix techniques et stratégiques.
+**Suite :** [06 · Charte](06_charte_projet.md) · [Rapport final](12_rapport_final_conseil.md)
