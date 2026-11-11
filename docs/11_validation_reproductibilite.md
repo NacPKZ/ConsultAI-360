@@ -19,10 +19,10 @@ Trois niveaux de preuve sont distingués :
 | Git | Branche `main`, commit initial `e5c89ac`, `git status --short` vide | Observé le 10/11/2026 | État antérieur à l'ajout de ce bilan |
 | dbt | README : 16 modèles, 37 tests, 11 sources ; dernier `dbt build` **53/53 PASS** | Historique documenté | Non rejoué pendant l'étape 11 |
 | Contrôles SQL / DW | README : contrôles de volumes, sommes, scénarios et tests finaux PASS | Historique documenté | Non rejoués pendant l'étape 11 |
-| API | `docs/09_api.md` ; tests de routes et de données simulées | Tests Python exécutés ; documentation historique | Intégration réelle PostgreSQL non attestée par ces tests |
+| API | `docs/09_documentation_api.md` ; tests de routes et de données simulées | Tests Python exécutés ; documentation historique | Intégration réelle PostgreSQL non attestée par ces tests |
 | Streamlit, Ollama, Docker | Fonctionnement précédemment testé, confirmé par le porteur du projet | Validation antérieure déclarée | Aucun test courant supplémentaire, conformément au périmètre de l'étape |
-| Power BI | `docs/10_powerbi_final.md` : architecture à sept pages et contrôles antérieurs | Historique documenté | Pas de vérification visuelle ou de recalcul DAX pendant l'étape 11 |
-| ML DataCo | `docs/08_ml_final_report.md` : évaluation finale du Random Forest | Historique documenté | Pas de réentraînement ni de réévaluation pendant l'étape 11 |
+| Power BI | `docs/10_rapport_power_bi.md` : architecture à sept pages et contrôles antérieurs | Historique documenté | Pas de vérification visuelle ou de recalcul DAX pendant l'étape 11 |
+| ML DataCo | `docs/08_rapport_final_prediction.md` : évaluation finale du Random Forest | Historique documenté | Pas de réentraînement ni de réévaluation pendant l'étape 11 |
 | Reproductibilité | Instructions partielles dans README et documents spécialisés | Documentée partiellement | Reconstruction complète sur machine vierge non démontrée |
 
 ## Incident Docker observé pendant l'audit
@@ -43,9 +43,9 @@ Les tests Python existants sont validés (**31/31**). Les autres composants sont
 
 ## Références internes
 - `README.md`
-- `docs/08_ml_final_report.md`
-- `docs/09_api.md`
-- `docs/10_powerbi_final.md`
+- `docs/08_rapport_final_prediction.md`
+- `docs/09_documentation_api.md`
+- `docs/10_rapport_power_bi.md`
 - `tests/`
 - `dbt_nexaretail/tests/`
 
@@ -79,9 +79,9 @@ Donner à un lecteur une carte du projet et des points de vérification **sans p
 | Assistant IA | `src/assistant/` |
 | API | `api/` |
 | Interface Streamlit | `app.py` |
-| Rapport ML final | `docs/08_ml_final_report.md` |
-| Documentation API | `docs/09_api.md` |
-| Documentation Power BI | `docs/10_powerbi_final.md` |
+| Rapport ML final | `docs/08_rapport_final_prediction.md` |
+| Documentation API | `docs/09_documentation_api.md` |
+| Documentation Power BI | `docs/10_rapport_power_bi.md` |
 | Bilan des validations | ce document |
 
 ## Contrôle léger déjà exécuté pendant l'étape 11
