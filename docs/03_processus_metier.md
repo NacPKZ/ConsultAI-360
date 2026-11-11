@@ -1,5 +1,14 @@
 # 03 : Cartographie des processus : Du panier à la résolution
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 > **CONSULTAI 360 / PROCESSUS OPÉRATIONNELS**  
 > **Périmètre :** parcours omnicanal simulé | **Objectif :** relier opérations, tables de données, contrôles et décisions.
 
@@ -153,3 +162,39 @@ La branche **DataCo** est indépendante de la chaîne transactionnelle NexaRetai
 La cartographie représente un **processus cible simplifié**. Elle ne documente ni procédures internes réelles, ni SLA contractuels, ni intégrations ERP ou transporteurs opérationnelles.
 
 **Suite :** [04 | Dictionnaire des KPI](04_dictionnaire_indicateurs.md) | [05 | Périmètre du projet](05_perimetre_projet.md) | [Rapport Power BI](10_rapport_power_bi.md)
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Granularité des données**
+> Une commande, une ligne de commande, un paiement et une expédition sont quatre unités différentes. Les joindre sans maîtriser leurs cardinalités peut multiplier les montants.
+
+> [!TIP]
+> **Exercice pratique**
+> Vérifier le nombre de lignes avant et après une jointure, puis compter les identifiants distincts.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Additionner le montant d'une commande après une jointure un-à-plusieurs avec les paiements.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> Définir le grain avant les mesures, puis contrôler les cardinalités.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Précédent : 02 Diagnostic métier](02_diagnostic_metier.md) | **03 / 12 : Processus métier** | [Suivant : 04 Dictionnaire KPI](04_dictionnaire_indicateurs.md)
+
+[Retour au sommaire documentaire](INDEX.md)
