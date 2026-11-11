@@ -1,4 +1,4 @@
-# ConsultAI 360 — Étape 11 : validation, documentation technique et reproductibilité
+# 11 : Registre de validation et reproductibilité
 
 Date du bilan : 10 novembre 2026.
 
@@ -51,7 +51,7 @@ Les tests Python existants sont validés (**31/31**). Les autres composants sont
 
 ---
 
-## Annexe — Guide technique et reproductibilité
+## Annexe : Guide technique et reproductibilité
 
 ## Objectif
 Donner à un lecteur une carte du projet et des points de vérification **sans prétendre fournir un déploiement intégralement automatisé**. Les données sources et certaines sorties ML sont locales ; le dépôt seul ne garantit pas leur présence.
@@ -128,3 +128,32 @@ Avant une démonstration client ou une mise en production, exiger :
 
 ## État de l'étape 11
 Cette documentation **consolide** le travail existant ; elle ne certifie pas une reconstruction complète depuis zéro. Voir ce document pour les preuves, réserves et résultats.
+
+---
+
+## Application hébergée et limites de la preuve
+
+**URL fournie pour la démonstration :** [ConsultAI 360 sur Streamlit](https://consultai-360.streamlit.app/).
+
+La présence de cette URL est une information de publication communiquée par le porteur du projet. Elle ne démontre **ni une disponibilité permanente, ni une connexion PostgreSQL de production, ni l'exposition de l'API FastAPI**. L'état actuel du site n'a pas pu être établi par cette revue.
+
+## Matrice de lecture pour un évaluateur
+
+| Niveau de preuve | Exemple | Ce que l'on peut conclure |
+|---|---|---|
+| **Test exécuté** | 31 tests Python réussis le 10/11/2026 | Les cas couverts ont passé dans cet environnement |
+| **Résultat historique** | 53/53 PASS dbt | Un build antérieur a été déclaré réussi |
+| **Livrable documenté** | Sept pages Power BI | Une structure et des indicateurs sont décrits |
+| **Lien de démonstration** | Application Streamlit | Une adresse publique a été fournie |
+| **Non démontré** | Reconstruction complète depuis zéro | Aucune garantie de reproductibilité intégrale |
+
+### Protocole minimal pour une future revue externe
+
+1. Relever le commit et les versions logicielles.
+2. Identifier les fichiers de données effectivement accessibles.
+3. Vérifier la connexion à une base de test et les droits de lecture.
+4. Exécuter les tests pertinents en conservant les journaux.
+5. Comparer les résultats SQL, Power BI et les exports ML sur des périmètres identiques.
+6. Documenter les écarts, les limites et les corrections nécessaires.
+
+Ce protocole **n'a pas été exécuté** dans le cadre de cette mise à jour des textes.
