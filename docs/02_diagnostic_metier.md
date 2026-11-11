@@ -1,5 +1,14 @@
 # 02 : Diagnostic métier : Du symptôme à la décision
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 > **CONSULTAI 360 / DIAGNOSTIC INITIAL**  
 > **Nature :** hypothèses métier d'une entreprise fictive, confrontées aux observations du projet | **Règle :** ne pas transformer une simulation en incident réellement subi.
 
@@ -154,3 +163,39 @@ Cette séquence décrit une **dépendance de décision**, pas une preuve que cha
 **Recommandation :** adopter une transformation progressive, avec une priorité donnée à la qualité et à la traçabilité, puis à la diffusion d'indicateurs communs. Les composants IA doivent rester soumis à des tests et à une validation humaine.
 
 **Suite du dossier :** [Cartographie des processus](03_processus_metier.md) | [Dictionnaire des KPI](04_dictionnaire_indicateurs.md) | [Rapport final de conseil](12_rapport_final_conseil.md)
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Diagnostic, cause et conséquence**
+> Un taux de nulls est un constat. Une mauvaise intégration entre systèmes est une cause possible, non prouvée. Une segmentation incomplète est une conséquence analytique potentielle.
+
+> [!TIP]
+> **Exercice pratique**
+> Pour chaque anomalie, rédiger séparément observation, hypothèse causale, test et impact.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Présenter une hypothèse d'organisation comme une découverte issue des données synthétiques.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> Une recommandation solide commence par la séparation entre preuve et interprétation.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Précédent : 01 Contexte métier](01_contexte_metier.md) | **02 / 12 : Diagnostic métier** | [Suivant : 03 Processus métier](03_processus_metier.md)
+
+[Retour au sommaire documentaire](INDEX.md)
