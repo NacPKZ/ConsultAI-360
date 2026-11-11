@@ -95,6 +95,60 @@ Cette séquence décrit une **dépendance de décision**, pas une preuve que cha
 
 
 
+## Analyse approfondie des défaillances possibles
+
+### A. Complétude et capacité d'attribution
+
+Une commande peut avoir un montant renseigné, mais ne plus être associable à un client ou à un magasin. Le total global et la ventilation par segment peuvent alors différer. La correction analytique consiste à conserver le total et à publier la part non attribuable, pas à supprimer la transaction.
+
+### B. Intégrité référentielle
+
+Une clé étrangère invalide rompt le lien entre deux tables. Un contrôle d'anti-jointure permet de recenser les références sans correspondance. Le diagnostic doit préciser le nombre de lignes, le nombre d'identifiants distincts et, si pertinent, les montants concernés.
+
+### C. Cohérence temporelle
+
+Les analyses mensuelles exigent une date valide. Une commande sans date ne peut pas être affectée honnêtement à un mois. La mesure temporelle doit présenter son périmètre et le nombre d'observations exclues.
+
+### D. Risque de double comptage
+
+Une commande possédant plusieurs lignes et plusieurs paiements peut produire un produit cartésien partiel lors d'une jointure mal construite. Une vérification des cardinalités doit précéder tout calcul de CA.
+
+## Protocole d'audit recommandé
+
+| Phase | Opération | Preuve attendue |
+|---|---|---|
+| Profilage | Volumes, types, nulls, distributions | Tableau de couverture |
+| Cohérence | Bornes de dates, montants, statuts | Liste d'exceptions |
+| Références | Anti-jointures sur clés métier | Références orphelines |
+| Rapprochement | Comparaison entre tables de faits | Écarts expliqués |
+| Publication | Définition et population de chaque KPI | Dictionnaire versionné |
+
+### Exemple de contrôle SQL à adapter
+
+```sql
+SELECT
+    COUNT(*) AS lignes,
+    COUNT(DISTINCT order_id) AS commandes,
+    COUNT(*) FILTER (WHERE order_id IS NULL) AS references_absentes
+FROM raw.payments;
+```
+
+Ce SQL illustre une méthode de contrôle. Le nom exact du schéma et des colonnes doit être confirmé avant exécution dans l'environnement du projet.
+
+## Comment prioriser une anomalie
+
+La gravité ne dépend pas uniquement du volume. Une erreur rare touchant un indicateur financier critique peut être plus urgente qu'un défaut fréquent sur un champ décoratif.
+
+| Critère | Question |
+|---|---|
+| Impact métier | Quelle décision peut être faussée ? |
+| Fréquence | Combien de lignes ou de transactions ? |
+| Détectabilité | Peut-on isoler les cas automatiquement ? |
+| Réversibilité | Existe-t-il une source fiable de correction ? |
+| Coût | Quel effort de traitement et de prévention ? |
+
+Dans une mission réelle, cette grille serait discutée avec les propriétaires métier. Aucun score arbitraire n'est présenté ici comme une mesure observée.
+
 ## Comment lire un diagnostic
 
 ```mermaid
