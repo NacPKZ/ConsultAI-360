@@ -154,6 +154,47 @@ Confirmer les sources actives, le modèle de relations, les mesures DAX, les fil
 
 
 
+## Conception d'une page analytique
+
+Une page doit commencer par une question métier et se terminer par une possibilité d'action. Le choix des graphiques dépend du type de comparaison, pas seulement de l'esthétique.
+
+| Besoin | Visuel adapté | Vigilance |
+|---|---|---|
+| Suivre un indicateur | Carte KPI | Définition et filtre visibles |
+| Comparer des magasins | Barres horizontales | Classement et montants attribuables |
+| Observer une évolution | Courbe | Dates manquantes et périodicité |
+| Comparer des modes de livraison | Barres | Dénominateurs évaluables |
+| Examiner des incidents | Tableau détaillé | Filtres et unités |
+| Présenter le ROI | Scénarios comparés | Hypothèses et coûts exclus |
+
+### Architecture des mesures
+
+Le modèle doit séparer les dimensions communes et les tables de faits correspondant à des événements distincts. Les mesures DAX doivent utiliser les bonnes relations et le bon contexte de filtre. Une mesure calculée sur les commandes ne doit pas être automatiquement multipliée par le nombre de lignes d'expédition.
+
+### Vérification d'une carte KPI
+
+1. Identifier la table source et la mesure DAX.
+2. Relever le scénario sélectionné.
+3. Vérifier les filtres de page et de visuel.
+4. Comparer avec une requête SQL sur le même périmètre.
+5. Vérifier le comportement des valeurs manquantes.
+6. Confirmer l'unité et l'arrondi affichés.
+
+## Cohérence graphique et lisibilité
+
+La palette du projet repose sur un bleu marine **#101F38**, un accent doré et des surfaces claires. L'objectif est de hiérarchiser les informations : navigation, indicateurs principaux, analyses puis limites. Un visuel décoratif ne doit pas prendre la place d'une explication de dénominateur ou de source.
+
+### Points à examiner lors d'une revue du rapport
+
+- Titres formulés comme des questions ou des constats.
+- Alignements et marges cohérents entre pages.
+- Couleurs identiques pour une même catégorie.
+- Contraste suffisant et textes lisibles.
+- Sources distinctes signalées sur les pages ML et ROI.
+- Navigation fonctionnelle et absence de visuels sans mesure.
+
+La liste est une grille de revue, pas une attestation que chaque point a été vérifié sur le fichier PBIX aujourd'hui.
+
 ## Trois sources, trois lectures
 
 ```mermaid
