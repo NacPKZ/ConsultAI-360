@@ -1,4 +1,4 @@
-# 03 · Cartographie des processus — Du panier à la résolution
+# 03 · Cartographie des processus : Du panier à la résolution
 
 > **CONSULTAI 360 / PROCESSUS OPÉRATIONNELS**  
 > **Périmètre :** parcours omnicanal simulé · **Objectif :** relier opérations, tables de données, contrôles et décisions.
