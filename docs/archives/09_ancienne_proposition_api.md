@@ -1,4 +1,4 @@
-# Archive technique — ancienne proposition d'API (étape 9)
+# Historique de conception de l'API FastAPI
 
 Ce fichier conserve une version historique de code FastAPI. **Ne pas l'exécuter comme application de référence.** L'implémentation actuelle est dans `api/main.py`.
 
@@ -9,7 +9,7 @@ import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI(title="ConsultAI 360 — KPI API", version="0.9.0")
+app = FastAPI(title="ConsultAI 360 : KPI API", version="0.9.0")
 
 REFERENCE = {
     "low": {"orders": 120000, "missing": 1200, "basket": 600.40, "deliveries": 70005, "late": 10333},
@@ -81,3 +81,43 @@ def kpis(scenario: str):
         raise HTTPException(status_code=503, detail="Données SQL indisponibles ou incohérentes") from exc
 
 ```
+
+---
+
+## Pourquoi conserver cette proposition
+
+Cette version historique est utile pour comprendre les arbitrages effectués pendant le développement. Elle montre une approche avec schéma de réponse Pydantic, valeurs de référence en mode démonstration et agrégation des KPI en un objet unique.
+
+Elle **n'est pas la source de vérité de l'API actuelle**. Le code de référence se trouve dans [`api/main.py`](../../api/main.py), et son fonctionnement est décrit dans [la documentation API](../09_documentation_api.md).
+
+## Écarts vérifiés avec l'implémentation actuelle
+
+| Sujet | Proposition archivée | `api/main.py` actuel |
+|---|---|---|
+| Activation du mode démo par défaut | `true` | `false` |
+| Valeurs de référence | Commandes, retards, panier et autres champs | Commandes et montants manquants |
+| Validation de réponse | Modèle Pydantic `KPIs` | Dictionnaire Python |
+| Route santé | Statut et mode | Statut seul |
+| Source de démonstration | `demo_reference` | `demo` |
+| Gestion des erreurs | Liste d'exceptions ciblées | Gestion globale renvoyant HTTP 503 |
+
+Ces différences expliquent pourquoi **copier ce code dans le projet actif créerait des divergences** avec les tests, la documentation et les réponses actuellement attendues.
+
+## Lecture critique de l'archive
+
+Le champ `exposure_estimate` était calculé comme `missing * basket`. Il peut illustrer une **exposition théorique liée à des montants non renseignés**, mais ne constitue pas une estimation de revenus perdus. La distinction est essentielle : une donnée manquante n'est pas une transaction annulée.
+
+De même, les valeurs fixes de `REFERENCE` sont des données illustratives, pas des résultats issus d'une base PostgreSQL réelle.
+
+## Quand consulter cette archive
+
+- Pour expliquer l'évolution du contrat API.
+- Pour comparer une proposition technique à une implémentation simplifiée.
+- Pour comprendre les limites d'un mode démonstration.
+- Pour retracer une décision sans effacer l'historique.
+
+**Ne pas utiliser cette archive comme procédure de lancement.** Pour les routes opérationnelles et leurs limites, consulter la documentation active.
+
+## Navigation
+
+[API actuelle](../09_documentation_api.md) | [Guide de l'assistant](../guides/installation_assistant_ia.md) | [Validation](../11_validation_reproductibilite.md) | [Sommaire](../INDEX.md)
