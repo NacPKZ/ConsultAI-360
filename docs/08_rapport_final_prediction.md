@@ -1,4 +1,4 @@
-# ConsultAI 360 — Évaluation finale Machine Learning (DataCo)
+# 08 : Évaluation du modèle prédictif DataCo
 
 ## Résumé exécutif
 
@@ -42,3 +42,31 @@ Le modèle peut servir à **prioriser l'examen** des commandes présentant un ri
 ## Reproductibilité
 
 Script : `src/ml/final_evaluation_dataco.py`. Jeu de test identifié par SHA-256 dans `reports/ml/final_evaluation/final_metadata.json` (local). Historique d'expériences MLflow local. Les CSV bruts et les données intermédiaires ne sont pas publiés.
+
+---
+
+## Tableau de lecture des compromis
+
+| Critère | Baseline | Random Forest | Lecture métier |
+|---|---:|---:|---|
+| ROC-AUC | 0,729 | **0,761** | Meilleure discrimination globale sur le test |
+| PR-AUC | 0,750 | **0,819** | Meilleure qualité du classement précision-rappel |
+| Précision | **0,802** | 0,659 | Plus d'alertes non confirmées pour le modèle |
+| Rappel | 0,587 | **0,777** | Davantage de retards détectés |
+| F1 | 0,678 | **0,713** | Compromis global amélioré |
+| Faux négatifs | 2 242 | **1 213** | 1 029 retards de moins non signalés |
+| Faux positifs | **787** | 2 184 | 1 397 alertes supplémentaires |
+
+Les différences de comptage décrivent les **résultats du test DataCo**, et non un gain opérationnel mesuré. Les seuils et politiques d'alerte doivent être comparés avec leurs coûts respectifs.
+
+## Fiche de décision avant déploiement
+
+**Décision actuelle :** conserver un prototype analytique.
+
+**Expérience suivante recommandée :** comparer une règle simple et le Random Forest sur une période indépendante, instrumenter le nombre d'alertes, le temps de traitement et les interventions réellement efficaces.
+
+**Conditions d'arrêt :** coût des faux positifs excessif, performance instable selon les périodes, variables indisponibles au moment de la décision ou absence de bénéfice mesurable.
+
+## Transparence des résultats
+
+Les **65 752 commandes** proviennent d'un dataset de **180 519 lignes**. Les partitions finales contiennent **46 026 commandes d'entraînement**, **9 863 de validation** et **9 863 de test**. La séparation temporelle et le contrôle des fuites sont essentiels, mais une seule fenêtre de test ne suffit pas à garantir la robustesse future.
