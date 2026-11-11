@@ -92,8 +92,7 @@ Le dictionnaire initial proposait des indicateurs métier génériques. Cette ve
 | CA mesuré | **68 448 127,94 €** | Somme des montants connus |
 | Panier moyen sur montants renseignés | **600,42 €** | 68 448 127,94 ÷ 114 000, arrondi |
 
-> [!CAUTION]
-> Un **montant manquant dans la donnée** n'est pas une vente perdue. Les résultats d'autres vues Power BI peuvent utiliser des granularités ou définitions différentes ; tout rapprochement doit préciser la mesure comparée.
+**Limite d'interprétation :** Un **montant manquant dans la donnée** n'est pas une vente perdue. Les résultats d'autres vues Power BI peuvent utiliser des granularités ou définitions différentes ; tout rapprochement doit préciser la mesure comparée.
 
 ## 3. Logistique
 
@@ -205,7 +204,7 @@ FROM dw.fact_orders
 WHERE scenario = 'medium';
 ```
 
-Cet exemple décrit la logique du calcul ; les noms physiques des colonnes et le champ de scénario doivent être vérifiés dans le modèle réel avant exécution.
+Cette requête est un **pseudo-exemple SQL** : les noms de colonnes et le champ de scénario n'ont pas été confirmés ici dans le schéma physique. Ne pas l'exécuter tel quel sans vérifier les définitions du Data Warehouse.
 
 ## Du calcul à l'interprétation
 
