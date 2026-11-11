@@ -24,8 +24,6 @@ data/processed/
 /reports/data_quality/audits/**/*.csv
 
 # Fichiers temporaires Python
-__pycache__/
-*.pyc
 
 # Phase 3.5 - Donnees nettoyees
 /data/processed_v2/
@@ -52,15 +50,15 @@ dbt_nexaretail/dbt_packages/
 # Fichier temporaire d'inspection
 /dbt_nexaretail/inspect_clean.sql
 
-# External ML datasets
+# Jeux de données externes pour le ML
 /data/external/dataco/*.csv
 
-# Generated ML artifacts
+# Artefacts générés par le ML
 /models/ml/
 /mlruns/
 /mlartifacts/
 
-# Power BI local caches
+# Caches locaux Power BI
 **/.pbi/
 
 /reports/ml/dataco_orders_audit.csv
@@ -71,7 +69,6 @@ dbt_nexaretail/dbt_packages/
 /reports/ml/explainability/
 
 /reports/ml/threshold_analysis/
-/reports/ml/explainability/
 
 /reports/ml/mlflow.db
 /reports/ml/mlflow.db-*
@@ -85,6 +82,6 @@ dbt_nexaretail/dbt_packages/
 !.env.example
 !.env.assistant.example
 
-# Power BI - fichiers locaux temporaires
+# Fichiers temporaires Power BI
 **/.pbi/localSettings.json
 **/.pbi/cache.abf
