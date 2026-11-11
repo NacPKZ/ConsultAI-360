@@ -8,17 +8,17 @@
 
 ## Livrables et rapports
 
-> **Rapport disponible :** [**01 — Data Engineering, Data Quality & Business Analytics (PDF)**](reports/livrables/01_rapport_ingenierie_donnees.pdf)
+> **Rapport disponible :** [**01 — Data Engineering, Data Quality & Business Analytics (PDF)**](rapports/01_Rapport_Data_Engineering_Analytics.pdf)
 > Architecture PostgreSQL RAW → CLEAN → DW, audit de qualité, analyse de l'impact des anomalies sur les indicateurs métier, validation SQL et recommandations.
 
 | Livrable | Statut | Accès |
 |---|---|---|
-| **01 — Data Engineering, Data Quality & Business Analytics** | Disponible | [Consulter le rapport PDF](reports/livrables/01_rapport_ingenierie_donnees.pdf) |
+| **01 — Data Engineering, Data Quality & Business Analytics** | Disponible | [Consulter le rapport PDF](rapports/01_Rapport_Data_Engineering_Analytics.pdf) |
 | 02 — Business Intelligence & Data Visualisation | Documenté | [Documentation Power BI](docs/10_rapport_power_bi.md) |
 | 03 — Machine Learning & évaluation | Documenté | [Rapport ML final](docs/08_rapport_final_prediction.md) |
 | 04 — Synthèse finale de conseil Data & IA | Disponible | [Rapport final](docs/12_rapport_final_conseil.md) |
 
-Le rapport Data Engineering PDF est conservé dans [`reports/livrables/`](reports/livrables/). Le rapport final de conseil et les documentations de composants sont dans [`docs/`](docs/). Les scripts restent dans leurs dossiers techniques. [Bilan de validation et reproductibilité](docs/11_validation_reproductibilite.md).
+Le rapport Data Engineering PDF est conservé dans [`rapports/`](rapports/). Le rapport final de conseil et les documentations de composants sont dans [`docs/`](docs/). Les scripts restent dans leurs dossiers techniques. [Bilan de validation et reproductibilité](docs/11_validation_reproductibilite.md).
 
 ## Résumé exécutif
 
