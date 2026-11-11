@@ -6,6 +6,12 @@ from api.main import app, build_kpis
 client = TestClient(app)
 
 
+@pytest.fixture(autouse=True)
+def activer_mode_demonstration(monkeypatch):
+    """Rendre les tests indépendants de PostgreSQL et de l'environnement local."""
+    monkeypatch.setenv("CONSULTAI_DEMO_MODE", "true")
+
+
 def test_health():
     response = client.get("/health")
     assert response.status_code == 200
