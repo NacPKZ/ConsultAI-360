@@ -1,12 +1,32 @@
-# 06 · Charte de mission : ConsultAI 360
+# 06 : Charte de mission : ConsultAI 360
 
 > **PROJECT CHARTER / NEXARETAIL**  
-> **Version :** cadrage initial 1.0, annoté pour lecture finale · **Validation :** simulée · **Entreprise :** fictive · **Pilotage :** projet individuel.
+> **Version :** cadrage initial 1.0, annoté pour lecture finale | **Validation :** simulée | **Entreprise :** fictive | **Pilotage :** projet individuel.
 
-[← Périmètre](05_perimetre_projet.md) · [Index](INDEX.md) · [Roadmap initiale](feuille_de_route.md)
+[← Périmètre](05_perimetre_projet.md) | [Index](INDEX.md) | [Roadmap initiale](feuille_de_route.md)
+
+## Annexe de pilotage : registre de décisions
+
+| Référence | Décision | Motif | Condition de réexamen |
+|:--|:--|:--|:--|
+| **DEC-01** | Utiliser NexaRetail synthétique | Tester des anomalies contrôlées | Disponibilité de données réelles autorisées |
+| **DEC-02** | Conserver les lignes imparfaites | Éviter la disparition silencieuse d'activité | Présence d'une source fiable de correction |
+| **DEC-03** | Utiliser DataCo pour le ML | Disposer d'une cible logistique exploitable | Données NexaRetail adaptées et étiquetées |
+| **DEC-04** | Limiter l'IA à l'interprétation | Réduire le risque d'invention de KPI | Contrôles supplémentaires validés |
+| **DEC-05** | Recommander un pilote | Mesurer la valeur avant généralisation | Résultats mesurés du pilote |
+
+### Cadence de gouvernance proposée pour un pilote
+
+| Moment | Revue | Question |
+|:--|:--|:--|
+| **Démarrage** | Périmètre et référentiels | Quels chiffres et sources font autorité ? |
+| **Suivi régulier** | Qualité, incidents et adoption | Les utilisateurs disposent-ils d'informations fiables ? |
+| **Mi-parcours** | Hypothèses de gains | Les effets attendus commencent-ils à être mesurables ? |
+| **Clôture** | Valeur, risques et coût de maintien | Poursuivre, corriger ou arrêter ? |
+
+Cette cadence est une **proposition méthodologique**, non une gouvernance déjà exécutée.
 
 ---
-
 ## Décision de cadrage
 
 **Mission retenue :** démontrer, dans un environnement synthétique, une démarche de conseil reliant **fiabilisation des données → architecture analytique → pilotage → expérimentation IA → décision économique**.
@@ -16,7 +36,7 @@
 
 | Paramètre | Référence |
 |:--|:--|
-| Organisation | NexaRetail — distribution omnicanale fictive |
+| Organisation | NexaRetail : distribution omnicanale fictive |
 | Commanditaire | Direction générale simulée |
 | Réalisation | Projet individuel ConsultAI 360 |
 | Budget de travail | **180 heures prévisionnelles** |
@@ -60,13 +80,13 @@ E-commerce réel, paiement opérationnel, infrastructure de production, applicat
 
 ```mermaid
 flowchart TD
-    A["NexaRetail · données synthétiques"] --> B["Anomalies / contrôles"]
-    B --> C["PostgreSQL · RAW / CLEAN / DW"]
-    C --> D["dbt · modèles et tests"]
-    C --> E["Power BI · 7 pages"]
+    A["NexaRetail | données synthétiques"] --> B["Anomalies / contrôles"]
+    B --> C["PostgreSQL | RAW / CLEAN / DW"]
+    C --> D["dbt | modèles et tests"]
+    C --> E["Power BI | 7 pages"]
     C --> F["KPI SQL / Python"]
     F --> G["Streamlit / assistant IA"]
-    H["DataCo · source publique indépendante"] --> I["ML · évaluation du retard"]
+    H["DataCo | source publique indépendante"] --> I["ML | évaluation du retard"]
     E --> J["Conseil et scénarios ROI"]
     G --> J
     I --> J
@@ -74,7 +94,7 @@ flowchart TD
 
 Le diagramme représente des **composants documentés et leurs rôles analytiques** ; il ne garantit pas que tous les échanges soient automatisés en production.
 
-## 5. Planning initial — base de référence
+## 5. Planning initial : base de référence
 
 | Phase | Activité | Estimation |
 |:--|:--|--:|
@@ -94,7 +114,7 @@ Le diagramme représente des **composants documentés et leurs rôles analytique
 
 La [roadmap initiale](feuille_de_route.md) conserve ce découpage. L'évolution ultérieure du dashboard de quatre à **sept pages** illustre une modification de périmètre ; elle ne doit pas être réécrite rétroactivement comme une intention initiale.
 
-## 6. Parties prenantes — simulation RACI simplifiée
+## 6. Parties prenantes : simulation RACI simplifiée
 
 | Acteur fictif | Responsabilité principale |
 |:--|:--|
@@ -141,4 +161,4 @@ La charte fixe une ambition : **démontrer une méthode de transformation respon
 
 ---
 
-[Rapport final de conseil](12_rapport_final_conseil.md) · [Bilan de validation](11_validation_reproductibilite.md) · [Retour à l'index](INDEX.md)
+[Rapport final de conseil](12_rapport_final_conseil.md) | [Bilan de validation](11_validation_reproductibilite.md) | [Retour à l'index](INDEX.md)
