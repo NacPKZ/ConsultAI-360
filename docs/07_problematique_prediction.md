@@ -1,4 +1,4 @@
-# Étape 7 : Prédiction du risque de retard d'expédition
+# 07 : Cadrage de la prédiction logistique
 
 ## 1. Contexte métier
 
@@ -56,3 +56,35 @@ Le dataset ne contient pas de véritable date de livraison finale permettant de 
 Les performances du modèle ne démontreront donc pas, à elles seules, sa capacité à prédire les retards de livraison chez NexaRetail.
 
 Les recommandations opérationnelles et les éventuels gains financiers seront présentés comme des simulations, sauf preuve empirique contraire.
+
+---
+
+## Cadre de décision métier
+
+Le modèle ne doit pas simplement classer les commandes. Il doit permettre de **prioriser des vérifications opérationnelles** à un moment où une intervention est encore possible.
+
+| Question | Réponse de cadrage |
+|---|---|
+| Quelle décision ? | Sélectionner les commandes à examiner en priorité |
+| Quand ? | À la création de la commande, avant les événements futurs |
+| Quel résultat ? | Score de risque et alerte selon un seuil documenté |
+| Quel coût ? | Faux positifs à traiter, faux négatifs non détectés |
+| Quelle référence ? | Règle simple fondée sur le mode d'expédition |
+| Quelle limite ? | Une alerte ne prouve pas qu'une intervention évite le retard |
+
+### Le grain des données : un point essentiel
+
+DataCo contient **180 519 lignes d'articles** pour **65 752 commandes uniques**. Une évaluation naïve ligne par ligne pourrait donner trop de poids aux commandes comportant plusieurs articles. Le protocole final doit donc être lu **au niveau commande**, avec séparation des groupes de commandes entre les jeux.
+
+### Variables à risque de fuite
+
+| Variable | Risque | Décision |
+|---|---|---|
+| `Delivery Status` | Révèle une issue postérieure | Exclure |
+| `Days for shipping (real)` | Durée réelle inconnue à la commande | Exclure |
+| Date réelle d'expédition | Information future | Exclure |
+| Mode d'expédition | Disponible à la commande, mais très structurant | Conserver sous réserve d'analyse de robustesse |
+
+### Conditions avant un usage réel
+
+Une validation sur une autre période, une analyse de calibration, des coûts d'intervention, un suivi des dérives et une validation sur la population cible seraient nécessaires. La cible DataCo ne doit jamais être présentée comme un retard final de livraison chez NexaRetail.
