@@ -82,6 +82,38 @@ Les **65 752 commandes** proviennent d'un dataset de **180 519 lignes**. Les par
 
 
 
+## Lecture approfondie des résultats
+
+Les résultats doivent être interprétés ensemble. La ROC-AUC mesure la capacité du score à classer les observations sur différents seuils. Le rappel et la précision décrivent le comportement au seuil retenu. Le F1 combine ces deux dernières métriques, mais ne représente pas un coût financier.
+
+| Indicateur | Baseline | Random Forest | Écart en points |
+|---|---:|---:|---:|
+| ROC-AUC | 72,9 % | 76,1 % | +3,2 |
+| PR-AUC | 75,0 % | 81,9 % | +6,9 |
+| Précision | 80,2 % | 65,9 % | -14,3 |
+| Rappel | 58,7 % | 77,7 % | +19,0 |
+| F1 | 67,8 % | 71,3 % | +3,5 |
+
+Les valeurs arrondies servent à comparer les modèles. Le tableau de résultats précédent conserve les chiffres détaillés.
+
+### Interprétation opérationnelle
+
+Le Random Forest détecte davantage de retards potentiels, mais signale aussi plus de commandes qui ne correspondent pas à la classe positive. Si une intervention est coûteuse, la précision peut devenir prioritaire. Si un retard manqué coûte très cher, le rappel peut recevoir davantage de poids.
+
+### Pourquoi ne pas conclure sur l'impact financier ?
+
+Une matrice de confusion décrit les erreurs de classification. Elle ne dit pas combien de retards auraient été évités par une intervention. Pour estimer une valeur, il faudrait mesurer la proportion d'alertes actionnables, l'efficacité des interventions, leur coût et l'évolution des retards dans un protocole approprié.
+
+## Vérifications complémentaires recommandées
+
+- Calibration : un score annoncé de 70 % correspond-il à une fréquence proche de 70 % ?
+- Stabilité : les performances se maintiennent-elles sur plusieurs périodes ?
+- Segments : certains modes d'expédition sont-ils systématiquement moins bien prédits ?
+- Référence : le gain persiste-t-il face à une règle simple ?
+- Exploitation : combien d'alertes une équipe peut-elle réellement traiter ?
+
+Ces analyses sont des **prolongements recommandés**, pas des résultats prétendument déjà validés.
+
 ## Arbitrage des alertes
 
 ```mermaid
