@@ -1,10 +1,10 @@
-# Étape 8.3 — Installation
+# Installation de l'assistant IA — guide historique (étape 8.3)
 
-Copier les fichiers dans la racine du dépôt (fusionner `src`, `tests`, ne pas supprimer l'existant).
+Ce document conserve la procédure d'installation suivie pendant l'étape 8.3. **Ne pas recopier les fichiers déjà présents dans le dépôt.** Vérifier l'environnement actuel avant toute modification.
 
-1. Ajouter `.env` et `.env.*` à `.gitignore`, en gardant l'exception `!.env.assistant.example`.
-2. Copier `.env.assistant.example` vers `.env` et remplacer le mot de passe. Ne jamais commiter `.env`.
-3. Créer un rôle PostgreSQL lecture seule dans DBeaver, avec les instructions ci-dessous (exécuter avec un administrateur) :
+1. Vérifier que `.env` et `.env.*` sont exclus par `.gitignore` et que les éventuels fichiers d'exemple ne contiennent aucun secret.
+2. Configurer localement les variables d'environnement requises par l'assistant. Ne jamais publier `.env`. Ne pas présumer que le fichier `.env.assistant.example` existe dans la version courante.
+3. Si le rôle PostgreSQL lecture seule n'existe pas encore, utiliser les instructions suivantes avec un administrateur. **Ne pas recréer un rôle déjà existant** :
 
 ```sql
 CREATE ROLE assistant_ro LOGIN PASSWORD 'REMPLACER_PAR_MOT_DE_PASSE_FORT';
