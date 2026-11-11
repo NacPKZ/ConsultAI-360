@@ -1,5 +1,14 @@
 # 07 : Cadrage de la prédiction logistique
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 ## 1. Contexte métier
 
 Les retards d'expédition peuvent entraîner des coûts opérationnels, une dégradation de l'expérience client et une augmentation des réclamations.
@@ -88,3 +97,39 @@ DataCo contient **180 519 lignes d'articles** pour **65 752 commandes uniques**.
 ### Conditions avant un usage réel
 
 Une validation sur une autre période, une analyse de calibration, des coûts d'intervention, un suivi des dérives et une validation sur la population cible seraient nécessaires. La cible DataCo ne doit jamais être présentée comme un retard final de livraison chez NexaRetail.
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Fuite de données en Machine Learning**
+> Une variable qui révèle une information postérieure au moment de prédiction peut produire un modèle artificiellement performant. Le moment de disponibilité de chaque variable est déterminant.
+
+> [!TIP]
+> **Exercice pratique**
+> Construire un tableau des variables disponibles à la commande et de celles connues seulement après l'expédition.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Conserver la durée réelle d'expédition pour prédire un retard au moment de la commande.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> La qualité d'un protocole ML dépend autant de sa temporalité que de son algorithme.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Précédent : 06 Charte de projet](06_charte_projet.md) | **07 / 12 : Problématique ML** | [Suivant : 08 Résultats ML](08_rapport_final_prediction.md)
+
+[Retour au sommaire documentaire](INDEX.md)
