@@ -100,6 +100,40 @@ Une validation sur une autre période, une analyse de calibration, des coûts d'
 
 
 
+## Formulation exacte du problème
+
+La question étudiée est : **peut-on estimer, à partir des informations disponibles au moment de la commande, le risque de retard défini dans DataCo ?**
+
+Il s'agit d'une **classification binaire supervisée**. La variable cible distingue les commandes avec risque de retard selon la définition du dataset. La décision métier potentielle serait de sélectionner certaines commandes pour examen, mais aucune intervention réelle n'est mesurée dans le projet.
+
+### Pourquoi agréger au niveau commande ?
+
+Le fichier source comporte **180 519 lignes** pour **65 752 commandes**. Les articles d'une même commande partagent des informations logistiques. Une séparation aléatoire des lignes peut laisser des articles de la même commande à la fois dans l'entraînement et dans le test, créant une évaluation trompeuse.
+
+| Choix | Conséquence |
+|---|---|
+| Séparation des lignes | Risque de fuite entre articles d'une même commande |
+| Séparation des commandes | Une commande appartient à une seule partition |
+| Séparation temporelle | Teste davantage le comportement sur une période future |
+| Variables postérieures exclues | Respecte le moment réel de prédiction |
+
+## Protocole d'évaluation à documenter
+
+1. Identifier la commande et la cible.
+2. Retirer les variables indisponibles au moment de la décision.
+3. Constituer des partitions sans recouvrement de commandes.
+4. Construire une règle de référence simple.
+5. Entraîner et sélectionner le modèle sur les données autorisées.
+6. Choisir le seuil sur la validation, sans optimiser sur le test final.
+7. Comparer rappel, précision, F1, AUC et matrice de confusion.
+8. Présenter les limites de transfert vers une autre entreprise.
+
+## Risques spécifiques
+
+**Décalage de population :** DataCo ne représente pas nécessairement NexaRetail. **Décalage temporel :** les pratiques logistiques évoluent. **Coût des alertes :** un faux positif peut déclencher un travail inutile. **Disponibilité des variables :** une variable utile à l'entraînement peut être absente lors de l'usage.
+
+Ces risques justifient un statut d'expérience analytique plutôt qu'un produit prêt à déployer.
+
 ## Disponibilité des variables
 
 ```mermaid
