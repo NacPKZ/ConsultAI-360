@@ -168,37 +168,22 @@ La présence de cette URL est une information de publication communiquée par le
 Ce protocole **n'a pas été exécuté** dans le cadre de cette mise à jour des textes.
 
 
+
+## Carte des preuves
+
+```mermaid
+flowchart TD
+ A["Tests Python exécutés le 10 novembre 2026"] --> B["31 réussites"]
+ C["Résultats dbt historiques"] --> D["53 contrôles réussis lors du dernier build documenté"]
+ E["Reconstruction sur machine vierge"] --> F["Non démontrée"]
+```
+
+<details><summary><strong>Pourquoi distinguer test et intégration ?</strong></summary>
+
+Un test utilisant une connexion simulée vérifie le comportement prévu d'une fonction, mais ne prouve pas l'accès à une vraie base PostgreSQL. Le bilan précise les limites de chaque preuve.
+
+</details>
+
 ---
 
-## Ce que cette partie m'a appris
-
-> [!NOTE]
-> **Notion clé : Test unitaire et test d'intégration**
-> Un test avec une base simulée peut valider une fonction, mais pas la connectivité réelle, les droits d'accès ou les performances de PostgreSQL.
-
-> [!TIP]
-> **Exercice pratique**
-> Classer les preuves par environnement, date, composant et niveau de test.
-
-> [!WARNING]
-> **Erreur à éviter**
-> Présenter 31 tests Python réussis comme une certification de toute l'architecture.
-
-> [!IMPORTANT]
-> **À retenir pour un entretien**
-> Chaque preuve doit être accompagnée de son périmètre.
-
-### Passer de la théorie à la pratique
-
-| En situation professionnelle | Réflexe recommandé |
-|---|---|
-| Avant de développer | Clarifier la question métier et les données disponibles |
-| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
-| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
-| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
-
-### Navigation dans le dossier
-
-[Chapitre précédent](10_rapport_power_bi.md) | **11 / 12 : Validation et reproductibilité** | [Chapitre suivant](12_rapport_final_conseil.md)
-
-[Retour au sommaire documentaire](INDEX.md)
+[Chapitre précédent](10_rapport_power_bi.md) | [Sommaire](INDEX.md) | [Chapitre suivant](12_rapport_final_conseil.md)
