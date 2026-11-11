@@ -1,4 +1,4 @@
-# 06 · Charte de mission — ConsultAI 360
+# 06 · Charte de mission : ConsultAI 360
 
 > **PROJECT CHARTER / NEXARETAIL**  
 > **Version :** cadrage initial 1.0, annoté pour lecture finale · **Validation :** simulée · **Entreprise :** fictive · **Pilotage :** projet individuel.
