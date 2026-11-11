@@ -1,4 +1,4 @@
-# 01 · NexaRetail — Contexte et ambition de transformation
+# 01 · NexaRetail : Contexte et ambition de transformation
 
 > **CONSULTAI 360 / DOSSIER DE CADRAGE**  
 > **Statut :** contexte métier fictif et hypothèses initiales, enrichis par les réalisations documentées · **Secteur :** distribution omnicanale · **Périmètre :** étude de cas, aucune entreprise cliente réelle.
