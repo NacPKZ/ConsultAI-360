@@ -1,12 +1,35 @@
-# 03 · Cartographie des processus : Du panier à la résolution
+# 03 : Cartographie des processus : Du panier à la résolution
 
 > **CONSULTAI 360 / PROCESSUS OPÉRATIONNELS**  
-> **Périmètre :** parcours omnicanal simulé · **Objectif :** relier opérations, tables de données, contrôles et décisions.
+> **Périmètre :** parcours omnicanal simulé | **Objectif :** relier opérations, tables de données, contrôles et décisions.
 
-[← Diagnostic](02_diagnostic_metier.md) · [Index](INDEX.md) · [KPI →](04_dictionnaire_indicateurs.md)
+[← Diagnostic](02_diagnostic_metier.md) | [Index](INDEX.md) | [KPI →](04_dictionnaire_indicateurs.md)
+
+## Contrôles de bout en bout : cas de test métier
+
+Ces scénarios sont des **cas de recette conceptuels**. Ils servent à expliciter les comportements attendus d'une chaîne analytique.
+
+| Cas | Situation | Comportement attendu |
+|:--|:--|:--|
+| **CT-01** | Commande valide, paiement valide | Rapprochement possible sans duplication du montant |
+| **CT-02** | Commande sans client connu | Commande conservée, attribution client signalée |
+| **CT-03** | Paiement avec commande introuvable | Paiement conservé, référence non rattachable |
+| **CT-04** | Expédition sans date réelle | Retard déclaré non évaluable |
+| **CT-05** | Deux paiements pour une commande | Aucun double comptage des commandes |
+| **CT-06** | Deux réclamations pour une commande | Distinguer deux tickets et une commande concernée |
+| **CT-07** | Commandes de scénarios différents avec même ID | Jointures conditionnées au scénario |
+
+### Deux parcours à distinguer
+
+**Achat en magasin :** vente, paiement, éventuel retrait ou service après-vente. Une expédition n'est pas systématique.
+
+**Achat en ligne :** vente, paiement, préparation, expédition, livraison, éventuelle réclamation. Les indicateurs logistiques doivent se limiter aux événements pertinents.
+
+### Règle de modélisation
+
+La chaîne opérationnelle peut être représentée comme une suite d'étapes, mais les **tables analytiques ne sont pas nécessairement en relation un-à-un**. Le choix du grain doit précéder la création des mesures.
 
 ---
-
 ## Vue d'ensemble du parcours
 
 ```mermaid
@@ -30,18 +53,18 @@ flowchart LR
 
 | Étape | Déclencheur / activité | Données associées | Contrôle essentiel | KPI / décision |
 |:--|:--|:--|:--|:--|
-| **01 · Vente** | Client passe commande | `orders`, `order_items`, `customers` | Identifiants, quantités, montants | Commandes, panier moyen |
-| **02 · Paiement** | Paiement enregistré | `payments` | Référence commande, statut, montant | Couverture et rapprochement |
-| **03 · Préparation** | Articles à préparer | `orders`, `inventory`, `products` | Disponibilité et cohérence produit | Incidents de préparation, si données disponibles |
-| **04 · Expédition** | Colis pris en charge | `shipments` | Référence commande, mode, dates | Expéditions évaluables |
-| **05 · Livraison** | Livraison constatée | `shipments` | Date réelle vs date prévue | Taux de retard, délai |
-| **06 · Après-vente** | Incident ou réclamation | `complaints` | Référence, motif, statut | Réclamations, résolution si dates disponibles |
+| **01 | Vente** | Client passe commande | `orders`, `order_items`, `customers` | Identifiants, quantités, montants | Commandes, panier moyen |
+| **02 | Paiement** | Paiement enregistré | `payments` | Référence commande, statut, montant | Couverture et rapprochement |
+| **03 | Préparation** | Articles à préparer | `orders`, `inventory`, `products` | Disponibilité et cohérence produit | Incidents de préparation, si données disponibles |
+| **04 | Expédition** | Colis pris en charge | `shipments` | Référence commande, mode, dates | Expéditions évaluables |
+| **05 | Livraison** | Livraison constatée | `shipments` | Date réelle vs date prévue | Taux de retard, délai |
+| **06 | Après-vente** | Incident ou réclamation | `complaints` | Référence, motif, statut | Réclamations, résolution si dates disponibles |
 
 Les noms de tables correspondent au **modèle de données synthétiques** ; ils ne signifient pas que chaque étape possède une application opérationnelle complète.
 
 ## 2. Description des six étapes
 
-### 01 — Enregistrer la vente
+### 01 : Enregistrer la vente
 
 **Entrées :** client, canal, produits, quantités et prix.  
 **Sorties :** commande et lignes associées.  
@@ -49,31 +72,31 @@ Les noms de tables correspondent au **modèle de données synthétiques** ; ils 
 
 **Contrôle recommandé :** distinguer commandes comptées, montants renseignés et commandes attribuables.
 
-### 02 — Enregistrer et rapprocher le paiement
+### 02 : Enregistrer et rapprocher le paiement
 
 Une commande et un paiement ne sont pas la même unité d'analyse. Une commande peut donner lieu à plusieurs événements de paiement ; une référence invalide peut rendre un paiement non rattachable.
 
 **Contrôle recommandé :** vérifier l'intégrité référentielle et analyser les paiements non rapprochés **sans inventer de commande de substitution**.
 
-### 03 — Préparer les articles
+### 03 : Préparer les articles
 
 La préparation relie le contenu de la commande aux produits et aux stocks disponibles. Les données de stock constituent un support d'analyse ; elles ne prouvent pas qu'un système complet de gestion d'entrepôt a été développé.
 
 **Contrôle recommandé :** cohérence produit–quantité et documentation des cas non évaluables.
 
-### 04 — Expédier
+### 04 : Expédier
 
 Le processus d'expédition produit des informations sur le mode d'envoi, les dates et le suivi. Il faut éviter d'assimiler **nombre d'expéditions** et **nombre de commandes**, puisque les granularités peuvent différer.
 
 **Contrôle recommandé :** définir la population éligible à chaque analyse.
 
-### 05 — Mesurer la livraison
+### 05 : Mesurer la livraison
 
 Un retard suppose une règle métier, par exemple **date réelle postérieure à la date prévue**, et la présence des deux dates pertinentes. Une date manquante doit être classée « non évaluable », pas automatiquement « à temps ».
 
 **Contrôle recommandé :** publier le numérateur, le dénominateur et la couverture des données.
 
-### 06 — Traiter la réclamation
+### 06 : Traiter la réclamation
 
 Une réclamation peut concerner un retard, un produit ou un paiement. Le nombre de réclamations ne se confond pas avec le nombre de commandes ayant au moins une réclamation.
 
@@ -84,8 +107,8 @@ Une réclamation peut concerner un retard, un produit ou un paiement. Le nombre 
 | Activité | Commercial | Finance | Logistique | Service client | Équipe Data |
 |:--|:--:|:--:|:--:|:--:|:--:|
 | Commande et canal | **Pilote** | Consulte | Consulte | Consulte | Contrôle |
-| Paiement et rapprochement | Consulte | **Pilote** | — | Consulte | Contrôle |
-| Préparation / livraison | — | Consulte | **Pilote** | Consulte | Contrôle |
+| Paiement et rapprochement | Consulte | **Pilote** | : | Consulte | Contrôle |
+| Préparation / livraison | : | Consulte | **Pilote** | Consulte | Contrôle |
 | Réclamations | Consulte | Consulte | Consulte | **Pilote** | Contrôle |
 | Définition des KPI | Contribue | Contribue | Contribue | Contribue | **Formalise** |
 
@@ -106,13 +129,13 @@ Une réclamation peut concerner un retard, un produit ou un paiement. Le nombre 
 
 ```mermaid
 flowchart TD
-    A["Données NexaRetail synthétiques"] --> B["RAW · conservation"]
-    B --> C["CLEAN · typage et contrôles"]
-    C --> D["DW · dimensions et faits"]
-    D --> E["Power BI · analyse"]
+    A["Données NexaRetail synthétiques"] --> B["RAW | conservation"]
+    B --> C["CLEAN | typage et contrôles"]
+    C --> D["DW | dimensions et faits"]
+    D --> E["Power BI | analyse"]
     D --> F["KPI SQL / Python"]
-    F --> G["Assistant IA · interprétation"]
-    H["DataCo · dataset public distinct"] --> I["ML · risque de retard"]
+    F --> G["Assistant IA | interprétation"]
+    H["DataCo | dataset public distinct"] --> I["ML | risque de retard"]
 ```
 
 La branche **DataCo** est indépendante de la chaîne transactionnelle NexaRetail.
@@ -129,4 +152,4 @@ La branche **DataCo** est indépendante de la chaîne transactionnelle NexaRetai
 
 La cartographie représente un **processus cible simplifié**. Elle ne documente ni procédures internes réelles, ni SLA contractuels, ni intégrations ERP ou transporteurs opérationnelles.
 
-**Suite :** [04 · Dictionnaire des KPI](04_dictionnaire_indicateurs.md) · [05 · Périmètre du projet](05_perimetre_projet.md) · [Rapport Power BI](10_rapport_power_bi.md)
+**Suite :** [04 | Dictionnaire des KPI](04_dictionnaire_indicateurs.md) | [05 | Périmètre du projet](05_perimetre_projet.md) | [Rapport Power BI](10_rapport_power_bi.md)
