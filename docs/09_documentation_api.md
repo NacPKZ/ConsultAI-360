@@ -1,5 +1,14 @@
 # 09 : Guide de l'API FastAPI et de la démonstration
 
+<div align="center">
+
+**CONSULTAI 360 | DOSSIER DE CONSEIL**
+
+[Accueil du projet](../README.md) | [Sommaire documentaire](INDEX.md) | [Application Streamlit](https://consultai-360.streamlit.app/)
+
+</div>
+
+
 ## Objectif
 
 L'API locale expose des indicateurs de NexaRetail sans importer l'interface Streamlit. **Implémentation de référence :** `api/main.py`. L'ancien prototype de l'étape 9 est conservé uniquement dans `docs/archives/09_ancienne_proposition_api.md`.
@@ -69,3 +78,39 @@ Ces exemples supposent que l'API est **déjà lancée localement sur le port 800
 ### Points de vigilance pour un futur service public
 
 Authentification, limitation de débit, schéma de réponse commun, journalisation contrôlée, gestion des secrets, observabilité et tests d'intégration réels restent nécessaires. **La présence d'une application Streamlit en ligne ne prouve pas que l'API est exposée ou sécurisée.**
+
+
+---
+
+## Ce que cette partie m'a appris
+
+> [!NOTE]
+> **Notion clé : Séparation interface, API et source de vérité**
+> Streamlit présente l'expérience utilisateur. FastAPI expose des routes. PostgreSQL fournit des KPI calculés. Ces composants peuvent être utilisés séparément, et l'accès à l'un ne prouve pas la disponibilité des autres.
+
+> [!TIP]
+> **Exercice pratique**
+> Tester séparément la route de santé, les scénarios et les KPI, puis relever la source indiquée dans la réponse.
+
+> [!WARNING]
+> **Erreur à éviter**
+> Confondre une réponse de démonstration avec une mesure PostgreSQL.
+
+> [!IMPORTANT]
+> **À retenir pour un entretien**
+> La provenance doit rester visible jusqu'à l'interface.
+
+### Passer de la théorie à la pratique
+
+| En situation professionnelle | Réflexe recommandé |
+|---|---|
+| Avant de développer | Clarifier la question métier et les données disponibles |
+| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
+| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
+| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
+
+### Navigation dans le dossier
+
+[Précédent : 08 Résultats ML](08_rapport_final_prediction.md) | **09 / 12 : API et Streamlit** | [Suivant : 10 Power BI](10_rapport_power_bi.md)
+
+[Retour au sommaire documentaire](INDEX.md)
