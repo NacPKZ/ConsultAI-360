@@ -1,16 +1,14 @@
+# Génération et traitement des données
 Faker
 PyYAML
 psycopg[binary]
+pandas>=2.2,<4
+numpy>=1.26,<3
 
-# dbt - transformations SQL et tests
+# Transformations SQL et contrôles dbt
 dbt-core==1.11.0
 dbt-postgres==1.11.0
 
-streamlit
-plotly
-pandas
-numpy
+# Interface de restitution
 streamlit>=1.50,<2
 plotly>=5.24,<7
-numpy>=1.26,<3
-pandas>=2.2,<4
