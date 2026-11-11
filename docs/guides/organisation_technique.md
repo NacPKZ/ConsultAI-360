@@ -1,4 +1,4 @@
-# Organisation technique — audit ciblé du dépôt
+# Organisation technique : audit ciblé du dépôt
 
 > Audit de structure et de chemins effectué à partir des fichiers GitHub. Ce document ne prétend pas constituer un inventaire exhaustif de tous les fichiers du dépôt ni une exécution de tests.
 
@@ -49,3 +49,69 @@ Si le test de connaissances échoue après déplacement, vérifier le chemin d'i
 3. Ne pas renommer les éléments techniques Power BI ou dbt sans test de reconstruction.
 4. Examiner séparément les anciens fichiers générés et les gros fichiers avant toute suppression.
 5. Faire une recherche complète des références locales avant les prochains déplacements.
+
+---
+
+## Parcours d'une modification technique
+
+```mermaid
+flowchart TD
+ A["Besoin métier"] --> B["Identifier le module concerné"]
+ B --> C["Lire les dépendances"]
+ C --> D["Modifier le code ou la configuration"]
+ D --> E["Exécuter les contrôles adaptés"]
+ E --> F{"Résultats cohérents ?"}
+ F -->|Non| C
+ F -->|Oui| G["Documenter le changement"]
+ G --> H["Commit Git"]
+```
+
+## Matrice des responsabilités des dossiers
+
+| Dossier | Question à laquelle il répond | À ne pas confondre avec |
+|---|---|---|
+| `src/ml/` | Comment le modèle DataCo est-il préparé et évalué ? | Un modèle déployé sur NexaRetail |
+| `src/assistant/` | Comment les KPI sont-ils calculés et commentés ? | Une IA qui produit librement du SQL |
+| `api/` | Quelles routes HTTP locales sont exposées ? | L'interface Streamlit publique |
+| `dbt_nexaretail/` | Comment les modèles analytiques sont-ils transformés ? | Les scripts d'import des sources |
+| `docker/` | Comment dbt se connecte-t-il au service PostgreSQL Docker ? | L'ensemble du projet Compose, situé à la racine |
+| `reports/` | Où sont conservées des sorties et artefacts ? | `rapports/`, qui contient un PDF historique |
+
+## Avant de déplacer un fichier
+
+1. Rechercher les références du chemin dans les scripts, tests, guides et fichiers de configuration.
+2. Vérifier les chemins relatifs depuis la racine du dépôt.
+3. Préserver les sorties ML générées et les références Power BI.
+4. Tester le composant concerné dans l'environnement approprié.
+5. Inspecter `git diff --check` et `git status -sb` avant commit.
+
+### Exemples de commandes de lecture
+
+```powershell
+git status -sb
+git diff --stat
+git diff --check
+```
+
+Ces commandes **n'exécutent pas** le pipeline de données. Elles contrôlent uniquement l'état des modifications Git.
+
+## Attention aux fichiers générés
+
+Le script `src/ml/final_evaluation_dataco.py` peut réécrire `docs/08_rapport_final_prediction.md`. Toute réexécution doit être suivie d'une inspection du diff pour éviter d'écraser les enrichissements rédactionnels.
+
+Les données locales, les artefacts de modèles et les secrets ne doivent pas être ajoutés automatiquement au dépôt. Une absence de fichier volumineux dans Git ne prouve pas qu'il manque à l'environnement de travail original.
+
+## Diagnostic rapide selon le symptôme
+
+| Symptôme | Première vérification |
+|---|---|
+| `ModuleNotFoundError` | Environnement Python et racine d'exécution |
+| Fichier DataCo introuvable | Chemin `data/external/dataco/` et disponibilité locale |
+| Échec de connexion PostgreSQL | Hôte, port, base et droits |
+| `dbt debug` échoue | Profil, mot de passe et réseau Docker |
+| Power BI ne retrouve pas son modèle | Présence des dossiers `.Report` et `.SemanticModel` |
+| Chiffres différents entre SQL et BI | Grain, scénario, filtres et données manquantes |
+
+## Références
+
+[Schéma relationnel](../modele_donnees/01_schema_relationnel.md) | [Installation assistant](installation_assistant_ia.md) | [Guide dbt](../../dbt_nexaretail/README.md) | [Guide Docker](../../docker/README.md) | [Validation](../11_validation_reproductibilite.md)
