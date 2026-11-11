@@ -147,6 +147,8 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
+Pour exécuter les scripts de Machine Learning, installer également les dépendances spécifiques avec `python -m pip install -r requirements-ml.txt`. Les versions déclarées ne garantissent pas à elles seules la reproduction exacte des expériences historiques.
+
 Les versions dbt utilisées et testées sont `dbt-core==1.11.0` et `dbt-postgres==1.11.0`. Les mettre à jour nécessite de relancer les validations.
 
 Configurer le fichier local `C:\Users\<utilisateur>\.dbt\profiles.yml` en faisant correspondre le **nom du profil** à celui défini dans `dbt_nexaretail/dbt_project.yml`. Exemple de connexion à adapter :
