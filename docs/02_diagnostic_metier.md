@@ -1,4 +1,4 @@
-# 02 · Diagnostic métier — Du symptôme à la décision
+# 02 · Diagnostic métier : Du symptôme à la décision
 
 > **CONSULTAI 360 / DIAGNOSTIC INITIAL**  
 > **Nature :** hypothèses métier d'une entreprise fictive, confrontées aux observations du projet · **Règle :** ne pas transformer une simulation en incident réellement subi.
