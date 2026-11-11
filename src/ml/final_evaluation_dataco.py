@@ -30,7 +30,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "reports" / "ml" / "processed"
 OUT = ROOT / "reports" / "ml" / "final_evaluation"
-REPORT = ROOT / "docs" / "08_ml_final_report.md"
+REPORT = ROOT / "docs" / "08_rapport_final_prediction.md"
 THRESHOLD = 0.40  # FROZEN before reading test
 FEATURES = [
     "shipping_mode",
