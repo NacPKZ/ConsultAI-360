@@ -81,37 +81,24 @@ Les différences de comptage décrivent les **résultats du test DataCo**, et no
 Les **65 752 commandes** proviennent d'un dataset de **180 519 lignes**. Les partitions finales contiennent **46 026 commandes d'entraînement**, **9 863 de validation** et **9 863 de test**. La séparation temporelle et le contrôle des fuites sont essentiels, mais une seule fenêtre de test ne suffit pas à garantir la robustesse future.
 
 
+
+## Arbitrage des alertes
+
+```mermaid
+flowchart LR
+ A["Score de risque"] --> B{"Seuil 0,40"}
+ B -->|Score supérieur ou égal| C["Alerte à examiner"]
+ B -->|Score inférieur| D["Pas d'alerte"]
+ C --> E["Coût des faux positifs"]
+ D --> F["Coût des retards manqués"]
+```
+
+<details><summary><strong>Pourquoi le rappel ne suffit pas</strong></summary>
+
+Sur le test DataCo, le Random Forest réduit les faux négatifs par rapport à la baseline, mais génère davantage de faux positifs. Sans coût d'intervention mesuré, ce compromis ne prouve pas une rentabilité supérieure.
+
+</details>
+
 ---
 
-## Ce que cette partie m'a appris
-
-> [!NOTE]
-> **Notion clé : Rappel et précision**
-> Le rappel mesure la proportion de retards détectés. La précision mesure la proportion d'alertes qui correspondent à un retard. Augmenter le rappel peut accroître le nombre de fausses alertes.
-
-> [!TIP]
-> **Exercice pratique**
-> Comparer les 1 213 faux négatifs et 2 184 faux positifs du modèle avec la baseline sur le test DataCo.
-
-> [!WARNING]
-> **Erreur à éviter**
-> Conclure qu'une meilleure AUC garantit un bénéfice économique.
-
-> [!IMPORTANT]
-> **À retenir pour un entretien**
-> Le meilleur seuil dépend du coût des erreurs et de la capacité opérationnelle à traiter les alertes.
-
-### Passer de la théorie à la pratique
-
-| En situation professionnelle | Réflexe recommandé |
-|---|---|
-| Avant de développer | Clarifier la question métier et les données disponibles |
-| Pendant l'analyse | Vérifier les hypothèses, les granularités et les exclusions |
-| Avant de présenter | Distinguer résultats mesurés, simulations et limites |
-| Après la restitution | Documenter les décisions, les actions et les contrôles à poursuivre |
-
-### Navigation dans le dossier
-
-[Précédent : 07 Problématique ML](07_problematique_prediction.md) | **08 / 12 : Résultats ML** | [Suivant : 09 API et Streamlit](09_documentation_api.md)
-
-[Retour au sommaire documentaire](INDEX.md)
+[Chapitre précédent](07_problematique_prediction.md) | [Sommaire](INDEX.md) | [Chapitre suivant](09_documentation_api.md)
