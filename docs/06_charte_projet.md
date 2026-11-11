@@ -174,6 +174,46 @@ La charte fixe une ambition : **démontrer une méthode de transformation respon
 
 
 
+## Organisation du travail et traçabilité
+
+Une charte de projet utile ne se limite pas à des objectifs. Elle explique comment une décision devient une tâche, comment une tâche devient une preuve et comment une modification est retrouvée.
+
+```mermaid
+flowchart LR
+ A["Besoin"] --> B["Critère d'acceptation"]
+ B --> C["Implémentation"]
+ C --> D["Contrôle"]
+ D --> E["Commit Git"]
+ E --> F["Documentation et restitution"]
+```
+
+### Exemple de fiche de changement
+
+| Champ | Exemple |
+|---|---|
+| Demande | Ajouter la page de prédiction au dashboard |
+| Justification | Rendre visible l'expérience DataCo |
+| Source | Exports du modèle évalué |
+| Risque | Faire croire à une prédiction sur NexaRetail |
+| Contrôle | Afficher explicitement DataCo, le seuil et le protocole |
+| Réception | Vérifier la source des visuels et la cohérence des chiffres |
+
+## Arbitrages entre délai, qualité et périmètre
+
+Un projet de démonstration couvre plusieurs technologies. Cette largeur crée un risque : consacrer beaucoup de temps à la présentation tout en laissant des contrôles incomplets. La priorité proposée est de figer les définitions et les résultats avant d'étendre les interfaces.
+
+| Si la contrainte principale est... | Décision recommandée |
+|---|---|
+| Le temps | Réduire les fonctionnalités accessoires |
+| La qualité des chiffres | Renforcer tests et rapprochements |
+| La reproductibilité | Documenter versions, prérequis et commandes |
+| La présentation | Ajouter des vues sans modifier les calculs de référence |
+| La sécurité | Ne pas exposer de service non préparé |
+
+## Conditions de clôture documentaire
+
+Les documents doivent répondre à quatre questions : **qu'a-t-on fait ? pourquoi ? avec quelle preuve ? quelles limites ?** Les commits GitHub matérialisent les changements de fichiers, mais ne constituent pas à eux seuls une preuve d'exécution ou de conformité.
+
 ## Circuit de décision proposé
 
 ```mermaid
