@@ -1904,7 +1904,7 @@ with st.sidebar:
         if PUBLIC
         else st.toggle(
             "Mode démonstration",
-            value=False,
+            value=True,
             key="demo_mode",
             help="Utilise les chiffres de référence, sans PostgreSQL.",
         )
@@ -1994,17 +1994,23 @@ with st.sidebar:
 try:
     allm = load_metrics(demo)
 except Exception as exc:
-    st.error(
-        "Connexion PostgreSQL indisponible. Passe en mode démonstration pour continuer avec les chiffres de référence."
+    if demo:
+        # Une erreur dans les données de référence doit rester visible.
+        st.error("Impossible de charger les données de démonstration.")
+        with st.expander("Détail technique"):
+            st.code(f"{type(exc).__name__}: {exc}")
+        st.stop()
+
+    # PostgreSQL est optionnel : une base locale inaccessible ne doit pas
+    # bloquer la consultation publique du portfolio.
+    st.session_state["demo_mode"] = True
+    demo = True
+    allm = load_metrics(True)
+    st.info(
+        "Mode démonstration activé automatiquement : la connexion "
+        "PostgreSQL n'est pas disponible. Les chiffres présentés sont "
+        "des références figées du projet, et non des données en direct."
     )
-    st.button(
-        "Activer le mode démonstration",
-        type="primary",
-        on_click=lambda: st.session_state.update(demo_mode=True),
-    )
-    with st.expander("Détail technique"):
-        st.code(f"{type(exc).__name__}: {exc}")
-    st.stop()
 
 d = allm[scenario]
 hs = health(d)
