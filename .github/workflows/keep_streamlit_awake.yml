@@ -1,5 +1,5 @@
 
-name: Keep ConsultAI 360 Awake
+name: ConsultAI 360 Health Monitor
 
 on:
   schedule:
@@ -10,73 +10,38 @@ permissions:
   contents: read
 
 jobs:
-  wake-app:
+  health-check:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
-      - name: Install Playwright
+      - name: Check Streamlit health
+        shell: bash
         run: |
-          python -m pip install playwright
-          python -m playwright install chromium
+          python - <<'PY'
+          import time
+          import urllib.request
 
-      - name: Diagnose ConsultAI 360
-        run: |
-          cat > /tmp/check_app.py <<'PY'
-          from playwright.sync_api import sync_playwright
+          url = "https://consultai-360.streamlit.app/_stcore/health"
 
-          url = "https://consultai-360.streamlit.app/"
-
-          with sync_playwright() as p:
-              browser = p.chromium.launch(headless=True)
-              page = browser.new_page()
-
-              page.on(
-                  "pageerror",
-                  lambda error: print("JS ERROR:", error)
-              )
-
-              page.on(
-                  "console",
-                  lambda msg: print("CONSOLE:", msg.text)
-                  if msg.type == "error" else None
-              )
-
-              page.on(
-                  "websocket",
-                  lambda ws: print("WEBSOCKET:", ws.url)
-              )
-
+          for attempt in range(1, 9):
               try:
-                  response = page.goto(
-                      url,
-                      wait_until="domcontentloaded",
-                      timeout=90000
-                  )
+                  with urllib.request.urlopen(url, timeout=15) as response:
+                      status = response.status
+                      body = response.read().decode().strip()
 
-                  page.wait_for_timeout(15000)
+                  print(f"Attempt {attempt}: HTTP {status}")
+                  print(f"Response: {body}")
 
-                  print("HTTP:", response.status if response else "None")
-                  print("URL:", page.url)
-                  print("TITLE:", page.title())
-                  print(
-                      "BODY:",
-                      repr(page.locator("body").inner_text()[:1000])
-                  )
-                  print(
-                      "STREAMLIT:",
-                      page.locator('[data-testid="stApp"]').count()
-                  )
+                  if status == 200 and body.lower() == "ok":
+                      print("SUCCESS: Streamlit server healthy")
+                      break
 
-                  if page.locator('[data-testid="stApp"]').count() == 0:
-                      raise RuntimeError(
-                          "Streamlit interface not detected"
-                      )
+              except Exception as error:
+                  print(f"Attempt {attempt}: {error}")
 
-                  print("SUCCESS: ConsultAI 360 loaded")
+              if attempt == 8:
+                  raise SystemExit("FAILED: Health check")
 
-              finally:
-                  browser.close()
+              time.sleep(15)
           PY
-
-          python /tmp/check_app.py
