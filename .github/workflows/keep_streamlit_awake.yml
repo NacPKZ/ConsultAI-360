@@ -31,6 +31,22 @@ jobs:
               browser = p.chromium.launch(headless=True)
               page = browser.new_page()
 
+              page.on(
+                  "pageerror",
+                  lambda error: print("JS ERROR:", error)
+              )
+
+              page.on(
+                  "console",
+                  lambda msg: print("CONSOLE:", msg.text)
+                  if msg.type == "error" else None
+              )
+
+              page.on(
+                  "websocket",
+                  lambda ws: print("WEBSOCKET:", ws.url)
+              )
+
               try:
                   response = page.goto(
                       url,
@@ -38,19 +54,26 @@ jobs:
                       timeout=90000
                   )
 
-                  page.wait_for_timeout(10000)
+                  page.wait_for_timeout(15000)
 
-                  print("URL finale:", page.url)
                   print("HTTP:", response.status if response else "None")
-                  print("Titre:", page.title())
-                  print("Texte:", page.locator("body").inner_text()[:1500])
+                  print("URL:", page.url)
+                  print("TITLE:", page.title())
+                  print(
+                      "BODY:",
+                      repr(page.locator("body").inner_text()[:1000])
+                  )
+                  print(
+                      "STREAMLIT:",
+                      page.locator('[data-testid="stApp"]').count()
+                  )
 
-                  app = page.locator('[data-testid="stApp"]')
+                  if page.locator('[data-testid="stApp"]').count() == 0:
+                      raise RuntimeError(
+                          "Streamlit interface not detected"
+                      )
 
-                  if app.count() > 0:
-                      print("SUCCESS: Streamlit interface detected")
-                  else:
-                      raise RuntimeError("Streamlit interface not detected")
+                  print("SUCCESS: ConsultAI 360 loaded")
 
               finally:
                   browser.close()
