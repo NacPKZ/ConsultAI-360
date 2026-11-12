@@ -1880,10 +1880,6 @@ def render_workshop(d, allm, th, scenario):
 
 # ───────────────────────────── barre latérale ─────────────────────────────
 
-# Corriger l'etat du toggle avant de creer le widget.
-if st.session_state.pop("force_demo_on_next_run", False):
-    st.session_state["demo_mode"] = True
-
 with st.sidebar:
     st.markdown(
         '<div class="brand"><i>◆</i><div>ConsultAI 360<small>INTELLIGENCE · DECISION · DATA</small></div></div>',
@@ -1909,12 +1905,12 @@ with st.sidebar:
         key="demo_mode",
         help="Activé : données de référence. Désactivé : PostgreSQL en local, ou explication sur le cloud.",
     )
-    if PUBLIC and not demo:
-        st.caption("PostgreSQL : disponible en local uniquement")
+    if demo:
+        st.caption("Chiffres de référence figés")
+    elif not os.getenv("ASSISTANT_DATABASE_URL", "").strip():
+        st.caption("PostgreSQL non configuré sur ce serveur")
     else:
-        st.caption(
-            "Chiffres de référence figés" if demo else "PostgreSQL local, lecture seule"
-        )
+        st.caption("PostgreSQL, lecture seule")
     st.divider()
     st.markdown(
         '<div class="side-title">Explorer la mission</div>', unsafe_allow_html=True
@@ -1994,35 +1990,40 @@ with st.sidebar:
         link_btn("Profil LinkedIn", li, ":material/work:")
     elif li:
         st.caption("Profil LinkedIn : lien non valide dans la configuration.")
-# Sur le deploiement public, le mode PostgreSQL reste explicatif :
-# ne jamais essayer de joindre une base locale depuis le cloud.
-public_postgres_preview = PUBLIC and not demo
+# Le choix de l'utilisateur reste intact, meme si PostgreSQL est indisponible.
+# Sans URL de base, on explique la situation et on affiche les references.
+postgres_configured = bool(os.getenv("ASSISTANT_DATABASE_URL", "").strip())
+public_postgres_preview = not demo and not postgres_configured
+postgres_unavailable = False
+
 if public_postgres_preview:
     st.info(
         "**PostgreSQL en direct ? Pas encore sur cette version publique !** "
         "Pour financer un serveur PostgreSQL disponible 24 h/24, "
-        "il me manque juste un petit détail : un stage ou un CDI. "
-        "Recruteurs, vous savez ce qu'il vous reste à faire. 😉\n\n"
-        "**En attendant :** le dashboard reste consultable avec les données de démonstration. "
-        "Pour tester les vraies requêtes SQL, récupérez le projet sur "
-        "[GitHub](https://github.com/NacPKZ/ConsultAI-360), configurez "
-        "votre PostgreSQL local et lancez l'application chez vous."
+        "il me manque juste un petit detail : un stage ou un CDI. "
+        "Recruteurs, vous savez ce qu'il vous reste a faire.\n\n"
+        "**En attendant :** le dashboard affiche les donnees de demonstration. "
+        "Pour executer les requetes SQL, clonez le "
+        "[projet GitHub](https://github.com/NacPKZ/ConsultAI-360), "
+        "configurez PostgreSQL en local et lancez l'application."
     )
+
 try:
-    allm = load_metrics(True if public_postgres_preview else demo)
+    allm = load_metrics(demo or public_postgres_preview)
 except Exception as exc:
     if demo:
-        # Une erreur dans les données de référence doit rester visible.
-        st.error("Impossible de charger les données de démonstration.")
-        with st.expander("Détail technique"):
+        st.error("Impossible de charger les donnees de demonstration.")
+        with st.expander("Detail technique"):
             st.code(f"{type(exc).__name__}: {exc}")
         st.stop()
 
-    # PostgreSQL est optionnel : une base locale inaccessible ne doit pas
-    # bloquer la consultation publique du portfolio.
-    # Le widget existe deja : changer son etat seulement au prochain run.
-    st.session_state["force_demo_on_next_run"] = True
-    st.rerun()
+    # Ne jamais forcer le toggle a True : le visiteur doit pouvoir le desactiver.
+    postgres_unavailable = True
+    st.warning(
+        "PostgreSQL est configure mais la connexion est indisponible. "
+        "Les donnees de demonstration sont affichees temporairement."
+    )
+    allm = load_metrics(True)
 
 d = allm[scenario]
 hs = health(d)
@@ -2031,9 +2032,9 @@ TH = safe_th(st.session_state["th"])
 g = gate(d, TH)
 recs = recommendations(d, TH)
 source_chip = (
-    "Référence figée · démo"
-    if (demo or public_postgres_preview)
-    else "PostgreSQL · cache de 5 min"
+    "Référence figée (démo)"
+    if (demo or public_postgres_preview or postgres_unavailable)
+    else "PostgreSQL (cache de 5 min)"
 )
 
 
