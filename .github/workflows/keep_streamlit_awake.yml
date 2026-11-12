@@ -15,37 +15,45 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Visit ConsultAI 360 with browser
+      - name: Install Playwright
         run: |
           python -m pip install playwright
-          python -m playwright install --with-deps chromium
+          python -m playwright install chromium
 
+      - name: Diagnose ConsultAI 360
+        run: |
+          cat > /tmp/check_app.py <<'PY'
+          from playwright.sync_api import sync_playwright
 
-            python - <<'PY'
-            from playwright.sync_api import sync_playwright
+          url = "https://consultai-360.streamlit.app/"
 
-            url = "https://consultai-360.streamlit.app/"
-
-            with sync_playwright() as p:
+          with sync_playwright() as p:
               browser = p.chromium.launch(headless=True)
               page = browser.new_page()
+
               try:
-                response = page.goto(
-                  url, wait_until="domcontentloaded", timeout=90000
-                )
-                page.wait_for_timeout(10000)
+                  response = page.goto(
+                      url,
+                      wait_until="domcontentloaded",
+                      timeout=90000
+                  )
 
-                print("URL finale :", page.url)
-                print("Statut HTTP :", response.status if response else "Aucun")
-                print("Titre :", page.title())
-                print("Texte visible :", page.locator("body").inner_text()[:1500])
+                  page.wait_for_timeout(10000)
 
-                app = page.locator('[data-testid="stApp"]')
-                if app.count() > 0:
-                  print("SUCCESS : Interface Streamlit détectée")
-                else:
-                  print("ERROR : Interface Streamlit absente")
-                  raise RuntimeError("Streamlit app not detected")
+                  print("URL finale:", page.url)
+                  print("HTTP:", response.status if response else "None")
+                  print("Titre:", page.title())
+                  print("Texte:", page.locator("body").inner_text()[:1500])
+
+                  app = page.locator('[data-testid="stApp"]')
+
+                  if app.count() > 0:
+                      print("SUCCESS: Streamlit interface detected")
+                  else:
+                      raise RuntimeError("Streamlit interface not detected")
+
               finally:
-                browser.close()
-            PY
+                  browser.close()
+          PY
+
+          python /tmp/check_app.py
