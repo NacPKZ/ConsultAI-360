@@ -1903,19 +1903,18 @@ with st.sidebar:
         index=1,
         format_func=lambda s: SCENARIO_LABEL[s],
     )
-    demo = (
-        True
-        if PUBLIC
-        else st.toggle(
-            "Mode démonstration",
-            value=True,
-            key="demo_mode",
-            help="Utilise les chiffres de référence, sans PostgreSQL.",
+    demo = st.toggle(
+        "Mode démonstration",
+        value=True,
+        key="demo_mode",
+        help="Activé : données de référence. Désactivé : PostgreSQL en local, ou explication sur le cloud.",
+    )
+    if PUBLIC and not demo:
+        st.caption("PostgreSQL : disponible en local uniquement")
+    else:
+        st.caption(
+            "Chiffres de référence figés" if demo else "PostgreSQL local, lecture seule"
         )
-    )
-    st.caption(
-        "Chiffres de référence figés" if demo else "PostgreSQL local, lecture seule"
-    )
     st.divider()
     st.markdown(
         '<div class="side-title">Explorer la mission</div>', unsafe_allow_html=True
@@ -1995,8 +1994,22 @@ with st.sidebar:
         link_btn("Profil LinkedIn", li, ":material/work:")
     elif li:
         st.caption("Profil LinkedIn : lien non valide dans la configuration.")
+# Sur le deploiement public, le mode PostgreSQL reste explicatif :
+# ne jamais essayer de joindre une base locale depuis le cloud.
+public_postgres_preview = PUBLIC and not demo
+if public_postgres_preview:
+    st.info(
+        "**PostgreSQL en direct ? Pas encore sur cette version publique !** "
+        "Pour financer un serveur PostgreSQL disponible 24 h/24, "
+        "il me manque juste un petit détail : un stage ou un CDI. "
+        "Recruteurs, vous savez ce qu'il vous reste à faire. 😉\n\n"
+        "**En attendant :** le dashboard reste consultable avec les données de démonstration. "
+        "Pour tester les vraies requêtes SQL, récupérez le projet sur "
+        "[GitHub](https://github.com/NacPKZ/ConsultAI-360), configurez "
+        "votre PostgreSQL local et lancez l'application chez vous."
+    )
 try:
-    allm = load_metrics(demo)
+    allm = load_metrics(True if public_postgres_preview else demo)
 except Exception as exc:
     if demo:
         # Une erreur dans les données de référence doit rester visible.
@@ -2017,7 +2030,11 @@ st.session_state.setdefault("th", dict(DEFAULT_TH))
 TH = safe_th(st.session_state["th"])
 g = gate(d, TH)
 recs = recommendations(d, TH)
-source_chip = "Référence figée · démo" if demo else "PostgreSQL · cache de 5 min"
+source_chip = (
+    "Référence figée · démo"
+    if (demo or public_postgres_preview)
+    else "PostgreSQL · cache de 5 min"
+)
 
 
 # ───────────────────────────── modules ─────────────────────────────
