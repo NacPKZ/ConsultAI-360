@@ -1880,6 +1880,10 @@ def render_workshop(d, allm, th, scenario):
 
 # ───────────────────────────── barre latérale ─────────────────────────────
 
+# Corriger l'etat du toggle avant de creer le widget.
+if st.session_state.pop("force_demo_on_next_run", False):
+    st.session_state["demo_mode"] = True
+
 with st.sidebar:
     st.markdown(
         '<div class="brand"><i>◆</i><div>ConsultAI 360<small>INTELLIGENCE · DECISION · DATA</small></div></div>',
@@ -2003,14 +2007,9 @@ except Exception as exc:
 
     # PostgreSQL est optionnel : une base locale inaccessible ne doit pas
     # bloquer la consultation publique du portfolio.
-    st.session_state["demo_mode"] = True
-    demo = True
-    allm = load_metrics(True)
-    st.info(
-        "Mode démonstration activé automatiquement : la connexion "
-        "PostgreSQL n'est pas disponible. Les chiffres présentés sont "
-        "des références figées du projet, et non des données en direct."
-    )
+    # Le widget existe deja : changer son etat seulement au prochain run.
+    st.session_state["force_demo_on_next_run"] = True
+    st.rerun()
 
 d = allm[scenario]
 hs = health(d)
