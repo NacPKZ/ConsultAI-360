@@ -1,0 +1,27 @@
+
+name: Keep ConsultAI 360 Awake
+
+on:
+  schedule:
+    - cron: "17 */4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wake-app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Visit ConsultAI 360
+        run: |
+          curl --location \
+            --max-time 90 \
+            --retry 2 \
+            --silent --show-error \
+            --output /dev/null \
+            --write-out "HTTP status: %{http_code}\n" \
+            --fail \
+            "https://consultai-360.streamlit.app/"
