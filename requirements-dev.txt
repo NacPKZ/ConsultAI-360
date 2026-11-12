@@ -1,0 +1,9 @@
+-r requirements.txt
+
+# Génération et traitement
+Faker
+PyYAML
+
+# Data Warehouse et dbt
+dbt-core==1.11.0
+dbt-postgres==1.11.0

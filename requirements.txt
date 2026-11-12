@@ -1,14 +1,9 @@
-# Génération et traitement des données
-Faker
-PyYAML
-psycopg[binary]
+
+# Application Streamlit ConsultAI 360
+streamlit>=1.50,<2
+plotly>=5.24,<7
 pandas>=2.2,<4
 numpy>=1.26,<3
 
-# Transformations SQL et contrôles dbt
-dbt-core==1.11.0
-dbt-postgres==1.11.0
-
-# Interface de restitution
-streamlit>=1.50,<2
-plotly>=5.24,<7
+# Connexion PostgreSQL optionnelle
+psycopg[binary]>=3,<4
