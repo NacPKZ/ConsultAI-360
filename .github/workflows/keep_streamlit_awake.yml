@@ -15,13 +15,35 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Visit ConsultAI 360
+      - name: Visit ConsultAI 360 with browser
         run: |
-          curl --location \
-            --max-time 90 \
-            --retry 2 \
-            --silent --show-error \
-            --output /dev/null \
-            --write-out "HTTP status: %{http_code}\n" \
-            --fail \
-            "https://consultai-360.streamlit.app/"
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+
+          url = "https://consultai-360.streamlit.app/"
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              page = browser.new_page()
+
+              try:
+                  page.goto(
+                      url,
+                      wait_until="domcontentloaded",
+                      timeout=90000
+                  )
+
+                  page.wait_for_selector(
+                      '[data-testid="stApp"]',
+                      timeout=90000
+                  )
+
+                  print("ConsultAI 360 loaded successfully")
+                  print("URL:", page.url)
+
+              finally:
+                  browser.close()
+          PY
