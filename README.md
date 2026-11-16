@@ -2,9 +2,9 @@
 
 # CONSULTAI 360
 
-### From Data Quality to Business Decisions
+### De la qualité des données aux décisions métier
 
-**Mission de conseil Data, Analytics & Intelligence Artificielle**
+**Mission de conseil en données, analyse et intelligence artificielle**
 
 **NexaRetail : cas d'étude de transformation data pour une entreprise omnicanale fictive**
 
@@ -28,7 +28,7 @@
 
 ConsultAI 360 reproduit une mission de conseil Data et IA de bout en bout pour **NexaRetail**, un distributeur omnicanal fictif. Le projet part de données transactionnelles générées en Python, introduit des anomalies contrôlées, mesure leur impact dans PostgreSQL, construit une couche analytique avec dbt, puis restitue les résultats dans Power BI et une application Streamlit.
 
-En parallèle, une expérimentation de Machine Learning sur le dataset public **DataCo** étudie la prédiction du risque de retard logistique. Une analyse financière simulée complète le diagnostic et débouche sur une proposition de **pilote de 90 jours**.
+En parallèle, une expérimentation de Machine Learning sur le jeu de données public **DataCo** étudie la prédiction du risque de retard logistique. Une analyse financière simulée complète le diagnostic et débouche sur une proposition de **pilote de 90 jours**.
 
 > **Positionnement :** démonstration de méthode, de compétences et de raisonnement consultant. NexaRetail n'est pas un client réel. Les résultats DataCo ne sont pas des prédictions sur NexaRetail, et les ROI présentés ne sont pas des gains réalisés.
 
@@ -63,7 +63,7 @@ L'adresse publique a été communiquée pour le projet. Sa disponibilité perman
 
 ## Technologies, outils et logiciels
 
-### Stack technique
+### Technologies utilisées
 
 | Domaine | Technologies | Utilisation dans ConsultAI 360 |
 |---|---|---|
@@ -123,7 +123,7 @@ flowchart TB
 
 [Schéma relationnel détaillé](docs/modele_donnees/01_schema_relationnel.md) | [Organisation technique](docs/guides/organisation_technique.md) | [Feuille de route](docs/feuille_de_route.md)
 
-## 01. Business understanding : comprendre NexaRetail
+## 01. Cadrage métier : comprendre NexaRetail
 
 NexaRetail simule un réseau de distribution omnicanal avec **35 magasins**, **120 000 clients**, **8 000 produits** et **450 employés** dans son scénario de référence.
 
@@ -138,7 +138,7 @@ Le cadrage comprend un diagnostic, une cartographie des processus, un dictionnai
 
 [Contexte métier](docs/01_contexte_metier.md) | [Diagnostic](docs/02_diagnostic_metier.md) | [Processus](docs/03_processus_metier.md) | [Dictionnaire KPI](docs/04_dictionnaire_indicateurs.md)
 
-## 02. Data generation : quatre scénarios pour tester la robustesse
+## 02. Génération de données : quatre scénarios pour tester la robustesse
 
 Les données sont générées artificiellement pour représenter commandes, lignes d'articles, paiements, livraisons, stocks et réclamations. Trois variantes dégradées permettent de tester les contrôles et la résistance des analyses.
 
@@ -165,7 +165,7 @@ Ces comptages concernent des **types d'anomalies et des grains différents**. Il
 
 [Diagnostic complet](docs/02_diagnostic_metier.md) | [Schéma et cardinalités](docs/modele_donnees/01_schema_relationnel.md)
 
-## 03. Data Engineering : PostgreSQL, qualité et Data Warehouse
+## 03. Ingénierie des données : PostgreSQL, qualité et entrepôt
 
 Le parcours de données distingue trois couches :
 
@@ -200,7 +200,7 @@ Dans CRITICAL, le CA mesuré est inférieur de **7 154 894,60 €** à la réfé
 
 [Définitions et limites des KPI](docs/04_dictionnaire_indicateurs.md) | [Rapport Data Engineering en PDF](rapports/01_Rapport_Data_Engineering_Analytics.pdf)
 
-## 04. Analytics Engineering : dbt et tests
+## 04. Transformations analytiques : dbt et tests
 
 Le projet dbt organise les transformations selon trois niveaux :
 
@@ -221,7 +221,7 @@ Les deux marts métier documentés sont :
 
 [Guide des transformations dbt](dbt_nexaretail/README.md) | [Guide Docker](docker/README.md) | [Registre des preuves](docs/11_validation_reproductibilite.md)
 
-## 05. Business Intelligence : sept pages Power BI
+## 05. Analyse décisionnelle : sept pages Power BI
 
 Le rapport adopte une identité visuelle **bleu marine, doré et fond clair**. Chaque page répond à une question métier et distingue les données mesurées des hypothèses.
 
@@ -241,7 +241,7 @@ Le projet mobilise **Power Query**, la modélisation relationnelle, les **mesure
 
 [Documentation détaillée du dashboard](docs/10_rapport_power_bi.md)
 
-## 06. Machine Learning : prédire le risque de retard
+## 06. Apprentissage automatique : prédire le risque de retard
 
 L'expérience prédictive utilise **DataCo Supply Chain**, une source publique distincte de NexaRetail. L'objectif est d'estimer le risque de livraison tardive sans employer des informations qui ne seraient connues qu'après l'expédition.
 
@@ -561,7 +561,7 @@ Le **[centre de documentation](docs/INDEX.md)** regroupe les douze chapitres, le
 
 ## Ce que le projet apporte
 
-ConsultAI 360 ne se limite pas à entraîner un modèle ou à produire un dashboard. Il montre comment relier une anomalie de données à une mesure, une mesure à une décision, et une décision à un protocole de validation.
+ConsultAI 360 ne se limite pas à entraîner un modèle ou à produire un tableau de bord. Il montre comment relier une anomalie de données à une mesure, une mesure à une décision, et une décision à un protocole de validation.
 
 Le principe directeur est simple : **des calculs vérifiables, des limites explicites et des recommandations proportionnées aux preuves disponibles**.
 
@@ -571,7 +571,7 @@ Le principe directeur est simple : **des calculs vérifiables, des limites expli
 
 ### CONSULTAI 360
 
-**Data Quality | Analytics Engineering | Business Intelligence | Machine Learning | AI Applications | Data Strategy**
+**Qualité des données | Transformations analytiques | Aide à la décision | Apprentissage automatique | Applications IA | Stratégie data**
 
 [Application Streamlit](https://consultai-360.streamlit.app/) | [Documentation](docs/INDEX.md) | [Rapport final](docs/12_rapport_final_conseil.md) | [Bilan de validation](docs/11_validation_reproductibilite.md)
 
