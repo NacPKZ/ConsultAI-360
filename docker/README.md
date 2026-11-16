@@ -38,7 +38,7 @@ docker compose down
 
 ## État de validation
 
-Le bilan historique mentionne 16 modèles, 37 tests et 53 contrôles réussis. **Ces résultats ne constituent pas une validation de Docker à la date de ce nettoyage.** L'étape 11 a notamment documenté une variable d'environnement absente et un moteur Docker indisponible. Aucune réexécution Docker n'est nécessaire pour la réorganisation documentaire.
+Le bilan historique mentionne 16 modèles et 37 tests réussis, soit 53 éléments validés au total. Il ne s'agit pas de 53 tests indépendants. L'étape 11 documente également une variable d'environnement absente et un moteur Docker indisponible : le bilan dbt ne constitue donc pas une validation complète de la reconstruction Docker.
 
 Voir [le bilan de validation](../docs/11_validation_reproductibilite.md) et [le guide dbt](../dbt_nexaretail/README.md).
 
