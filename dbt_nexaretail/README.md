@@ -30,7 +30,7 @@ docker compose run --rm dbt build
 
 Le service dbt est associé au profil Compose `tools` ; ces commandes explicites ciblent ce service. Les schémas `raw` et `clean` doivent être importés avant `dbt build`.
 
-Ces commandes sont des indications de reproduction, **pas une affirmation qu'elles ont été relancées pendant le nettoyage**. Voir également [le guide Docker](../docker/README.md).
+Ces commandes décrivent la procédure de reproduction. Voir également [le guide Docker](../docker/README.md).
 
 ## Validation et limites
 
@@ -63,13 +63,13 @@ Les matérialisations sont configurées dans `dbt_project.yml` : **staging** et 
 
 Le profil `dbt_nexaretail` cible `postgres:5432` **à l'intérieur de Docker** et utilise `DBT_POSTGRES_PASSWORD`. Depuis Windows, l'hôte et le port peuvent différer : ne pas reprendre ce profil tel quel sans adapter l'environnement.
 
-## Déroulement d'un build
+## Déroulement de la construction
 
 | Étape | Commande | Ce qu'elle vérifie |
 |---|---|---|
 | Connexion | `docker compose run --rm dbt debug` | Configuration et accès à la base |
 | Construction et tests | `docker compose run --rm dbt build` | Modèles et tests inclus dans la sélection |
-| Analyse des erreurs | Logs dbt | Modèle, test et relation concernés |
+| Analyse des erreurs | Journaux dbt | Modèle, test et relation concernés |
 
 Les commandes supposent un moteur Docker fonctionnel, une variable de mot de passe définie et les sources importées. Un `debug` réussi ne prouve pas que les données métier sont cohérentes.
 
