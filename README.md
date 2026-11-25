@@ -42,7 +42,7 @@ En parallèle, une expérimentation de Machine Learning sur le jeu de données p
 | **Commandes de référence** | 120 000 | Scénario ORIGINAL |
 | **Transformation dbt** | 16 modèles et 37 tests | Dernier build historique : 53/53 PASS |
 | **Reporting** | 7 pages | Power BI |
-| **Tests Python** | 31 réussis | Exécution documentée du 10/11/2026 |
+| **Tests Python** | 46 réussis | Vérification de la console du 25/11/2026 |
 | **Prédiction** | ROC-AUC 0,7605 | Random Forest évalué sur DataCo |
 
 ## Explorer la démonstration
@@ -57,9 +57,16 @@ En parallèle, une expérimentation de Machine Learning sur le jeu de données p
 
 </div>
 
-L'application s'inscrit dans la logique du projet : rendre les indicateurs consultables et fournir une interprétation encadrée. Les fonctions métier calculent les chiffres ; le modèle de langage intervient dans la rédaction de commentaires, avec contrôle du format et mécanisme de repli.
+La console propose cinq espaces : vue d’ensemble, analyse, comparaison, recommandations et assistant. Le scénario moyen est sélectionné au démarrage. Original apparaît dans la comparaison de référence, avec les champs non documentés laissés indisponibles. Les exports JSON et Markdown reprennent les périmètres et hypothèses affichés.
 
-L'adresse publique a été communiquée pour le projet. Sa disponibilité permanente et les connexions de production ne sont pas certifiées par la documentation GitHub.
+```bash
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+Sans configuration PostgreSQL, la démonstration lit les chiffres de référence versionnés. Pour activer PostgreSQL, configurer `ASSISTANT_DATABASE_URL` dans un environnement local avec un rôle en lecture seule. Le cache de ces agrégats dure cinq minutes. En mode public `CONSULTAI_DEMO_MODE=true`, l’assistant reste analytique et sert des réponses déterministes. Ollama est facultatif et limité à une reformulation locale de résultats contrôlés.
+
+[Notes de refonte et vérifications](docs/REFONTE_CONSOLE.md)
 
 ## Technologies, outils et logiciels
 
