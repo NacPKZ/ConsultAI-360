@@ -4,8 +4,8 @@ Le scénario du volet (faible, moyen ou critique) s’applique à tout le dossie
 
 | Rubrique | Ce que l’on peut faire |
 |---|---|
-| Synthèse | Rejouer en cascade l’effet de l’injection et du nettoyage sur le CA déclaré, les doublons ou le panier. Exporter une note avec les hypothèses retenues. |
-| Diagnostic opérationnel | Cliquer sur une famille d’alertes, comparer son volume avant et après nettoyage, puis en discuter avec l’assistant. Tester un objectif de retards ou feuilleter quatre pages du rapport Power BI du scénario. |
+| Synthèse | Suivre le CA, le panier ou les doublons entre les trois fichiers. Déplier le justificatif pour retrouver le calcul à l’étape choisie. Exporter une note avec ses hypothèses. |
+| Diagnostic opérationnel | Cliquer sur une famille d’alertes, comparer son volume avant et après nettoyage, puis en discuter avec l’assistant. Comparer les retards observés au plafond visé, enregistrer cet objectif dans la synthèse ou feuilleter quatre pages du rapport Power BI du scénario. |
 | Simulations | Faire varier le panier inconnu, comparer la sensibilité des trois scénarios, explorer les tirages Monte-Carlo ou dimensionner un plan de rattrapage. |
 | Traçabilité des données | Suivre les commandes ou les livraisons dans deux flux distincts, vérifier leur dénominateur et exporter les chiffres. |
 | Assistant IA | Poser une question sur les résultats chargés ou l’audit archivé, creuser un constat, retrouver les sources et exporter l’échange. |

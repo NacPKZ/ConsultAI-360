@@ -29,7 +29,7 @@ st.set_page_config(
     page_title="ConsultAI 360",
     page_icon=":material/analytics:",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 st.markdown(
     "<style>" + (Path(__file__).parent / "assets/console.css").read_text() + "</style>",
@@ -59,28 +59,16 @@ def esc(value) -> str:
     return html.escape(str(value))
 
 
-def heading(title: str, provenance: str | None = None) -> None:
-    st.markdown(
-        f'<div class="page-top"><span class="eyebrow">NexaRetail / scénario {esc(SCENARIO_NAMES[scenario].lower())}</span><span class="source-pill">{esc(provenance or source_label)}</span></div>',
-        unsafe_allow_html=True,
-    )
-    st.title(title, anchor=False)
-
-
 with st.sidebar:
     st.markdown(
-        '<div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 22 12 12 22 2 12Z"/></svg></div><div><strong>ConsultAI 360</strong><small>Analyse des données</small></div></div><div class="side-project">NexaRetail, cas d’étude</div>',
+        '<div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 22 12 12 22 2 12Z"/></svg></div><div><strong>ConsultAI 360</strong><small>Analyse des données</small></div></div>',
         unsafe_allow_html=True,
     )
-    st.divider()
-    st.markdown(
-        '<div class="side-label">Données à analyser</div>', unsafe_allow_html=True
-    )
     scenario = st.selectbox(
-        "Scénario de données",
+        "Scénario NexaRetail",
         SCENARIOS,
         index=1,
-        format_func=lambda s: f"Scénario {SCENARIO_NAMES[s].lower()}",
+        format_func=SCENARIO_NAMES.get,
         key="data_scenario",
     )
     demo = st.toggle(
@@ -91,30 +79,35 @@ with st.sidebar:
     )
     configured = bool(os.getenv("ASSISTANT_DATABASE_URL", "").strip())
     source_status = st.empty()
-    st.divider()
-    st.markdown(
-        '<div class="side-label">Dossier d’analyse</div>', unsafe_allow_html=True
-    )
     if st.session_state.get("navigation") not in PAGES:
         st.session_state["navigation"] = PAGES[0]
-    page = st.radio("Navigation", PAGES, key="navigation", label_visibility="collapsed")
-    st.divider()
-    st.markdown(
-        '<div class="side-label">À propos du projet</div>', unsafe_allow_html=True
-    )
+    with st.container(key="mission_nav"):
+        st.markdown(
+            '<div class="side-label">Dossier d’analyse</div>', unsafe_allow_html=True
+        )
+        page = st.radio(
+            "Navigation", PAGES, key="navigation", label_visibility="collapsed"
+        )
     author = profile()
-    st.markdown(
-        f'<div class="side-author">{esc(author["name"])}</div>', unsafe_allow_html=True
-    )
-    if author["linkedin"]:
-        st.link_button("Profil LinkedIn", author["linkedin"], width="stretch")
-    st.link_button("Code source GitHub", author["github"], width="stretch")
+    with st.container(key="mission_author"):
+        st.markdown(
+            f'<div class="side-label">À propos du projet</div><div class="side-author">{esc(author["name"])}</div>',
+            unsafe_allow_html=True,
+        )
+        links = [
+            f'<a href="{esc(author["github"])}" target="_blank" rel="noopener noreferrer">GitHub</a>'
+        ]
+        if author["linkedin"]:
+            links.insert(
+                0,
+                f'<a href="{esc(author["linkedin"])}" target="_blank" rel="noopener noreferrer">LinkedIn</a>',
+            )
+        st.markdown(
+            '<div class="author-links">' + "".join(links) + "</div>",
+            unsafe_allow_html=True,
+        )
 
 using_reference = demo or not configured
-if not demo and not configured:
-    st.info(
-        "PostgreSQL n’est pas configuré sur ce serveur. La référence de démonstration reste affichée."
-    )
 try:
     with st.spinner("Chargement des indicateurs…"):
         all_metrics = cached_metrics(using_reference)
@@ -123,39 +116,30 @@ except Exception:
         st.error("Les données de démonstration ne peuvent pas être chargées.")
         st.stop()
     using_reference = True
-    st.warning(
-        "PostgreSQL est indisponible. Les valeurs affichées proviennent de la référence de démonstration."
+    source_status.warning(
+        "PostgreSQL est indisponible. La référence de démonstration prend le relais."
     )
     all_metrics = cached_metrics(True)
 
 metrics = all_metrics[scenario]
-source_label = (
-    "Référence figée / démonstration"
-    if using_reference
-    else "PostgreSQL / cache de 5 min"
-)
-source_status.caption(
-    "Données synthétiques de référence"
-    if demo
-    else (
-        "Référence affichée / PostgreSQL indisponible"
-        if using_reference
-        else "PostgreSQL en lecture seule"
+if not demo and not configured:
+    source_status.markdown(
+        '<aside class="postgres-note" role="status">Pour faire tourner PostgreSQL 24 h/24, '
+        "il me manque encore un petit détail… <strong>un stage ou un CDI !</strong>"
+        "<small>En attendant, la démo utilise les données de référence.</small></aside>",
+        unsafe_allow_html=True,
     )
-)
+elif not using_reference:
+    source_status.caption(
+        "PostgreSQL en lecture seule. Actualisation toutes les cinq minutes."
+    )
 
+if page != "Synthèse":
+    st.title(page, anchor=False)
 
 if page == "Synthèse":
-    explore.home(scenario, all_metrics, author["name"], source_label)
+    explore.home(scenario, all_metrics, author["name"])
 elif page == "Diagnostic opérationnel":
-    heading(
-        "Diagnostic opérationnel",
-        (
-            None
-            if st.session_state.get("diagnostic_view") == "Livraisons"
-            else "Archive du projet"
-        ),
-    )
     section = explore.pick(
         "Dossier à explorer",
         ["Anomalies", "Livraisons", "Mon rapport Power BI"],
@@ -165,16 +149,13 @@ elif page == "Diagnostic opérationnel":
         st.subheader("Quelles anomalies restent à traiter ?", anchor=False)
         explore.audit(scenario)
     elif section == "Livraisons":
-        st.subheader("Quel effort pour tenir le délai ?", anchor=False)
-        explore.logistics(metrics)
+        explore.logistics(scenario, metrics)
     else:
         st.subheader("Feuilleter le rapport NexaRetail", anchor=False)
         explore.dashboard(scenario)
 elif page == "Simulations":
-    heading("Simulations")
     explore.simulator(scenario, metrics, all_metrics)
 elif page == "Traçabilité des données":
-    heading("Traçabilité des données")
     pop = explore.pick(
         "Population à suivre", ["Commandes", "Livraisons"], "trace_population"
     )
@@ -197,7 +178,7 @@ elif page == "Traçabilité des données":
                 f"{fmt(metrics['late'])} retards sur {fmt(metrics['deliveries'])} livraisons dont les deux dates sont connues.",
             )
         origin = (
-            "Référence figée dans src/assistant/console.py"
+            "Référence figée de la démonstration"
             if using_reference
             else (
                 "dw.fact_orders / overview()"
@@ -230,10 +211,6 @@ elif page == "Traçabilité des données":
     )
 
 else:
-    heading("Assistant IA")
-    st.markdown(
-        "Quel chiffre vous pose question ? On peut vérifier un calcul, comparer deux scénarios ou repartir d’une hypothèse."
-    )
     model = available_model()
     st.caption(
         f"Modèle local {model} disponible pour reconnaître les demandes. Chiffres calculés par les outils vérifiés."

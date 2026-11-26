@@ -18,6 +18,8 @@ from .data import (
     FAMILIES,
     MEASURES,
     ROOT,
+    STAGES,
+    STAGE_NAMES,
     VIEWS,
     archive,
     distribution,
@@ -27,9 +29,9 @@ from .data import (
 
 REPO = "https://github.com/NacPKZ/ConsultAI-360/blob/main/"
 BODY = {
-    "CA déclaré": "Une vente n’a pas disparu parce que son montant manque. C’est pour ça que je présente le chiffre d’affaires avec sa couverture.",
-    "Doublons": "J’ai injecté des copies exactes de lignes. Le nettoyage les place en quarantaine : on peut revenir au fichier d’origine pour vérifier.",
-    "Panier utilisable": "Un panier moyen peut sembler stable alors que des milliers de montants manquent. Je regarde toujours combien de commandes entrent dans la moyenne.",
+    "CA déclaré": "Quand je présente le chiffre d’affaires, j’indique aussi combien de commandes ont un montant renseigné.",
+    "Doublons": "J’ai conservé les copies en quarantaine. Je peux ainsi expliquer pourquoi le nombre de lignes baisse alors que le nombre de commandes distinctes reste stable.",
+    "Panier utilisable": "Avant de commenter le panier moyen, je regarde quelles commandes entrent dans son calcul. Une moyenne stable peut cacher des montants manquants.",
 }
 
 
@@ -62,12 +64,6 @@ def show(figure, key):
             "modeBarButtonsToRemove": ["lasso2d", "select2d", "autoScale2d"],
             "locale": "fr",
         },
-    )
-
-
-def kicker(text):
-    st.markdown(
-        f'<div class="folio-kicker">{escape(text)}</div>', unsafe_allow_html=True
     )
 
 
@@ -110,7 +106,40 @@ def pin(text, scenario, m, kind):
         )
 
 
-def home(scenario, allm, name, source):
+def receipt(scenario, measure):
+    snapshots, _ = archive(scenario)
+    with st.expander("Vérifier dans le fichier source"):
+        stage = st.radio(
+            "Version du fichier",
+            STAGES,
+            index=2,
+            format_func=dict(zip(STAGES, STAGE_NAMES)).get,
+            key="receipt_stage",
+            horizontal=True,
+        )
+        row = snapshots[stage]
+        if measure == "Doublons":
+            calculation = (
+                f"{fmt(row['orders_rows'])} lignes − {fmt(row['unique_orders'])} commandes distinctes"
+                f" = **{fmt(row['duplicate_order_ids'])} doublons**."
+            )
+        elif measure == "Panier utilisable":
+            calculation = (
+                f"{fmt(row['nonnegative_order_total_sum'], 2)} € ÷ {fmt(row['orders_with_usable_amount'])} lignes exploitables"
+                f" = **{fmt(row['usable_amount_average'], 2)} €** par panier."
+            )
+        else:
+            calculation = (
+                f"La somme des montants renseignés est de **{fmt(row['reported_order_total_sum'], 2)} €**. "
+                f"Le fichier contient {fmt(row['orders_negative_amount'])} montants négatifs et {fmt(row['orders_missing_amount'])} montants absents."
+            )
+        st.markdown(calculation)
+        st.markdown(
+            f"[Ouvrir le rapport d’impact archivé]({REPO}reports/business_impact/{scenario}/business_impact_summary.json)"
+        )
+
+
+def home(scenario, allm, name):
     m = allm[scenario]
     # Chaque carreau représente un point de couverture, la valeur exacte reste lisible.
     tiles = round(m["complete_pct"])
@@ -122,38 +151,34 @@ def home(scenario, allm, name, source):
         f'<section class="mission-cover"><div class="cover-copy"><div class="cover-over">NEXARETAIL <em>/</em> DOSSIER DE MISSION</div><h1>Peut-on publier ce<br>chiffre d’affaires&nbsp;?</h1><p>J’ai créé les commandes d’un distributeur fictif, puis j’y ai glissé des erreurs. À vous de voir lesquelles changent la décision.</p><div class="signature"><b>{first}</b><span>Conception et analyse</span></div></div><div class="coverage-sheet"><div class="sheet-label">COUVERTURE DES MONTANTS</div><div class="tile-field" aria-hidden="true">{cells}</div><div class="sheet-bottom"><b>{fmt(m["complete_pct"],1)} %</b><span>Scénario {escape(SCENARIO_NAMES[scenario].lower())}</span></div></div></section>',
         unsafe_allow_html=True,
     )
-    st.caption(
-        f"{source} : {fmt(m['known'])} montants renseignés sur {fmt(m['orders'])} commandes."
-    )
-    kicker("01 / Rejouer l’expérience")
-    st.subheader("Ce que le nettoyage change", anchor=False)
-    measure = pick("Indicateur à explorer", MEASURES, "stage_measure")
-    _, definition, unit = MEASURES[measure]
-    vals = stages(scenario, measure)
-    left, right = st.columns([1.85, 1], gap="medium", vertical_alignment="center")
-    with left:
-        show(fig.bridge(vals, unit), "impact_bridge")
-    with right:
-        author_note(name, BODY[measure])
-        st.button(
-            "Examiner les anomalies",
-            on_click=open_page,
-            args=("Diagnostic opérationnel",),
-        )
-        st.button("Tester une hypothèse", on_click=open_page, args=("Simulations",))
-    st.caption(
-        f"Rapport d’impact archivé, scénario {SCENARIO_NAMES[scenario].lower()}. {definition}"
-        + (" Axe vertical centré sur les écarts." if min(vals) > 0 else "")
-    )
-    kicker("02 / Comparer les scénarios")
-    st.subheader("Ce qu’un panier moyen peut masquer", anchor=False)
+    with st.container(key="replay_panel"):
+        st.subheader("Ce que le nettoyage change", anchor=False)
+        measure = pick("Indicateur à explorer", MEASURES, "stage_measure")
+        _, definition, unit = MEASURES[measure]
+        values = stages(scenario, measure)
+        chart_col, note_col = st.columns([1.65, 1], gap="medium")
+        with chart_col:
+            chart = (
+                fig.duplicate_history(values)
+                if measure == "Doublons"
+                else fig.bridge(values, unit)
+            )
+            show(chart, "impact_bridge")
+            st.caption(
+                f"Rapport d’impact du scénario {SCENARIO_NAMES[scenario].lower()}. "
+                + definition
+            )
+        with note_col:
+            author_note(name, BODY[measure])
+            receipt(scenario, measure)
+    st.subheader("Comparer deux scénarios", anchor=False)
     chart_col, controls = st.columns(
         [1.85, 1], gap="medium", vertical_alignment="center"
     )
     with controls:
         others = [s for s in SCENARIOS if s != scenario]
         other = st.selectbox(
-            "Comparer le scénario actif au scénario",
+            "Comparer avec",
             others,
             format_func=SCENARIO_NAMES.get,
             key=f"compare_{scenario}",
@@ -161,7 +186,7 @@ def home(scenario, allm, name, source):
         ref = allm[other]
         delta = m["complete_pct"] - ref["complete_pct"]
         st.markdown(
-            f"**{SCENARIO_NAMES[scenario]} : {fmt(m['basket'],2)} €** par panier connu, contre **{fmt(ref['basket'],2)} €** en scénario {SCENARIO_NAMES[other].lower()}. L’écart de couverture est de **{fmt(abs(delta),1)} point{'s' if abs(delta)>1 else ''}**."
+            f"Le panier connu passe de **{fmt(m['basket'],2)} €** ({SCENARIO_NAMES[scenario].lower()}) à **{fmt(ref['basket'],2)} €** ({SCENARIO_NAMES[other].lower()}). L’écart de couverture est de **{fmt(abs(delta),1)} point{'s' if abs(delta)>1 else ''}**."
         )
     with chart_col:
         show(fig.benchmark(allm, (scenario, other)), "coverage_compare")
@@ -183,7 +208,7 @@ def home(scenario, allm, name, source):
                 st.rerun()
         else:
             st.caption(
-                "Vous pouvez ajouter une hypothèse depuis Simulations avant d’exporter la note."
+                "Les hypothèses que vous retenez en cours d’analyse seront incluses dans l’export."
             )
         body = mission_note(m, scenario)
         if notes:
@@ -268,34 +293,41 @@ def audit(scenario):
             + f"reports/data_quality/evaluation/{scenario}/evaluation_summary.json",
         )
     st.caption(
-        f"Source : évaluation archivée du scénario {SCENARIO_NAMES[scenario].lower()}, y compris en mode PostgreSQL."
+        f"Rapport d’évaluation archivé du scénario {SCENARIO_NAMES[scenario].lower()}."
     )
 
 
-def logistics(m):
-    left, right = st.columns([1.4, 1], gap="medium")
-    with left:
-        show(fig.flow(m, False), "log_flow")
-    with right:
-        observed = m["late_pct"]
+def logistics(scenario, m):
+    st.subheader("De combien faut-il réduire les retards ?", anchor=False)
+    chart_col, controls = st.columns([1.4, 1], gap="medium")
+    with controls:
         target = st.slider(
-            "Objectif de retards (%)",
+            "Taux de retard visé (%)",
             0.0,
             100.0,
-            min(10.0, round(observed, 1)),
+            min(10.0, round(m["late_pct"], 1)),
             0.5,
-            key="delivery_goal",
+            format="%.1f",
+            key=f"delivery_goal_{scenario}",
         )
         allowed = math.floor(m["deliveries"] * target / 100)
         gap = max(0, m["late"] - allowed)
+        detail = f"Au maximum {fmt(allowed)} retards sur {fmt(m['deliveries'])} livraisons évaluables."
         readout(
-            fmt(gap),
-            "Retards à éviter pour atteindre l’objectif",
-            f"À volume constant. Aujourd’hui : {fmt(m['late'])} sur {fmt(m['deliveries'])} livraisons évaluables ({fmt(observed,2)} %).",
+            fmt(gap), "Retards à éviter" if gap else "Objectif déjà atteint", detail
         )
-    st.caption(
-        "Seules les livraisons avec dates prévue et réelle entrent dans ce calcul. L’objectif ne prédit pas une amélioration."
+    with chart_col:
+        show(
+            fig.delivery_target(m["deliveries"], m["late"], allowed), "delivery_target"
+        )
+        st.caption(
+            f"{fmt(m['late'])} retards observés. Le curseur fixe le plafond admissible pour le même nombre de livraisons."
+        )
+    note = (
+        f"**Objectif de livraison** — limiter les retards à {fmt(target,1)} % sur {fmt(m['deliveries'])} livraisons "
+        f"évaluables demande d’éviter {fmt(gap)} retards par rapport aux {fmt(m['late'])} observés."
     )
+    pin(note, scenario, m, "livraisons")
 
 
 def dashboard(scenario):
