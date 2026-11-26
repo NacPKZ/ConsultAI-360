@@ -11,11 +11,15 @@ GITHUB = "https://github.com/NacPKZ/ConsultAI-360"
 PAGES = {
     "synthese": (
         "Synthèse",
-        "Indicateurs essentiels, comparaison des scénarios et actions proposées.",
+        "Cascade avant et après nettoyage, lecture de Can et synthèse exportable.",
     ),
     "diagnostic": (
         "Diagnostic opérationnel",
-        "Qualité des montants, hypothèse de panier et ponctualité des livraisons.",
+        "Audit des anomalies par famille, objectif de livraison et captures du rapport Power BI.",
+    ),
+    "simulations": (
+        "Simulations",
+        "Panier inconnu, sensibilité, Monte-Carlo et plan de rattrapage.",
     ),
     "tracabilite": (
         "Traçabilité des données",
@@ -35,12 +39,17 @@ NAV_ALIASES = {
         "observatoire",
         "investigation",
         "atelier",
-        "simulation",
-        "scenario lab",
         "decision gate",
         "porte de decision",
         "seuil",
         "verdict",
+    ),
+    "simulations": (
+        "simulation",
+        "scenario lab",
+        "rattrapage",
+        "monte carlo",
+        "sensibilite",
     ),
     "tracabilite": ("source", "data lineage", "tracabilite", "dictionnaire"),
     "assistant": ("chat", "assistant", "ia", "copilot"),

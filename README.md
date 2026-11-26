@@ -57,7 +57,7 @@ En parallèle, une expérimentation de Machine Learning sur le jeu de données p
 
 </div>
 
-La console se concentre sur quatre rubriques : **Synthèse**, **Diagnostic opérationnel**, **Traçabilité des données** et **Assistant IA**. Elle conserve les indicateurs utiles, leurs sources et les actions proposées. Les trois scénarios restent accessibles dans la barre latérale.
+Choisissez un scénario, puis rejouez l’injection et le nettoyage sur le chiffre d’affaires. Dans le diagnostic, cliquez sur une famille d’anomalies ou explorez les pages Power BI de NexaRetail. Le simulateur permet de tester un panier inconnu, d’observer sa dispersion et de dimensionner un plan de rattrapage. Vous pouvez garder vos hypothèses dans la synthèse exportable et interroger l’assistant sur l’audit.
 
 Les chiffres sont calculés par les fonctions métier. Un modèle Ollama local peut reconnaître une demande formulée autrement ; il ne produit ni les valeurs affichées ni du SQL. La démonstration publique fonctionne sans modèle connecté et l’indique explicitement.
 
