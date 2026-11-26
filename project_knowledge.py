@@ -9,38 +9,41 @@ import unicodedata
 
 GITHUB = "https://github.com/NacPKZ/ConsultAI-360"
 PAGES = {
-    "atelier": (
-        "Atelier d’analyse",
-        "Diagnostic, comparaison, objectifs de complétude et restitution.",
+    "synthese": (
+        "Synthèse",
+        "Indicateurs essentiels, comparaison des scénarios et actions proposées.",
     ),
-    "mission control": (
-        "Vue d’ensemble",
-        "Synthèse exécutive, indicateurs et état de la mission.",
+    "diagnostic": (
+        "Diagnostic opérationnel",
+        "Qualité des montants, hypothèse de panier et ponctualité des livraisons.",
     ),
-    "observatoire": (
-        "Observatoire",
-        "Comparaisons graphiques, couverture, pont de CA et sensibilité.",
-    ),
-    "investigation": (
-        "Investigation",
-        "Diagnostic des risques, contrôles et priorisation des investigations.",
-    ),
-    "scenario lab": (
-        "Laboratoire de scénarios",
-        "Hypothèses et simulations ; ne pas confondre projections et données observées.",
-    ),
-    "decision gate": (
-        "Porte de décision",
-        "Seuils de décision configurables et verdict de publication pédagogique.",
-    ),
-    "data lineage": (
+    "tracabilite": (
         "Traçabilité des données",
-        "Chaîne de preuve, dictionnaire des KPI et exports.",
+        "Sources effectivement utilisées, contrôles et export des valeurs.",
     ),
-    "ai copilot": (
+    "assistant": (
         "Assistant IA",
-        "Questions en langage naturel, outils de calcul, preuves et Ollama optionnel.",
+        "Questions métier, calculs vérifiés et sources consultables.",
     ),
+}
+NAV_ALIASES = {
+    "synthese": ("accueil", "synthese", "kpi", "vue d'ensemble", "mission control"),
+    "diagnostic": (
+        "diagnostic",
+        "graphique",
+        "graphe",
+        "observatoire",
+        "investigation",
+        "atelier",
+        "simulation",
+        "scenario lab",
+        "decision gate",
+        "porte de decision",
+        "seuil",
+        "verdict",
+    ),
+    "tracabilite": ("source", "data lineage", "tracabilite", "dictionnaire"),
+    "assistant": ("chat", "assistant", "ia", "copilot"),
 }
 TECH = {
     "python": "Python : préparation, logique métier, calculs, simulations et tests.",
@@ -49,7 +52,7 @@ TECH = {
     "power bi": "Power BI : tableaux de bord analytiques du projet ; distincts de cette interface Streamlit.",
     "streamlit": "Streamlit : interface interactive de cette application, graphiques Plotly et copilote.",
     "plotly": "Plotly : graphiques interactifs de l'application Streamlit.",
-    "ollama": "Ollama : modèle de langage local facultatif pour reformuler les réponses ; ne calcule pas les KPI.",
+    "ollama": "Ollama : modèle local facultatif pour reconnaître une demande métier ; les outils Python calculent la réponse.",
     "github": "GitHub : code source, historique et documentation du projet.",
     "git": "Git : suivi des versions et collaboration ; GitHub héberge le dépôt.",
     "machine learning": "Machine learning : volet de prédiction des retards de livraison sur un dataset public distinct. Ce n'est pas un modèle entraîné par le copilote.",
@@ -177,7 +180,7 @@ def profile() -> dict:
     name = os.getenv("CONSULTAI_AUTHOR_NAME", "Can Pekgoz").strip()
     role = os.getenv(
         "CONSULTAI_AUTHOR_ROLE",
-        "Étudiant en Master BIDABI (Data & Business Intelligence)",
+        "",
     ).strip()
     li = os.getenv(
         "CONSULTAI_LINKEDIN_URL", "https://www.linkedin.com/in/can-pekgoz/"
@@ -202,7 +205,7 @@ def project_answer(question: str) -> dict | None:
                 "Base documentaire locale de l'application (description, pas une mesure SQL)."
             ],
             "followups": [
-                "Où se trouve l'Observatoire ?",
+                "Où trouver le diagnostic ?",
                 "Qui a créé le projet ?",
                 "Comment fonctionne le copilote ?",
             ],
@@ -234,7 +237,7 @@ def project_answer(question: str) -> dict | None:
             else "LinkedIn non configuré : définir `CONSULTAI_LINKEDIN_URL` dans l'environnement."
         )
         return out(
-            f"**Auteur / porteur du projet :** {p['name']}\n\n**Profil :** {p['role']}\n\n**GitHub :** [ConsultAI 360]({p['github']})\n\n**LinkedIn :** {li}",
+            f"**Auteur :** {p['name']}\n\n**GitHub :** [ConsultAI 360]({p['github']})\n\n**LinkedIn :** {li}",
             "Profil",
         )
     if any(
@@ -250,15 +253,17 @@ def project_answer(question: str) -> dict | None:
         )
     ):
         return out(
-            "Je suis **le copilote de ConsultAI 360**, une application de démonstration d'une mission de conseil Data & IA pour **NexaRetail**, entreprise fictive. Je réponds sur les KPI, les scénarios, les règles de décision et la structure du projet. Les calculs viennent de SQL/Python ; Ollama peut seulement reformuler les résultats. Je ne peux pas consulter arbitrairement tous les fichiers du dépôt ni exécuter des actions métier.",
+            "Je suis **le copilote de ConsultAI 360**, une application de démonstration d'une mission de conseil Data & IA pour **NexaRetail**, entreprise fictive. Je réponds sur les KPI, les scénarios, la qualité des montants, les livraisons et les sources du projet. Les calculs viennent de SQL/Python ; un modèle Ollama local peut reconnaître l’intention d’une demande, sans produire de chiffres ni de SQL. Je ne peux pas consulter arbitrairement tous les fichiers du dépôt ni exécuter des actions métier.",
             "Identité",
         )
     if any(x in q for x in ("github", "linkedin", "portfolio", "depot", "repository")):
         if "linkedin" in q:
             return out(
-                f"Profil LinkedIn : [ouvrir le profil]({p['linkedin']})."
-                if p["linkedin"]
-                else "Le profil LinkedIn n'est pas encore renseigné. Configurer `CONSULTAI_LINKEDIN_URL` avec l'URL publique exacte.",
+                (
+                    f"Profil LinkedIn : [ouvrir le profil]({p['linkedin']})."
+                    if p["linkedin"]
+                    else "Le profil LinkedIn n'est pas encore renseigné. Configurer `CONSULTAI_LINKEDIN_URL` avec l'URL publique exacte."
+                ),
                 "Profil",
             )
         return out(
@@ -281,21 +286,9 @@ def project_answer(question: str) -> dict | None:
         )
     ):
         for key, (label, desc) in PAGES.items():
-            if key in q or any(
-                alias in q
-                for alias in {
-                    "atelier": ("atelier", "fiabilisation", "restitution"),
-                    "mission control": ("accueil", "synthese", "kpi"),
-                    "observatoire": ("graphique", "graphe", "graphiques"),
-                    "investigation": ("diagnostic", "risque"),
-                    "scenario lab": ("simulation", "simulateur"),
-                    "decision gate": ("seuil", "verdict"),
-                    "data lineage": ("source", "dictionnaire", "tracabilite"),
-                    "ai copilot": ("chat", "assistant", "ia"),
-                }[key]
-            ):
+            if key in q or any(alias in q for alias in NAV_ALIASES[key]):
                 return out(
-                    f"**{label}** : {desc}\n\nOuvrez **{label}** dans la barre latérale, rubrique « Explorer la mission ».",
+                    f"**{label}** : {desc}\n\nOuvrez **{label}** dans la barre latérale, rubrique « Dossier d’analyse ».",
                     "Navigation",
                 )
         return out(

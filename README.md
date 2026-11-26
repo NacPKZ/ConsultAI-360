@@ -53,11 +53,13 @@ En parallèle, une expérimentation de Machine Learning sur le jeu de données p
 
 **Application de démonstration interactive**
 
-[Documentation de l'interface et de l'API](docs/09_documentation_api.md) | [Guide d'installation de l'assistant](docs/guides/installation_assistant_ia.md)
+[Guide de la console Streamlit](docs/13_console_streamlit.md) | [Documentation API](docs/09_documentation_api.md)
 
 </div>
 
-L'application s'inscrit dans la logique du projet : rendre les indicateurs consultables et fournir une interprétation encadrée. Les fonctions métier calculent les chiffres ; le modèle de langage intervient dans la rédaction de commentaires, avec contrôle du format et mécanisme de repli.
+La console se concentre sur quatre rubriques : **Synthèse**, **Diagnostic opérationnel**, **Traçabilité des données** et **Assistant IA**. Elle conserve les indicateurs utiles, leurs sources et les actions proposées. Les trois scénarios restent accessibles dans la barre latérale.
+
+Les chiffres sont calculés par les fonctions métier. Un modèle Ollama local peut reconnaître une demande formulée autrement ; il ne produit ni les valeurs affichées ni du SQL. La démonstration publique fonctionne sans modèle connecté et l’indique explicitement.
 
 L'adresse publique a été communiquée pour le projet. Sa disponibilité permanente et les connexions de production ne sont pas certifiées par la documentation GitHub.
 
@@ -75,7 +77,7 @@ L'adresse publique a été communiquée pour le projet. Sa disponibilité perman
 | **Expérimentation ML** | MLflow, analyses de seuils et explicabilité | Traçabilité et analyse des expérimentations documentées |
 | **Application web** | Streamlit, Plotly | Interface de démonstration et visualisation interactive |
 | **API** | FastAPI, Pydantic | Routes HTTP locales, validation et consultation de KPI |
-| **IA générative locale** | Ollama, Llama 3.2 | Commentaires métier contrôlés sur des résultats déterministes |
+| **IA locale facultative** | Ollama, Llama 3.2 | Reconnaissance des demandes métier ; commentaires contrôlés dans le module historique |
 | **Qualité logicielle** | pytest | Tests unitaires et tests de comportement |
 | **Environnement** | Docker, Docker Compose | Configuration PostgreSQL et dbt conteneurisée |
 | **Versionnement** | Git, GitHub | Historique, organisation du code et documentation |
@@ -278,28 +280,26 @@ Les performances sont **propres à DataCo**. Elles ne constituent ni une validat
 
 ## 07. Assistant IA et API : interpréter sans inventer les chiffres
 
-L'assistant suit une séparation stricte des responsabilités :
+La console sépare la compréhension de la demande et le calcul de la réponse :
 
 ~~~mermaid
-flowchart LR
- A["Question métier"] --> B["Fonction KPI autorisée"]
- B --> C["PostgreSQL en lecture seule"]
- C --> D["Résultat calculé"]
- D --> E["Commentaire Ollama"]
- E --> F["Contrôle de conformité"]
- F --> G["Réponse ou repli déterministe"]
+flowchart TD
+ A["Question métier"] --> B["Intention reconnue"]
+ B --> C["Outil Python autorisé"]
+ D["Référence ou KPI SQL en lecture seule"] --> C
+ C --> E["Réponse calculée et sources consultables"]
 ~~~
 
 - **Calcul :** fonctions Python et requêtes SQL paramétrées.
 - **Accès aux données :** rôle PostgreSQL à privilèges limités et transaction en lecture seule.
-- **Interprétation :** commentaires générés par un modèle Ollama local.
-- **Contrôle :** validation de structure, restrictions sur les chiffres générés et réponse de repli.
+- **Compréhension :** routeur déterministe, complété si disponible par un modèle Ollama local.
+- **Contrôle :** liste d’intentions autorisées, validation des populations, hypothèses identifiées et contexte séparé par scénario et source.
 - **Interface :** Streamlit.
 - **API locale :** FastAPI, avec routes `/health`, `/scenarios` et `/kpis/{scenario}`.
 
-Le LLM **ne génère pas de SQL à exécuter librement**. Le mode démonstration de l'API et l'accès à une base réelle sont deux contextes différents ; le fonctionnement public d'une API de production n'est pas revendiqué.
+Le LLM **ne génère ni les chiffres affichés ni du SQL à exécuter librement**. Le module historique `src/assistant/llm.py` conserve séparément son mécanisme de commentaire local contrôlé. Le mode démonstration de l'API et l'accès à une base réelle restent deux contextes différents.
 
-[Application Streamlit](https://consultai-360.streamlit.app/) | [Documentation API](docs/09_documentation_api.md) | [Installation et sécurité](docs/guides/installation_assistant_ia.md)
+[Application Streamlit](https://consultai-360.streamlit.app/) | [Guide de la console](docs/13_console_streamlit.md) | [Documentation API](docs/09_documentation_api.md)
 
 ## 08. Analyse financière : trois scénarios de ROI
 

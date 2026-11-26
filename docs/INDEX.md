@@ -22,7 +22,7 @@ ConsultAI 360 est un **cas d'étude de conseil** réalisé sur une entreprise fi
 | **Comprendre la mission métier** | [Contexte](01_contexte_metier.md) | [Diagnostic](02_diagnostic_metier.md), [KPI](04_dictionnaire_indicateurs.md) |
 | **Examiner les choix Data Engineering** | [Schéma relationnel](modele_donnees/01_schema_relationnel.md) | [Organisation technique](guides/organisation_technique.md), [dbt](../dbt_nexaretail/README.md) |
 | **Évaluer le Machine Learning** | [Problématique ML](07_problematique_prediction.md) | [Résultats et limites](08_rapport_final_prediction.md) |
-| **Comprendre l'interface et l'API** | [Documentation API](09_documentation_api.md) | [Guide assistant](guides/installation_assistant_ia.md) |
+| **Comprendre l'interface et l'API** | [Console Streamlit actuelle](13_console_streamlit.md) | [Documentation API](09_documentation_api.md) |
 | **Reconstituer le parcours du projet** | [Feuille de route et bilan](feuille_de_route.md) | [Charte](06_charte_projet.md), [validation](11_validation_reproductibilite.md) |
 
 ## Le projet en une image
@@ -90,6 +90,7 @@ Pour les hypothèses, dates et restrictions, consulter [la validation](11_valida
 
 | Ressource | Usage |
 |---|---|
+| [Console Streamlit actuelle](13_console_streamlit.md) | Quatre rubriques, scénarios, sources et assistant de mission |
 | [Schéma relationnel NexaRetail](modele_donnees/01_schema_relationnel.md) | Tables, relations, cardinalités, volumes et contrôles SQL |
 | [Organisation technique du dépôt](guides/organisation_technique.md) | Dossiers, dépendances, chemins et diagnostics |
 | [Guide des transformations dbt](../dbt_nexaretail/README.md) | Modèles, sources, tests et commandes de contrôle |
