@@ -42,7 +42,12 @@ def test_public_postgres_toggle_keeps_selection_and_identifies_fallback(console)
     assert not console.exception
     assert console.sidebar.toggle[0].value is False
     assert console.sidebar.selectbox[0].value == "critical"
-    assert "référence" in console.info[0].value
+    fallback = next(
+        m.value for m in console.sidebar.markdown if "postgres-note" in m.value
+    )
+    assert "stage ou un CDI" in fallback and "référence" in fallback
+    console.sidebar.toggle[0].set_value(True).run()
+    assert not any("postgres-note" in m.value for m in console.sidebar.markdown)
     console.sidebar.radio[0].set_value("Traçabilité des données").run()
     assert any("Référence figée" in m.value for m in console.markdown)
 
@@ -95,7 +100,9 @@ def test_database_failure_never_leaks_the_connection_string(monkeypatch):
     assert not app.exception
     assert "référence" in app.warning[0].value
     assert "secret" not in str(app)
-    assert any("Référence affichée" in c.value for c in app.sidebar.caption)
+    assert len(app.sidebar.warning) == 1 and not any(
+        "postgres-note" in m.value for m in app.sidebar.markdown
+    )
 
 
 def test_pin_recovery_and_isolate_it_from_other_scenarios(console):
@@ -124,4 +131,17 @@ def test_selected_audit_family_continues_in_assistant(console):
     assert (
         "25\u202f648 alertes avant nettoyage, 0 après"
         in console.chat_message[-1].markdown[0].value
+    )
+
+
+def test_delivery_goal_updates_chart_and_exportable_note(console):
+    console.sidebar.radio[0].set_value("Diagnostic opérationnel").run()
+    console.radio(key="diagnostic_view").set_value("Livraisons").run()
+    console.slider(key="delivery_goal_medium").set_value(5.0).run()
+    assert any("6\u202f833" in m.value for m in console.markdown)
+    console.button(key="pin_livraisons").click().run()
+    console.button(key="open_livraisons").click().run()
+    assert any(
+        "Objectif de livraison" in m.value and "6\u202f833" in m.value
+        for m in console.markdown
     )

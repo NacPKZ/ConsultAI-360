@@ -26,6 +26,69 @@ def layout(fig, height=305):
     return fig
 
 
+def duplicate_history(values):
+    labels = ["Référence", "Injection", "Nettoyage"]
+    peak = max(max(values), 1)
+    figure = go.Figure(
+        go.Scatter(
+            x=[0, 1, 2],
+            y=values,
+            mode="lines+markers+text",
+            line=dict(color=MIST, width=3),
+            marker=dict(
+                size=13, color=[INK, CORAL, TEAL], line=dict(color="white", width=2)
+            ),
+            text=[fmt(value) for value in values],
+            textposition="top center",
+            textfont=dict(size=14, color=INK),
+            customdata=labels,
+            hovertemplate="%{customdata}<br>%{text} identifiants dupliqués<extra></extra>",
+        )
+    )
+    layout(figure, 285)
+    figure.update_xaxes(
+        tickvals=[0, 1, 2], ticktext=labels, range=[-0.24, 2.24], fixedrange=True
+    )
+    figure.update_yaxes(
+        range=[-0.10 * peak, 1.32 * peak],
+        rangemode="normal",
+        title_text="Identifiants dupliqués",
+        tickformat=",.0f",
+        fixedrange=True,
+    )
+    return figure
+
+
+def delivery_target(deliveries, late, allowed):
+    """Volumes observé et admissible, avec une échelle et un dénominateur communs."""
+    rates = [100 * late / deliveries, 100 * allowed / deliveries]
+    figure = go.Figure(
+        go.Bar(
+            x=rates,
+            y=["Observé", "Objectif"],
+            orientation="h",
+            width=0.38,
+            marker_color=[INK, TEAL],
+            customdata=[late, allowed],
+            text=[fmt(rate, 2) + " %" for rate in rates],
+            textposition="outside",
+            cliponaxis=False,
+            hovertemplate="%{y} · %{customdata:,} livraisons<extra></extra>",
+        )
+    )
+    layout(figure, 225)
+    figure.update_layout(margin=dict(l=16, r=64, t=20, b=20))
+    figure.update_yaxes(autorange="reversed", showgrid=False)
+    figure.update_xaxes(
+        range=[0, min(100, max(20, max(rates) * 1.12))],
+        ticksuffix=" %",
+        nticks=5,
+        showgrid=True,
+        gridcolor="#edf1f1",
+    )
+    return figure
+
+
 def bridge(values, unit):
     # La cascade historique portait sur l'exposition. Ici les marches sont les
     # écarts mesurés entre trois états réellement exportés.
@@ -57,7 +120,7 @@ def bridge(values, unit):
             y=diffs,
             measure=["absolute", "relative", "relative", "total"],
             text=labels,
-            textposition="outside",
+            textposition="none",
             connector_line=dict(color=MIST, dash="dot"),
             increasing_marker_color=TEAL,
             decreasing_marker_color=CORAL,
@@ -67,6 +130,16 @@ def bridge(values, unit):
             cliponaxis=False,
         )
     )
+    for stage, height, text in zip(fig.data[0].x, [a, max(a, b), max(b, c), c], labels):
+        fig.add_annotation(
+            x=stage,
+            y=height,
+            text=text,
+            showarrow=False,
+            yanchor="bottom",
+            yshift=5,
+            font=dict(size=12, color=INK),
+        )
     fig.update_yaxes(
         range=[lower, upper],
         title_text=unit,
