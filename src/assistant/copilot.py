@@ -41,7 +41,7 @@ SCENARIO_WORDS = {
     "critical": r"\b(critique|critical)\b",
 }
 PROMPTS = (
-    "Que traiter en priorité ?",
+    "Que reste-t-il après le nettoyage ?",
     "Comparer les scénarios",
     "Que sait-on des retards ?",
 )
@@ -275,6 +275,37 @@ def answer(
         return result(
             "Les données disponibles ici sont agrégées : elles ne permettent pas d’identifier les segments concernés. Il faut ventiler les montants absents par magasin, canal et période, ou les retards par transporteur et zone. Je ne peux pas désigner un responsable à partir de ces seuls totaux.",
             "scope",
+        )
+
+    # Les preuves historiques ne proviennent jamais de la connexion PostgreSQL active.
+    if len(named) <= 1 and re.search(
+        r"apres (?:le )?nettoyage|audit (?:de|des)|alertes residuelles", norm(question)
+    ):
+        from src.exploration.data import archive, FAMILIES
+
+        _, evaluation = archive(active)
+        cleaning = evaluation["cleaning"]
+        residual = cleaning["remaining_alerts_by_type"]
+        wanted = next(
+            (key for key, label in FAMILIES.items() if norm(label) in norm(question)),
+            None,
+        )
+        proof[:] = [
+            f"Rapport d’évaluation archivé, scénario {name} : [ouvrir la source](https://github.com/NacPKZ/ConsultAI-360/blob/main/reports/data_quality/evaluation/{active}/evaluation_summary.json).",
+            "Comparaison de volumes par famille ; après dédoublonnage, les positions des lignes ne sont plus les mêmes.",
+        ]
+        if wanted:
+            before = evaluation["detection"]["by_type"][wanted]["detected_alerts"]
+            left = residual.get(wanted, 0)
+            body = f"**{FAMILIES[wanted]} : {fmt(before)} alertes avant nettoyage, {fmt(left)} après.** Ces volumes sont ceux du rapport archivé du scénario {name}."
+        else:
+            parts = ", ".join(
+                f"{fmt(v)} pour les {FAMILIES[k].lower()}"
+                for k, v in sorted(residual.items(), key=lambda pair: -pair[1])
+            )
+            body = f"Après nettoyage, le rapport du scénario {name} compte **{fmt(cleaning['remaining_alerts'])} alertes** : {parts}. Une même ligne peut porter plusieurs alertes."
+        return result(
+            body, "audit", ("Que traiter en priorité ?", "D’où viennent les chiffres ?")
         )
 
     if q.strip(" !?.") in (

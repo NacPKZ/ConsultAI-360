@@ -84,3 +84,47 @@ button:focus-visible,a:focus-visible { outline:3px solid var(--gold) !important;
   .trace-path { grid-template-columns:1fr; gap:.7rem; }.trace-node::after { display:none; }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; } }
+/* Carnet de mission. Le motif représente la couverture réellement chargée. */
+:root { --bg:#f6f7f7; --ink:#203950; --navy:#132e46; --line:#d7e1e4; }
+[data-testid="stMainBlockContainer"] { max-width:1340px; padding-top:3.65rem; }
+[data-testid="stSidebar"] { background:linear-gradient(160deg,#112a40,#19354d 83%,#203849); }
+.mission-cover { position:relative; isolation:isolate; display:grid; grid-template-columns:minmax(0,1.6fr) minmax(178px,.78fr); align-items:center; gap:clamp(1.2rem,4vw,4.5rem); background:linear-gradient(110deg,#122e44 15%,#1c4152 77%,#244c57); border-radius:16px; padding:clamp(1.45rem,3.5vw,3.1rem); color:#f7f5eb; overflow:hidden; box-shadow:0 12px 32px #192d4012; }
+.mission-cover::before { content:""; position:absolute; inset:0; z-index:-1; background:repeating-linear-gradient(128deg,transparent 0 17px,#ffffff07 17px 18px); mask-image:linear-gradient(90deg,transparent 32%,#000); }
+.cover-over,.sheet-label,.folio-kicker,.fieldnote>span,.readout>span { font-size:.65rem; text-transform:uppercase; letter-spacing:.14em; font-weight:750; }
+.cover-over { color:#f3cf79; }.cover-over em { margin:0 .55rem; color:#8fa7aa; font-style:normal; }
+.stApp .mission-cover h1 { font:500 clamp(1.95rem,3.9vw,3.65rem)/1.03 Georgia,'Times New Roman',serif; letter-spacing:-.047em; color:#fffbf2; padding:0; margin:.75rem 0 .85rem; text-wrap:balance; }
+.cover-copy>p { font-size:clamp(.91rem,1.06vw,1.03rem); line-height:1.55; color:#d4e1e6; max-width:52ch; margin:0; }
+.signature { display:flex; align-items:baseline; flex-wrap:wrap; gap:.35rem .7rem; padding-top:1.2rem; }
+.signature b { color:#fff3ce; font:italic 1.04rem Georgia,serif; }.signature span { color:#b2c6ce; font-size:.73rem; }
+.coverage-sheet { position:relative; justify-self:center; width:min(100%,224px); padding:15px 18px 13px; outline:1px solid #849c9d65; border-radius:3px; background:#163747; box-shadow:5px 5px 0 #d3ba7a35,10px 10px 0 #819ba52e; }
+.sheet-label { font-size:.53rem; color:#bed2d5; letter-spacing:.15em; }
+.tile-field { display:grid; grid-template-columns:repeat(20,1fr); gap:3px; margin:11px 0 13px; }
+.tile-field i { display:block; aspect-ratio:1; background:#87bbb3; border-radius:1px; animation:ink-in .55s ease-out both; }
+.tile-field i:nth-child(3n){animation-delay:.06s}.tile-field .empty { outline:1px solid #f0ca74; outline-offset:-1px; background:transparent; }
+.sheet-bottom { padding-top:8px; border-top:1px solid #75959b6b; display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:4px; }
+.sheet-bottom b { color:#f3d28a; font:500 1.45rem Georgia,serif; }.sheet-bottom span { font-size:.65rem; color:#c6d5d8; }
+.folio-kicker { margin-top:.45rem; color:#74602f; }
+.fieldnote { background:#f2eee2; border:1px solid #e1d8c1; border-left:3px solid #bd953c; border-radius:2px 10px 10px 2px; padding:.95rem 1.1rem; }
+.fieldnote>span,.readout>span { display:block; color:#785920; font-size:.64rem; }
+.fieldnote p { margin:.48rem 0 0; color:#374753; font:1.03rem/1.45 Georgia,serif; }
+.readout { background:#eaf1ef; border-top:2px solid #36796f; padding:1rem 1.1rem; border-radius:2px 2px 10px 10px; }
+.readout>span { color:#35645d; }.readout strong { display:block; color:#193c42; font:500 clamp(1.9rem,3.5vw,3rem)/1.12 Georgia,serif; letter-spacing:-.04em; margin:.35rem 0; }
+.readout p { color:#36545b; font-size:.85rem; margin:.35rem 0 0; line-height:1.5; }
+[data-testid="stPlotlyChart"] { background:white; box-shadow:0 4px 16px #17314106; }
+[data-testid="stMain"] [data-testid="stBaseButton-segmented_controlActive"],[data-testid="stMain"] [data-testid="stBaseButton-segmented_control_active"] { background:var(--navy); color:white; }
+@keyframes ink-in { from { opacity:0; transform:scale(.6); } to { opacity:1; transform:scale(1); } }
+@media(max-width:850px) { .mission-cover { gap:1rem; grid-template-columns:minmax(0,1.45fr) minmax(145px,.7fr); } }
+@media(max-width:620px) {
+  [data-testid="stMainBlockContainer"] { padding:3.6rem .9rem 2rem; }
+  .mission-cover { grid-template-columns:1fr; gap:1.1rem; padding:1.35rem; }
+  .coverage-sheet { width:100%; max-width:330px; justify-self:start; display:grid; grid-template-columns:1fr 1.2fr; align-items:center; column-gap:12px; padding:9px 12px; }
+  .sheet-label { font-size:.49rem; }.tile-field { grid-column:2; grid-row:1 / span 2; margin:0; gap:2px; }.sheet-bottom { grid-column:1; border:0; padding:2px 0; }.sheet-bottom b { font-size:1.12rem; }
+  .signature { padding-top:.7rem; }
+}
+@media(prefers-reduced-motion:reduce) { .tile-field i { animation:none!important; } }
+[data-testid="stMain"] [data-testid="stRadio"] [role="radiogroup"] { display:flex; gap:.35rem; flex-wrap:wrap; }
+[data-testid="stMain"] [data-testid="stRadio"] label { margin:0; border-radius:20px; border:1px solid #c6d3d8; background:#fff; padding:.28rem .78rem; color:#334d5c; cursor:pointer; }
+[data-testid="stMain"] [data-testid="stRadio"] label>div:first-child:not([data-testid]) { position:absolute; opacity:0; }
+[data-testid="stMain"] [data-testid="stRadio"] label:has(input:checked) { background:#1b4052; border-color:#1b4052; color:white; }
+[data-testid="stMain"] [data-testid="stRadio"] label p { font-size:.81rem; color:inherit; }
+[data-testid="stMain"] [data-testid="stRadio"] label:focus-within { outline:2px solid #b38129; outline-offset:2px; }

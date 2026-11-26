@@ -19,7 +19,7 @@ def test_navigation_and_three_scenarios_render_without_errors(console):
         for page in console.sidebar.radio[0].options:
             console.sidebar.radio[0].set_value(page).run()
             assert not console.exception
-    assert len(console.sidebar.radio[0].options) == 4
+    assert "Simulations" in console.sidebar.radio[0].options
 
 
 def test_chat_is_separate_for_each_scenario_and_can_resume(console):
@@ -74,7 +74,8 @@ def test_old_session_navigation_is_migrated_safely(monkeypatch):
     app.session_state["navigation"] = "Mission Control"
     app.run()
     assert not app.exception
-    assert app.title[0].value == "Synthèse"
+    assert app.sidebar.radio[0].value == "Synthèse"
+    assert any("Peut-on publier" in md.value for md in app.markdown)
 
 
 def test_database_failure_never_leaks_the_connection_string(monkeypatch):
@@ -95,3 +96,32 @@ def test_database_failure_never_leaks_the_connection_string(monkeypatch):
     assert "référence" in app.warning[0].value
     assert "secret" not in str(app)
     assert any("Référence affichée" in c.value for c in app.sidebar.caption)
+
+
+def test_pin_recovery_and_isolate_it_from_other_scenarios(console):
+    console.sidebar.radio[0].set_value("Simulations").run()
+    console.radio(key="simulation_mode").set_value("Plan de rattrapage").run()
+    console.number_input(key="capacity_medium").set_value(400).run()
+    assert any("12 jours" in m.value for m in console.markdown)
+    console.button(key="pin_rattrapage").click().run()
+    console.button(key="open_rattrapage").click().run()
+    assert console.sidebar.radio[0].value == "Synthèse"
+    assert any(
+        "4800" in m.value.replace("\u202f", "") and "12 jours" in m.value
+        for m in console.markdown
+    )
+    console.sidebar.selectbox[0].set_value("low").run()
+    assert not any("12 jours" in m.value for m in console.markdown)
+
+
+def test_selected_audit_family_continues_in_assistant(console):
+    console.sidebar.radio[0].set_value("Diagnostic opérationnel").run()
+    console.selectbox(key="audit_family_medium").set_value("duplicates").run()
+    next(
+        b for b in console.button if b.label == "Examiner avec l’assistant"
+    ).click().run()
+    assert console.sidebar.radio[0].value == "Assistant IA"
+    assert (
+        "25\u202f648 alertes avant nettoyage, 0 après"
+        in console.chat_message[-1].markdown[0].value
+    )

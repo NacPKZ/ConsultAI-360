@@ -1,15 +1,18 @@
-# Console Streamlit : parcours et fonctionnement
+# Console Streamlit : explorer la mission NexaRetail
 
-La console présente un dossier d’analyse NexaRetail en quatre rubriques. Les scénarios **faible**, **moyen** et **critique** sont sélectionnés une seule fois, dans la barre latérale.
+Le scénario du volet (faible, moyen ou critique) s’applique à tout le dossier. Le mode démonstration fonctionne sans base ni modèle local.
 
-| Rubrique | Usage |
+| Rubrique | Ce que l’on peut faire |
 |---|---|
-| Synthèse | Quatre indicateurs, effet du scénario sur la couverture des montants, actions proposées et note exportable |
-| Diagnostic opérationnel | Qualité des montants, comparaison CA renseigné / montant hypothétique et ponctualité des livraisons |
-| Traçabilité des données | Source réellement utilisée, populations, contrôles et export JSON |
-| Assistant IA | Questions métier, suivi du contexte, sources repliées et export de l’échange |
+| Synthèse | Rejouer en cascade l’effet de l’injection et du nettoyage sur le CA déclaré, les doublons ou le panier. Exporter une note avec les hypothèses retenues. |
+| Diagnostic opérationnel | Cliquer sur une famille d’alertes, comparer son volume avant et après nettoyage, puis en discuter avec l’assistant. Tester un objectif de retards ou feuilleter quatre pages du rapport Power BI du scénario. |
+| Simulations | Faire varier le panier inconnu, comparer la sensibilité des trois scénarios, explorer les tirages Monte-Carlo ou dimensionner un plan de rattrapage. |
+| Traçabilité des données | Suivre les commandes ou les livraisons dans deux flux distincts, vérifier leur dénominateur et exporter les chiffres. |
+| Assistant IA | Poser une question sur les résultats chargés ou l’audit archivé, creuser un constat, retrouver les sources et exporter l’échange. |
 
-Les anciens écrans Atelier, Observatoire, Investigation, Laboratoire et Porte de décision ont été regroupés. Le journal d’investigation, les tableaux de comparaison répétés et le dictionnaire des indicateurs ont été retirés de l’interface. Le dictionnaire documentaire du projet reste disponible dans le dépôt.
+La cascade repose sur les trois états du fichier `reports/business_impact/<scénario>/business_impact_summary.json`. L’audit utilise `reports/data_quality/evaluation/<scénario>/evaluation_summary.json` et les captures proviennent de `reports/powerbi/screenshots/`. Ces documents restent des **archives du projet**, même si une base est connectée. Le CA du rapport d’impact est une somme archivée exacte ; il peut différer légèrement du CA reconstitué de la référence de démonstration.
+
+Les tirages Monte-Carlo reprennent la simulation historique du projet : un facteur log-normal s’applique au panier moyen du groupe entier, avec une graine fixe. La dispersion est choisie par le visiteur. Le plan de rattrapage arrondit les dossiers à l’entier supérieur puis calcule le nombre de jours entiers à cadence fixe. Aucun de ces outils n’impute de montants ni ne modifie les données. Les hypothèses ajoutées à la synthèse sont limitées à la session, au scénario et à la source.
 
 ## Démarrage en démonstration
 
