@@ -57,6 +57,17 @@ def test_new_exchange_clears_history_and_hypothesis_context(console):
     assert "18\u202f000" not in console.chat_message[1].markdown[0].value
 
 
+def test_suggestion_keeps_explicit_scenario_and_labels_context(console):
+    console.sidebar.radio[0].set_value("Assistant IA").run()
+    console.chat_input[0].set_value("Quel est le CA du scénario critique ?").run()
+    next(
+        b for b in console.button if b.label == "Le panier moyen est-il fiable ?"
+    ).click().run()
+    assert "600,94 €" in console.chat_message[-1].markdown[0].value
+    assert console.sidebar.selectbox[0].value == "medium"
+    assert "critique" in console.chat_message[-1].caption[0].value
+
+
 def test_old_session_navigation_is_migrated_safely(monkeypatch):
     monkeypatch.setenv("CONSULTAI_DEMO_MODE", "true")
     app = AppTest.from_file(APP, default_timeout=20)

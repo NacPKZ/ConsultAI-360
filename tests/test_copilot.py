@@ -33,6 +33,16 @@ def test_named_scenario_and_followup_keep_the_right_calculation(data):
     assert "108\u202f000" in b["text"]
 
 
+def test_suggested_followup_keeps_the_last_explicit_scenario(data):
+    first = answer("Quel est le CA du scénario critique ?", "medium", data)
+    followup = answer(
+        "Le panier moyen est-il fiable ?", "medium", data, first["context"]
+    )
+    assert followup["scenario"] == "critical"
+    assert "600,94 €" in followup["text"]
+    assert "108\u202f000" in followup["text"]
+
+
 def test_simulation_followup_preserves_only_explicit_hypothesis(data):
     a = answer(
         "Et si 15 % des montants manquaient avec un panier de 1,2× ?", "medium", data
