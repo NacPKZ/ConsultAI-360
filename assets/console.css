@@ -6,12 +6,12 @@ header[data-testid="stHeader"] { background:rgba(244,246,249,.96); }
 .stApp h1,.stApp h2,.stApp h3 { color:var(--navy); letter-spacing:-.035em; }
 .stApp h1 { font-size:clamp(1.8rem,3vw,2.5rem); padding:.1rem 0 .55rem; }
 .stApp h3 { font-size:1.15rem; padding:.15rem 0 .75rem; }
-[data-testid="stCaptionContainer"] { color:var(--muted); }
+[data-testid="stMain"] [data-testid="stCaptionContainer"], [data-testid="stMain"] [data-testid="stCaptionContainer"] p { color:var(--muted) !important; }
 .stApp [data-testid="stVerticalBlock"] { gap:1rem; }
 .stApp [data-testid="stIconMaterial"] { font-family:'Material Symbols Rounded','Material Icons' !important; }
 /* Dimensions natives de Streamlit : aucune marge fixe après fermeture du volet. */
 [data-testid="stSidebar"] { background:var(--navy); border-right:1px solid #28415b; }
-[data-testid="stSidebarHeader"] { padding:.5rem 1rem 0; min-height:2.5rem; }
+[data-testid="stSidebarHeader"] { padding:.5rem 1rem 0; height:48px !important; min-height:48px !important; }
 [data-testid="stSidebarUserContent"] { padding:.3rem 1.3rem 1.5rem; }
 [data-testid="stSidebar"] [data-testid="stVerticalBlock"] { gap:.7rem; }
 [data-testid="stSidebar"] p,[data-testid="stSidebar"] label,[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],[data-testid="stSidebar"] [data-testid="stCaptionContainer"] { color:#d8e3ef; }
@@ -25,7 +25,10 @@ header[data-testid="stHeader"] { background:rgba(244,246,249,.96); }
 [data-testid="stSidebar"] [data-baseweb="select"] span { color:var(--navy); }
 [data-testid="stSidebar"] [data-testid="stLinkButton"] a { background:#ffffff08; border-color:#71849a; color:#f4f7fb; justify-content:flex-start; padding:.5rem .75rem; font-size:.84rem; }
 [data-testid="stSidebar"] [data-testid="stLinkButton"] a:hover { border-color:var(--gold); background:#ffffff12; }
+[data-testid="stSidebarCollapseButton"] { visibility:visible !important; opacity:1 !important; }
 [data-testid="stSidebarCollapseButton"] button { color:#fff !important; background:#ffffff12 !important; border:1px solid #8293a7 !important; opacity:1 !important; visibility:visible !important; min-width:34px; min-height:34px; }
+[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"] { color:#fff !important; }
+[data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"], [data-testid="stSidebarCollapsedControl"] [data-testid="stIconMaterial"] { color:var(--navy) !important; }
 [data-testid="stExpandSidebarButton"],[data-testid="stSidebarCollapsedControl"] { color:var(--navy) !important; background:#fff !important; border:1px solid #a2b1c1 !important; border-radius:8px; opacity:1 !important; visibility:visible !important; z-index:1000001; }
 [data-testid="stExpandSidebarButton"] button,[data-testid="stSidebarCollapsedControl"] button { color:var(--navy) !important; opacity:1 !important; min-width:38px; min-height:38px; }
 .brand { display:flex; align-items:center; gap:.75rem; margin:.2rem 0 .4rem; }
@@ -34,7 +37,7 @@ header[data-testid="stHeader"] { background:rgba(244,246,249,.96); }
 .brand strong { display:block; font-size:1.15rem; color:#fff; letter-spacing:-.025em; }
 .brand small { display:block; margin-top:.2rem; font-size:.66rem; color:#d8e3ef; letter-spacing:.08em; }
 .side-label { color:#e0bd6a; font-size:.65rem; font-weight:750; text-transform:uppercase; letter-spacing:.12em; margin-top:.25rem; }
-.side-author { color:#fff; font-weight:650; padding:.35rem 0 .15rem; }
+.side-author { color:#fff; font-weight:650; padding:.35rem 0 .4rem; }
 .side-project { font-size:.8rem; color:#b8cadc; margin:0 0 .2rem; }
 .page-top { display:flex; justify-content:space-between; align-items:center; gap:.75rem; margin-bottom:.35rem; }
 .eyebrow { color:var(--muted); font-size:.66rem; font-weight:750; text-transform:uppercase; letter-spacing:.13em; }

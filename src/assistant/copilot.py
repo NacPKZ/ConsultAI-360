@@ -214,9 +214,9 @@ def answer(
     named = [
         s for s, pattern in SCENARIO_WORDS.items() if re.search(pattern, entity_text)
     ]
-    active = named[0] if len(named) == 1 else scenario
-    if not named and re.match(r"^(et |pourquoi|developpe|plus court)", q):
-        active = context.get("scenario", scenario)
+    # Les suggestions sont aussi des questions de suivi, même sans « et ».
+    # Une sélection dans le volet ouvre déjà un contexte distinct dans l'interface.
+    active = named[0] if len(named) == 1 else context.get("scenario", scenario)
     if active not in SCENARIOS:
         active = scenario
     m = all_metrics[active]

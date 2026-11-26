@@ -458,7 +458,7 @@ else:
         export, reset = st.columns([1, 1])
         with export:
             transcript = "\n\n".join(
-                f"{'Question' if item['role'] == 'user' else 'Réponse'}\n\n{item['text']}"
+                f"{'Question' if item['role'] == 'user' else 'Réponse / scénario ' + SCENARIO_NAMES[item['scenario']].lower()}\n\n{item['text']}"
                 for item in messages
             )
             st.download_button(
@@ -491,7 +491,7 @@ else:
         ):
             if item["role"] == "assistant" and item["scenario"] != scenario:
                 st.caption(
-                    f"Réponse sur le scénario {SCENARIO_NAMES[item['scenario']].lower()}, demandé dans la question."
+                    f"Contexte de l’échange : scénario {SCENARIO_NAMES[item['scenario']].lower()}."
                 )
             st.markdown(item["text"])
             if item["role"] == "assistant" and item.get("evidence"):
